@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ErlangEditor.Windows;
 
 namespace ErlangEditor
 {
@@ -24,6 +25,12 @@ namespace ErlangEditor
             InitializeComponent();
             if (!App.ViewModel.Loaded)
                 App.ViewModel.Load();
+        }
+
+        private void createNewSolution(object sender, Telerik.Windows.RadRoutedEventArgs e)
+        {
+            NewSolution ns = new NewSolution();
+            ns.ShowDialog();
         }
     }
 }

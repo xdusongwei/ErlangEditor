@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ErlangEditor.Core;
 
 namespace ErlangEditor.ViewModel
 {
@@ -15,7 +16,19 @@ namespace ErlangEditor.ViewModel
 
         public void Load()
         {
+            Solution = new Solution();
             Loaded = true;
+        }
+
+        public void CreateSolution(string aName, string aCompilerPath, string aShellPath, string aBasePath)
+        {
+
+        }
+
+        public Solution Solution
+        {
+            get;
+            set;
         }
     }
 }
