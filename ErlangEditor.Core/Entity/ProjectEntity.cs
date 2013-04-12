@@ -7,6 +7,11 @@ namespace ErlangEditor.Core.Entity
 {
     public class ProjectEntity
     {
+        public ProjectEntity()
+        {
+            Children = new List<FileEntity>();
+        }
+
         public string Name
         {
             get;
@@ -19,13 +24,7 @@ namespace ErlangEditor.Core.Entity
             set;
         }
 
-        public List<string> Folders
-        {
-            get;
-            set;
-        }
-
-        public List<FileEntity> Files
+        public List<FileEntity> Children
         {
             get;
             set;

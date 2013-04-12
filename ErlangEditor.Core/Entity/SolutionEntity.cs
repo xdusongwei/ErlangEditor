@@ -7,13 +7,18 @@ namespace ErlangEditor.Core.Entity
 {
     public class SolutionEntity
     {
+        public SolutionEntity()
+        {
+            Children = new List<ProjectEntity>();
+        }
+
         public string Name
         {
             get;
             set;
         }
 
-        public List<ProjectEntity> Projects
+        public List<ProjectEntity> Children
         {
             get;
             set;

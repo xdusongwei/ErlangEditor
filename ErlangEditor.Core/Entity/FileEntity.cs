@@ -7,12 +7,18 @@ namespace ErlangEditor.Core.Entity
 {
     public class FileEntity
     {
+        public FileEntity()
+        {
+            Children = new List<FileEntity>();
+            ID = Guid.NewGuid();
+        }
+
         public string Name
         {
             get;
             set;
         }
-
+        
         public string Path
         {
             get;
@@ -32,6 +38,18 @@ namespace ErlangEditor.Core.Entity
         }
 
         public bool Modified
+        {
+            get;
+            set;
+        }
+
+        public bool IsFolder
+        {
+            get;
+            set;
+        }
+
+        public List<FileEntity> Children
         {
             get;
             set;
