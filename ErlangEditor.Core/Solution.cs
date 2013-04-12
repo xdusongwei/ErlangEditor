@@ -21,6 +21,7 @@ namespace ErlangEditor.Core
 
         public void SaveSolution(SolutionEntity aEntity)
         {
+
             foreach(var i in aEntity.Children )
                 foreach (var j in i.Children)
                 {
