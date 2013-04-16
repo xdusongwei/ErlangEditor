@@ -14,10 +14,10 @@
         <telerik:RadMenu Grid.Row="0">
             <telerik:RadMenuItem Header="文件">
                 <telerik:RadMenuItem Header="新建" Click="createNewSolution" />
-                <telerik:RadMenuItem Header="打开" />
+                <telerik:RadMenuItem Header="打开" Click="openSolution"/>
                 <telerik:RadMenuItem IsSeparator="True" />
                 <telerik:RadMenuItem Header="保存" />
-                <telerik:RadMenuItem Header="保存全部" />
+                <telerik:RadMenuItem Header="保存全部" Click="saveSolution" />
                 <telerik:RadMenuItem Header="另存为" />
                 <telerik:RadMenuItem Header="关闭解决方案" />
                 <telerik:RadMenuItem IsSeparator="True" />

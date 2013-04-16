@@ -34,7 +34,18 @@ namespace ErlangEditor.ViewModel
 
         public void SaveSolution()
         {
-            Solution.SaveSolution(CurrentSolution.Entity);
+            if(CurrentSolution != null)
+                Solution.SaveSolution(CurrentSolution.Entity);
+        }
+
+        public void LoadSolution(string aPath)
+        {
+            CurrentSolution = new SolutionVM(Solution.LoadSolution(aPath));
+        }
+
+        public void CloseSolution()
+        {
+            CurrentSolution = null;
         }
 
         public SolutionVM CurrentSolution

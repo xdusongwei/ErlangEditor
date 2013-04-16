@@ -64,6 +64,20 @@ namespace ErlangEditor.Core
             }
         }
 
+        public SolutionEntity LoadSolution(string aPath)
+        {
+            using (StreamReader sr = new StreamReader(aPath))
+            {
+                var strSln = sr.ReadToEnd();
+                var slnEntity = JsonConvert.DeserializeObject<SolutionEntity>(strSln);
+                dictCode_.Clear();
+                UpdateSolution(slnEntity);
+                int lastChar = aPath.LastIndexOf('\\');
+                slnEntity.SolutionPath = aPath.Substring(0, lastChar + 1);
+                return slnEntity;
+            }
+        }
+
         public void SaveSolution(SolutionEntity aEntity)
         {
             if (!Directory.Exists(aEntity.SolutionPath))
