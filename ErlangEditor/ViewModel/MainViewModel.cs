@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ErlangEditor.Core;
+using ErlangEditor.Template;
 
 namespace ErlangEditor.ViewModel
 {
@@ -20,12 +21,29 @@ namespace ErlangEditor.ViewModel
             Loaded = true;
         }
 
-        public void CreateSolution(string aName, string aCompilerPath, string aShellPath, string aBasePath)
+        public void CreateSolution(
+            string aName,
+            string aPath,
+            string aCompilerPath,
+            string aShellPath
+            )
         {
-
+            var macro = new StdProcessTemplate(aName, true, string.Empty, string.Empty).Macro;
+            CurrentSolution = new SolutionVM(Solution.CreateSolution(aName, aPath, aCompilerPath, aShellPath, macro, "Template\\module.erl"));
         }
 
-        public Solution Solution
+        public void SaveSolution()
+        {
+            Solution.SaveSolution(CurrentSolution.Entity);
+        }
+
+        public SolutionVM CurrentSolution
+        {
+            get;
+            set;
+        }
+
+        private Solution Solution
         {
             get;
             set;

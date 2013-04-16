@@ -7,12 +7,6 @@ namespace ErlangEditor.Core.Entity
 {
     public class CodeEntity
     {
-        public FileEntity Key
-        {
-            get;
-            set;
-        }
-
         public string Content
         {
             get;

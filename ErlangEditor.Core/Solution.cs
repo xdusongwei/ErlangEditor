@@ -11,7 +11,14 @@ namespace ErlangEditor.Core
 {
     public class Solution
     {
-        public SolutionEntity CreateSolution(string aName, string aPath, string aCompilerPath, string aShellPath)
+        public SolutionEntity CreateSolution(
+            string aName, 
+            string aPath, 
+            string aCompilerPath, 
+            string aShellPath,
+            Dictionary<string, string> aMacro,
+            string aTemplatePath
+            )
         {
             var sln = new SolutionEntity
             {
@@ -19,30 +26,48 @@ namespace ErlangEditor.Core
                 ShellPath = aShellPath,
                 CompilerPath = aCompilerPath,
                 StartupProjectName = string.Empty,
-                SolutionPath = aPath + "\\"
+                SolutionPath = aPath + "\\" + aName + "\\"
             };
             var prj = new ProjectEntity
             {
                 Name = aName,
-                ProjectPath = aName
+                ProjectPath = aName + "\\"
             };
             var file = new FileEntity
             {
                 Name = aName + ".erl",
                 Path = aName + ".erl"
             };
+            CreateCodeFile(file, aMacro, aTemplatePath);
             sln.StartupProjectName = prj.Name;
             sln.Children.Add(prj);
             prj.StartupFile = file.ID;
             prj.Children.Add(file);
+            UpdateSolution(sln);
             SaveSolution(sln);
-            file.Modified = true;
-            dictCode_.Add(file, new CodeEntity { Content = string.Empty, Key = file });
             return sln;
+        }
+
+        public void CreateCodeFile(FileEntity aEntity, Dictionary<string, string> aMacro , string aTemplatePath)
+        {
+            using (StreamReader sr = new StreamReader(aTemplatePath))
+            {
+                string codeTemplate = sr.ReadToEnd();
+                foreach (var i in aMacro)
+                {
+                    codeTemplate = codeTemplate.Replace(i.Key, i.Value);
+                }
+                if (dictCode_.ContainsKey(aEntity))
+                    dictCode_.Remove(aEntity);
+                aEntity.Modified = true;
+                dictCode_.Add(aEntity, new CodeEntity { Content = codeTemplate });
+            }
         }
 
         public void SaveSolution(SolutionEntity aEntity)
         {
+            if (!Directory.Exists(aEntity.SolutionPath))
+                Directory.CreateDirectory(aEntity.SolutionPath);
             using (StreamWriter ws = new StreamWriter(aEntity.SolutionPath + aEntity.Name + ".sln"))
             {
                 var strData = JsonConvert.SerializeObject(aEntity);
@@ -60,26 +85,49 @@ namespace ErlangEditor.Core
             {
                 if (i.Key.Modified)
                 {
-                    i.Key.Modified = false;
+                    SaveFile(i.Key);
                 }
             }
-            //foreach (var i in aEntity.Children)
-            //{
-            //    string prjPath = aEntity.SolutionPath + i.ProjectPath;
-            //    foreach (var j in i.Children)
-            //    {
-            //        if (j.Modified)
-            //        {
-            //            j.Modified = false;
-            //            //SaveFile(j);
-            //        }
-            //    }
-            //}
         }
 
-        public void SaveFile(SolutionEntity aSln, FileEntity aFile , string aPath)
+        public void SaveFile(FileEntity aFile)
         {
-            Debug.WriteLine("Save file path{0}{1}", aPath, aFile.Name);
+            var path = GetFullPath(string.Empty, aFile);
+            aFile.Modified = false;
+            Debug.WriteLine("Save file path " + path);
+            using (StreamWriter sw = new StreamWriter(path))
+            {
+                if(dictCode_.ContainsKey(aFile))
+                    sw.Write(dictCode_[aFile].Content);
+            }
+        }
+
+        private string GetFullPath(string aPath, object aNode)
+        {
+            dynamic node = aNode;
+            if (node is SolutionEntity)
+            {
+                return node.SolutionPath + aPath;
+            }
+            else if(node is ProjectEntity)
+            {
+                return GetFullPath(node.ProjectPath + aPath, node.Parent);
+            }
+            else if(node is FileEntity)
+            {
+                return GetFullPath(node.Path + aPath, node.Parent);
+            }
+            return string.Empty;
+        }
+
+        private void UpdateSolution(object aEntity)
+        {
+            dynamic node = aEntity;
+            foreach (dynamic i in node.Children)
+            {
+                i.Parent = node;
+                UpdateSolution(i);
+            }
         }
 
         private Dictionary<FileEntity, CodeEntity> dictCode_ = new Dictionary<FileEntity, CodeEntity>();

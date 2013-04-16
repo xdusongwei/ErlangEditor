@@ -132,6 +132,9 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <None Include="Template\module.erl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Import\ICSharpCode.AvalonEdit.dll" />
@@ -145,6 +148,10 @@
     <ProjectReference Include="..\ErlangEditor.Core\ErlangEditor.Core.csproj">
       <Project>{2F06B7C0-9CB4-4011-90E2-12303864D037}</Project>
       <Name>ErlangEditor.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ErlangEditor.Template\ErlangEditor.Template.csproj">
+      <Project>{0B4363A8-44F5-43AF-81DE-1661E89BB8EF}</Project>
+      <Name>ErlangEditor.Template</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

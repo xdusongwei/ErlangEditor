@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ErlangEditor", "ErlangEdito
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ErlangEditor.Core", "ErlangEditor.Core\ErlangEditor.Core.csproj", "{2F06B7C0-9CB4-4011-90E2-12303864D037}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ErlangEditor.Template", "ErlangEditor.Template\ErlangEditor.Template.csproj", "{0B4363A8-44F5-43AF-81DE-1661E89BB8EF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,16 @@ Global
 		{2F06B7C0-9CB4-4011-90E2-12303864D037}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{2F06B7C0-9CB4-4011-90E2-12303864D037}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{2F06B7C0-9CB4-4011-90E2-12303864D037}.Release|x86.ActiveCfg = Release|Any CPU
+		{0B4363A8-44F5-43AF-81DE-1661E89BB8EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B4363A8-44F5-43AF-81DE-1661E89BB8EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B4363A8-44F5-43AF-81DE-1661E89BB8EF}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{0B4363A8-44F5-43AF-81DE-1661E89BB8EF}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{0B4363A8-44F5-43AF-81DE-1661E89BB8EF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0B4363A8-44F5-43AF-81DE-1661E89BB8EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B4363A8-44F5-43AF-81DE-1661E89BB8EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B4363A8-44F5-43AF-81DE-1661E89BB8EF}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{0B4363A8-44F5-43AF-81DE-1661E89BB8EF}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{0B4363A8-44F5-43AF-81DE-1661E89BB8EF}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

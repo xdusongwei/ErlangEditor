@@ -11,5 +11,10 @@ namespace ErlangEditor.ViewModel
         private SolutionEntity entity_;
         public SolutionVM() { }
         public SolutionVM(SolutionEntity aEntity) { entity_ = aEntity; }
+        public SolutionEntity Entity
+        {
+            get { return entity_; }
+            private set { entity_ = value; }
+        }
     }
 }
