@@ -33,9 +33,10 @@ namespace ErlangEditor.ViewModel
         }
 
         private static readonly ImageSource IconSource =new BitmapImage(new Uri("/Images/Generic_Document.png", UriKind.RelativeOrAbsolute));
+        private static readonly ImageSource IconSource2 = new BitmapImage(new Uri("/Images/Stuffed_Folder.png", UriKind.RelativeOrAbsolute));
         public ImageSource Icon
         {
-            get { return IconSource; }
+            get { return IsFolder ? IconSource2 : IconSource; }
         }
     }
 }

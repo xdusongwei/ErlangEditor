@@ -13,6 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using ErlangEditor.Windows;
 using Microsoft.Win32;
+using Telerik.Windows.Controls;
 
 namespace ErlangEditor
 {
@@ -55,6 +56,15 @@ namespace ErlangEditor
         private void exitApplication(object sender, Telerik.Windows.RadRoutedEventArgs e)
         {
 
+        }
+
+        private void RadContextMenu_Opened(object sender, RoutedEventArgs e)
+        {
+            RadTreeViewItem clickedItemContainer = radContextMenu.GetClickedElement<RadTreeViewItem>();
+            if (clickedItemContainer != null)
+            {
+                App.ViewModel.UpdateContextOperationMenu(clickedItemContainer.Item);
+            }
         }
     }
 }

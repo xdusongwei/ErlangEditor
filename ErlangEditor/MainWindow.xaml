@@ -63,6 +63,17 @@
                                     </StackPanel>
                                 </HierarchicalDataTemplate>
                             </telerik:RadTreeView.ItemTemplate>
+                            <telerik:RadContextMenu.ContextMenu>
+                                <telerik:RadContextMenu x:Name="radContextMenu"
+						            Opened="RadContextMenu_Opened"
+						            ItemsSource="{Binding ContextOperations}">
+                                    <!--<telerik:RadContextMenu.ItemTemplate>
+                                        <HierarchicalDataTemplate ItemsSource="{Binding Path=Children}">
+                                            <telerik:RadMenuItem Header="{Binding Header}" ItemsSource="{Binding Children}"/>
+                                        </HierarchicalDataTemplate>
+                                    </telerik:RadContextMenu.ItemTemplate>-->
+                                </telerik:RadContextMenu>
+                            </telerik:RadContextMenu.ContextMenu>
                         </telerik:RadTreeView>
                     </telerik:RadPane>
                     <telerik:RadPane Header="属性"/>

@@ -6,6 +6,9 @@ using System.ComponentModel;
 using ErlangEditor.Core;
 using ErlangEditor.Template;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using Telerik.Windows.Controls.Navigation;
+using Telerik.Windows.Controls;
 
 namespace ErlangEditor.ViewModel
 {
@@ -74,6 +77,69 @@ namespace ErlangEditor.ViewModel
         {
             get;
             set;
+        }
+
+        private ObservableCollection<RadMenuItem> contextOperations_ = new ObservableCollection<RadMenuItem>();
+        public ObservableCollection<RadMenuItem> ContextOperations
+        {
+            get
+            {
+                return contextOperations_;
+            }
+            private set
+            {
+                if (contextOperations_ != value)
+                {
+                    contextOperations_ = value;
+                    NotifyPropertyChanged("ContextOperations");
+                }
+            }
+        }
+
+        public void UpdateContextOperationMenu(object aSelectItem)
+        {
+            contextOperations_.Clear();
+            if (aSelectItem is SolutionVM)
+            {
+                Debug.WriteLine("sln!");
+                contextOperations_.Add(new RadMenuItem { Header = "添加新项目" });
+                contextOperations_.Add(new RadMenuItem { Header = "排除" });
+            }
+            else if (aSelectItem is ProjectVM)
+            {
+                Debug.WriteLine("prj!");
+                var newItem = new RadMenuItem { Header = "添加新Erlang代码文件" };
+                var newItem2 = new RadMenuItem { Header = "添加新Hrl代码文件" };
+                var newItem3 = new RadMenuItem { Header = "添加新的其他文件" };
+                var existItem = new RadMenuItem { Header = "添加现有Erlang代码文件" };
+                var existItem2 = new RadMenuItem { Header = "添加现有Hrl代码文件" };
+                var existItem3 = new RadMenuItem { Header = "添加现有文件" };
+                var folderItem = new RadMenuItem { Header = "添加新建文件夹" };
+                var addChildren = new RadMenuItem[] { newItem, newItem2, newItem3, existItem, existItem2, existItem3, folderItem };
+                contextOperations_.Add(new RadMenuItem { Header = "添加", ItemsSource = new ObservableCollection<RadMenuItem>(addChildren) });
+                contextOperations_.Add(new RadMenuItem { Header = "重命名" });
+                contextOperations_.Add(new RadMenuItem { Header = "删除" });
+            }
+            else if (aSelectItem is ItemVM)
+            {
+                Debug.WriteLine("itm!");
+                if ((aSelectItem as ItemVM).IsFolder)
+                {
+                    var newItem = new RadMenuItem { Header = "添加新Erlang代码文件" };
+                    var newItem2 = new RadMenuItem { Header = "添加新Hrl代码文件" };
+                    var newItem3 = new RadMenuItem { Header = "添加新的其他文件" };
+                    var existItem = new RadMenuItem { Header = "添加现有Erlang代码文件" };
+                    var existItem2 = new RadMenuItem { Header = "添加现有Hrl代码文件" };
+                    var existItem3 = new RadMenuItem { Header = "添加现有文件" };
+                    var folderItem = new RadMenuItem { Header = "添加新建文件夹" };
+                    var addChildren = new RadMenuItem[] { newItem, newItem2, newItem3, existItem, existItem2, existItem3, folderItem };
+                    contextOperations_.Add(new RadMenuItem { Header = "添加", ItemsSource = new ObservableCollection<RadMenuItem>(addChildren) });
+                }
+                contextOperations_.Add(new RadMenuItem { Header = "重命名" });
+                contextOperations_.Add(new RadMenuItem { Header = "排除" });
+                contextOperations_.Add(new RadMenuItem { Header = "删除" });
+
+            }
         }
 
         private void NotifyPropertyChanged(string aName)
