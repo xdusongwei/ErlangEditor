@@ -26,6 +26,7 @@ namespace ErlangEditor
             InitializeComponent();
             if (!App.ViewModel.Loaded)
                 App.ViewModel.Load();
+            DataContext = App.ViewModel;
         }
 
         private void createNewSolution(object sender, Telerik.Windows.RadRoutedEventArgs e)
@@ -49,6 +50,11 @@ namespace ErlangEditor
         private void saveSolution(object sender, Telerik.Windows.RadRoutedEventArgs e)
         {
             App.ViewModel.SaveSolution();
+        }
+
+        private void exitApplication(object sender, Telerik.Windows.RadRoutedEventArgs e)
+        {
+
         }
     }
 }

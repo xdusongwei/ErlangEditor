@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.ComponentModel;
 using ErlangEditor.Core;
 using ErlangEditor.Template;
+using System.Collections.ObjectModel;
 
 namespace ErlangEditor.ViewModel
 {
-    public class MainViewModel
+    public class MainViewModel : INotifyPropertyChanged
     {
         public bool Loaded
         {
@@ -29,18 +31,21 @@ namespace ErlangEditor.ViewModel
             )
         {
             var macro = new StdProcessTemplate(aName, true, string.Empty, string.Empty).Macro;
-            CurrentSolution = new SolutionVM(Solution.CreateSolution(aName, aPath, aCompilerPath, aShellPath, macro, "Template\\module.erl"));
+            currentSolution_.Clear();
+            CurrentSolution.Add(new SolutionVM(Solution.CreateSolution(aName, aPath, aCompilerPath, aShellPath, macro, "Template\\module.erl")));
         }
 
         public void SaveSolution()
         {
-            if(CurrentSolution != null)
-                Solution.SaveSolution(CurrentSolution.Entity);
+            if(CurrentSolution.Count > 0)
+                Solution.SaveSolution(CurrentSolution.First().Entity);
         }
 
         public void LoadSolution(string aPath)
         {
-            CurrentSolution = new SolutionVM(Solution.LoadSolution(aPath));
+            currentSolution_.Clear();
+            CurrentSolution.Add(new SolutionVM(Solution.LoadSolution(aPath)));
+            IsModified = false;
         }
 
         public void CloseSolution()
@@ -48,7 +53,18 @@ namespace ErlangEditor.ViewModel
             CurrentSolution = null;
         }
 
-        public SolutionVM CurrentSolution
+        private ObservableCollection<SolutionVM> currentSolution_ = new ObservableCollection<SolutionVM>();
+        public ObservableCollection<SolutionVM> CurrentSolution
+        {
+            get { return currentSolution_; }
+            set
+            {
+                currentSolution_ = value;
+                NotifyPropertyChanged("CurrentSolution");
+            }
+        }
+
+        public bool IsModified
         {
             get;
             set;
@@ -59,5 +75,14 @@ namespace ErlangEditor.ViewModel
             get;
             set;
         }
+
+        private void NotifyPropertyChanged(string aName)
+        {
+            var evt = PropertyChanged;
+            if (evt != null)
+                evt(this, new PropertyChangedEventArgs(aName));
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

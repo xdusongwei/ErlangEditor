@@ -80,7 +80,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ViewModel\ItemVM.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\ProjectVM.cs" />
     <Compile Include="ViewModel\SolutionVM.cs" />
     <Compile Include="Windows\NewProject.xaml.cs">
       <DependentUpon>NewProject.xaml</DependentUpon>
@@ -137,6 +139,18 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Images\Gear.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\Generic_Document.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\Settings.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\Stuffed_Folder.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Content Include="Import\ICSharpCode.AvalonEdit.dll" />
     <Content Include="Import\Newtonsoft.Json.dll" />
     <Content Include="Import\Telerik.Windows.Controls.Data.dll" />
