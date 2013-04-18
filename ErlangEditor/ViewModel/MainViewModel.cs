@@ -9,6 +9,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using Telerik.Windows.Controls.Navigation;
 using Telerik.Windows.Controls;
+using ErlangEditor.ViewModel.ContextMenu;
 
 namespace ErlangEditor.ViewModel
 {
@@ -98,6 +99,7 @@ namespace ErlangEditor.ViewModel
 
         public void UpdateContextOperationMenu(object aSelectItem)
         {
+            SelectVMItem = aSelectItem;
             contextOperations_.Clear();
             if (aSelectItem is SolutionVM)
             {
@@ -114,7 +116,8 @@ namespace ErlangEditor.ViewModel
                 var existItem = new RadMenuItem { Header = "添加现有Erlang代码文件" };
                 var existItem2 = new RadMenuItem { Header = "添加现有Hrl代码文件" };
                 var existItem3 = new RadMenuItem { Header = "添加现有文件" };
-                var folderItem = new RadMenuItem { Header = "添加新建文件夹" };
+                var folderItem = new RadMenuItem { Header = "新建文件夹"};
+                folderItem.Click += NewFolder.Click;
                 var addChildren = new RadMenuItem[] { newItem, newItem2, newItem3, existItem, existItem2, existItem3, folderItem };
                 contextOperations_.Add(new RadMenuItem { Header = "添加", ItemsSource = new ObservableCollection<RadMenuItem>(addChildren) });
                 contextOperations_.Add(new RadMenuItem { Header = "重命名" });
@@ -131,7 +134,7 @@ namespace ErlangEditor.ViewModel
                     var existItem = new RadMenuItem { Header = "添加现有Erlang代码文件" };
                     var existItem2 = new RadMenuItem { Header = "添加现有Hrl代码文件" };
                     var existItem3 = new RadMenuItem { Header = "添加现有文件" };
-                    var folderItem = new RadMenuItem { Header = "添加新建文件夹" };
+                    var folderItem = new RadMenuItem { Header = "新建文件夹" };
                     var addChildren = new RadMenuItem[] { newItem, newItem2, newItem3, existItem, existItem2, existItem3, folderItem };
                     contextOperations_.Add(new RadMenuItem { Header = "添加", ItemsSource = new ObservableCollection<RadMenuItem>(addChildren) });
                 }
@@ -140,6 +143,12 @@ namespace ErlangEditor.ViewModel
                 contextOperations_.Add(new RadMenuItem { Header = "删除" });
 
             }
+        }
+
+        public object SelectVMItem
+        {
+            get;
+            private set;
         }
 
         private void NotifyPropertyChanged(string aName)

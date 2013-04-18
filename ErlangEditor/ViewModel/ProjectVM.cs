@@ -11,7 +11,7 @@ using System.Windows;
 
 namespace ErlangEditor.ViewModel
 {
-    public class ProjectVM
+    public class ProjectVM : DependencyObject, INotifyPropertyChanged
     {
         private ProjectEntity entity_;
         public ProjectVM():this(new ProjectEntity{ Name="EmptyPrj"}) { }
@@ -19,6 +19,7 @@ namespace ErlangEditor.ViewModel
         public string Name
         {
             get { return entity_.Name; }
+            set { entity_.Name = value; NotifyPropertyChanged("Name"); }
         }
 
         public ObservableCollection<ItemVM> Children
@@ -35,5 +36,41 @@ namespace ErlangEditor.ViewModel
         {
             get { return IconSource; }
         }
+
+
+
+
+
+        public Visibility TextBlockVisibility
+        {
+            get { return (Visibility)GetValue(TextBlockVisibilityProperty); }
+            set { SetValue(TextBlockVisibilityProperty, value); NotifyPropertyChanged("TextBlockVisibility");}
+        }
+
+        // Using a DependencyProperty as the backing store for TextBlockVisibility.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty TextBlockVisibilityProperty =
+            DependencyProperty.Register("TextBlockVisibility", typeof(Visibility), typeof(ProjectVM), new UIPropertyMetadata(Visibility.Visible));
+
+        
+
+        public Visibility TextBoxVisibility
+        {
+            get { return (Visibility)GetValue(TextBoxVisibilityProperty); }
+            set { SetValue(TextBoxVisibilityProperty, value); NotifyPropertyChanged("TextBoxVisibility"); }
+        }
+
+        // Using a DependencyProperty as the backing store for TextBoxVisibility.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty TextBoxVisibilityProperty =
+            DependencyProperty.Register("TextBoxVisibility", typeof(Visibility), typeof(ProjectVM), new UIPropertyMetadata(Visibility.Hidden));
+
+
+        private void NotifyPropertyChanged(string aName)
+        {
+            var evt = PropertyChanged;
+            if (evt != null)
+                evt(this, new PropertyChangedEventArgs(aName));
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

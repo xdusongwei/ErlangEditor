@@ -59,7 +59,8 @@
                                 <HierarchicalDataTemplate ItemsSource="{Binding Path=Children}">
                                     <StackPanel Orientation="Horizontal" Height="22" Margin="2">
                                         <Image Stretch="Uniform" Source="{Binding Icon}" />
-                                        <TextBlock Text="{Binding Path=Name}" VerticalAlignment="Center"/>
+                                        <TextBox Text="{Binding Path=Name,Mode=TwoWay}" Visibility="{Binding TextBoxVisibility}" />
+                                        <TextBlock Text="{Binding Path=Name}" VerticalAlignment="Center" Visibility="{Binding TextBlockVisibility}"/>
                                     </StackPanel>
                                 </HierarchicalDataTemplate>
                             </telerik:RadTreeView.ItemTemplate>
