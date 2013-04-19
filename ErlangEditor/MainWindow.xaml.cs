@@ -14,6 +14,8 @@ using System.Windows.Shapes;
 using ErlangEditor.Windows;
 using Microsoft.Win32;
 using Telerik.Windows.Controls;
+using System.Diagnostics;
+using ErlangEditor.ViewModel;
 
 namespace ErlangEditor
 {
@@ -63,8 +65,39 @@ namespace ErlangEditor
             RadTreeViewItem clickedItemContainer = radContextMenu.GetClickedElement<RadTreeViewItem>();
             if (clickedItemContainer != null)
             {
-                App.ViewModel.UpdateContextOperationMenu(clickedItemContainer.Item);
+                App.ViewModel.UpdateContextOperationMenu(clickedItemContainer);
             }
+        }
+
+        private void TextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            CommitItemChange(sender);
+        }
+
+        private void CommitItemChange(object sender)
+        {
+            try
+            {
+                App.ViewModel.CommitItemUpdate((sender as FrameworkElement).Tag, (sender as TextBox).Text);
+            }
+            catch (Exception ep)
+            {
+                MessageBox.Show(ep.Message, "错误", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void TextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                CommitItemChange(sender);
+            }
+        }
+
+        private void TextBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            (sender as TextBox).SelectAll();
+            (sender as TextBox).Focus();
         }
     }
 }

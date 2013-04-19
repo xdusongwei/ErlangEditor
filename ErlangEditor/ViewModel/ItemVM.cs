@@ -7,6 +7,7 @@ using ErlangEditor.Core.Entity;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.ComponentModel;
+using System.Collections.ObjectModel;
 
 namespace ErlangEditor.ViewModel
 {
@@ -18,8 +19,7 @@ namespace ErlangEditor.ViewModel
         private FileEntity entity_;
         public bool IsFolder
         {
-            get;
-            set;
+            get { return entity_.IsFolder; }
         }
 
         public string Name
@@ -28,10 +28,33 @@ namespace ErlangEditor.ViewModel
             set { entity_.Name = value; NotifyPropertyChanged("Name"); }
         }
 
-        public IEnumerable<ItemVM> Children
+        ObservableCollection<ItemVM> children_ = null;
+        public ObservableCollection<ItemVM> Children
         {
-            get;
-            set;
+            get
+            {
+                if (children_ == null)
+                    children_ = new ObservableCollection<ItemVM>(entity_.Children.Select(x => new ItemVM(x)));
+                return children_;
+            }
+        }
+
+
+
+        //public string EditableName
+        //{
+        //    get { return (string)GetValue(EditableNameProperty); }
+        //    set { SetValue(EditableNameProperty, value); }
+        //}
+
+        //// Using a DependencyProperty as the backing store for EditableName.  This enables animation, styling, binding, etc...
+        //public static readonly DependencyProperty EditableNameProperty =
+        //    DependencyProperty.Register("EditableName", typeof(string), typeof(ItemVM), new UIPropertyMetadata(string.Empty));
+
+
+        public FileEntity Entity
+        {
+            get { return entity_; }
         }
 
         public Visibility TextBlockVisibility
@@ -54,7 +77,7 @@ namespace ErlangEditor.ViewModel
 
         // Using a DependencyProperty as the backing store for TextBoxVisibility.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty TextBoxVisibilityProperty =
-            DependencyProperty.Register("TextBoxVisibility", typeof(Visibility), typeof(ItemVM), new UIPropertyMetadata(Visibility.Hidden));
+            DependencyProperty.Register("TextBoxVisibility", typeof(Visibility), typeof(ItemVM), new UIPropertyMetadata(Visibility.Collapsed));
 
         private static readonly ImageSource IconSource =new BitmapImage(new Uri("/Images/Generic_Document.png", UriKind.RelativeOrAbsolute));
         private static readonly ImageSource IconSource2 = new BitmapImage(new Uri("/Images/Stuffed_Folder.png", UriKind.RelativeOrAbsolute));
@@ -68,6 +91,12 @@ namespace ErlangEditor.ViewModel
             var evt = PropertyChanged;
             if (evt != null)
                 evt(this, new PropertyChangedEventArgs(aName));
+        }
+
+        public bool IsNewObject
+        {
+            get;
+            set;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

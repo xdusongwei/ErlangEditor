@@ -59,7 +59,11 @@
                                 <HierarchicalDataTemplate ItemsSource="{Binding Path=Children}">
                                     <StackPanel Orientation="Horizontal" Height="22" Margin="2">
                                         <Image Stretch="Uniform" Source="{Binding Icon}" />
-                                        <TextBox Text="{Binding Path=Name,Mode=TwoWay}" Visibility="{Binding TextBoxVisibility}" />
+                                        <TextBox Text="{Binding Path=Name,Mode=TwoWay}" 
+                                                 Visibility="{Binding TextBoxVisibility}" 
+                                                 LostFocus="TextBox_LostFocus" 
+                                                 KeyDown="TextBox_KeyDown" 
+                                                 Tag="{Binding}" BorderBrush="#FF070707" Loaded="TextBox_Loaded" />
                                         <TextBlock Text="{Binding Path=Name}" VerticalAlignment="Center" Visibility="{Binding TextBlockVisibility}"/>
                                     </StackPanel>
                                 </HierarchicalDataTemplate>

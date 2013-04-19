@@ -82,12 +82,7 @@ namespace ErlangEditor.Core
         {
             if (!Directory.Exists(aEntity.SolutionPath))
                 Directory.CreateDirectory(aEntity.SolutionPath);
-            using (StreamWriter ws = new StreamWriter(aEntity.SolutionPath + aEntity.Name + ".sln"))
-            {
-                var strData = JsonConvert.SerializeObject(aEntity);
-                ws.Write(strData);
-                ws.Flush();
-            }
+            SaveSolutionFile(aEntity);
             foreach (var i in aEntity.Children)
             {
                 if (!Directory.Exists(aEntity.SolutionPath + i.ProjectPath))
@@ -104,9 +99,19 @@ namespace ErlangEditor.Core
             }
         }
 
+        public void SaveSolutionFile(SolutionEntity aEntity)
+        {
+            using (StreamWriter ws = new StreamWriter(aEntity.SolutionPath + aEntity.Name + ".sln"))
+            {
+                var strData = JsonConvert.SerializeObject(aEntity);
+                ws.Write(strData);
+                ws.Flush();
+            }
+        }
+
         public void SaveFile(FileEntity aFile)
         {
-            var path = GetFullPath(string.Empty, aFile);
+            var path = GetFullPath(aFile);
             aFile.Modified = false;
             Debug.WriteLine("Save file path " + path);
             using (StreamWriter sw = new StreamWriter(path))
@@ -114,6 +119,11 @@ namespace ErlangEditor.Core
                 if(dictCode_.ContainsKey(aFile))
                     sw.Write(dictCode_[aFile].Content);
             }
+        }
+
+        public string GetFullPath(object aNode)
+        {
+            return GetFullPath(string.Empty, aNode);
         }
 
         private string GetFullPath(string aPath, object aNode)

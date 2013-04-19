@@ -58,7 +58,7 @@ namespace ErlangEditor.ViewModel
 
         // Using a DependencyProperty as the backing store for TextBoxVisibility.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty TextBoxVisibilityProperty =
-            DependencyProperty.Register("TextBoxVisibility", typeof(Visibility), typeof(SolutionVM), new UIPropertyMetadata(Visibility.Hidden));
+            DependencyProperty.Register("TextBoxVisibility", typeof(Visibility), typeof(SolutionVM), new UIPropertyMetadata(Visibility.Collapsed));
 
         private static readonly ImageSource IconSource =new BitmapImage(new Uri("/Images/Gear.png", UriKind.RelativeOrAbsolute));
 

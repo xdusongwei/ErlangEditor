@@ -22,11 +22,14 @@ namespace ErlangEditor.ViewModel
             set { entity_.Name = value; NotifyPropertyChanged("Name"); }
         }
 
+        ObservableCollection<ItemVM> children_ = null;
         public ObservableCollection<ItemVM> Children
         {
             get
             {
-                return new ObservableCollection<ItemVM>(entity_.Children.Select(x => new ItemVM(x)));
+                if(children_ == null )
+                    children_ = new ObservableCollection<ItemVM>(entity_.Children.Select(x => new ItemVM(x)));
+                return children_;
             }
         }
 
@@ -37,8 +40,10 @@ namespace ErlangEditor.ViewModel
             get { return IconSource; }
         }
 
-
-
+        public ProjectEntity Entity
+        {
+            get { return entity_; }
+        }
 
 
         public Visibility TextBlockVisibility
@@ -61,7 +66,7 @@ namespace ErlangEditor.ViewModel
 
         // Using a DependencyProperty as the backing store for TextBoxVisibility.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty TextBoxVisibilityProperty =
-            DependencyProperty.Register("TextBoxVisibility", typeof(Visibility), typeof(ProjectVM), new UIPropertyMetadata(Visibility.Hidden));
+            DependencyProperty.Register("TextBoxVisibility", typeof(Visibility), typeof(ProjectVM), new UIPropertyMetadata(Visibility.Collapsed));
 
 
         private void NotifyPropertyChanged(string aName)

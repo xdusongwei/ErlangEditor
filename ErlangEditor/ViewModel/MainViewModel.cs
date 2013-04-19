@@ -10,6 +10,7 @@ using System.Diagnostics;
 using Telerik.Windows.Controls.Navigation;
 using Telerik.Windows.Controls;
 using ErlangEditor.ViewModel.ContextMenu;
+using ErlangEditor.Core.Entity;
 
 namespace ErlangEditor.ViewModel
 {
@@ -43,6 +44,12 @@ namespace ErlangEditor.ViewModel
         {
             if(CurrentSolution.Count > 0)
                 Solution.SaveSolution(CurrentSolution.First().Entity);
+        }
+
+        public void SaveSolutionFile()
+        {
+            if (CurrentSolution.Count > 0)
+                Solution.SaveSolutionFile(CurrentSolution.First().Entity);
         }
 
         public void LoadSolution(string aPath)
@@ -97,17 +104,23 @@ namespace ErlangEditor.ViewModel
             }
         }
 
-        public void UpdateContextOperationMenu(object aSelectItem)
+        public void CommitItemUpdate(object aVM , string aNewFolderName)
         {
-            SelectVMItem = aSelectItem;
+            NewFolder.Commit(aVM, aNewFolderName);
+        }
+
+        public void UpdateContextOperationMenu(RadTreeViewItem aSelectItem)
+        {
+            SelectVMItem = aSelectItem.Item;
+            SelectItem = aSelectItem;
             contextOperations_.Clear();
-            if (aSelectItem is SolutionVM)
+            if (SelectVMItem is SolutionVM)
             {
                 Debug.WriteLine("sln!");
                 contextOperations_.Add(new RadMenuItem { Header = "添加新项目" });
                 contextOperations_.Add(new RadMenuItem { Header = "排除" });
             }
-            else if (aSelectItem is ProjectVM)
+            else if (SelectVMItem is ProjectVM)
             {
                 Debug.WriteLine("prj!");
                 var newItem = new RadMenuItem { Header = "添加新Erlang代码文件" };
@@ -123,10 +136,10 @@ namespace ErlangEditor.ViewModel
                 contextOperations_.Add(new RadMenuItem { Header = "重命名" });
                 contextOperations_.Add(new RadMenuItem { Header = "删除" });
             }
-            else if (aSelectItem is ItemVM)
+            else if (SelectVMItem is ItemVM)
             {
                 Debug.WriteLine("itm!");
-                if ((aSelectItem as ItemVM).IsFolder)
+                if ((SelectVMItem as ItemVM).IsFolder)
                 {
                     var newItem = new RadMenuItem { Header = "添加新Erlang代码文件" };
                     var newItem2 = new RadMenuItem { Header = "添加新Hrl代码文件" };
@@ -135,17 +148,39 @@ namespace ErlangEditor.ViewModel
                     var existItem2 = new RadMenuItem { Header = "添加现有Hrl代码文件" };
                     var existItem3 = new RadMenuItem { Header = "添加现有文件" };
                     var folderItem = new RadMenuItem { Header = "新建文件夹" };
+                    folderItem.Click += NewFolder.Click;
                     var addChildren = new RadMenuItem[] { newItem, newItem2, newItem3, existItem, existItem2, existItem3, folderItem };
                     contextOperations_.Add(new RadMenuItem { Header = "添加", ItemsSource = new ObservableCollection<RadMenuItem>(addChildren) });
                 }
                 contextOperations_.Add(new RadMenuItem { Header = "重命名" });
                 contextOperations_.Add(new RadMenuItem { Header = "排除" });
-                contextOperations_.Add(new RadMenuItem { Header = "删除" });
+                var delete = new RadMenuItem { Header = "删除" };
+                if ((SelectVMItem as ItemVM).IsFolder)
+                {
+                    delete.Click += DeleteFolder.Click;
+                }
+                else
+                {
+
+                }
+                contextOperations_.Add(delete);
 
             }
         }
 
+        public string GetVMFilePath(object aVM)
+        {
+            dynamic dyVM = aVM;
+            return Solution.GetFullPath(dyVM.Entity);
+        }
+
         public object SelectVMItem
+        {
+            get;
+            private set;
+        }
+
+        public RadTreeViewItem SelectItem
         {
             get;
             private set;
