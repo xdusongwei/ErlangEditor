@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EditorConstant.cs" />
     <Compile Include="Entity\CodeEntity.cs" />
     <Compile Include="Entity\ConfigEntity.cs" />
     <Compile Include="Entity\FileEntity.cs" />

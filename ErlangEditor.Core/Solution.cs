@@ -35,8 +35,8 @@ namespace ErlangEditor.Core
             };
             var file = new FileEntity
             {
-                Name = aName + ".erl",
-                Path = aName + ".erl"
+                Name = aName + EditorConstant.ErlangCodeFileExtentFileType,
+                Path = aName + EditorConstant.ErlangCodeFileExtentFileType
             };
             CreateCodeFile(file, aMacro, aTemplatePath);
             sln.StartupProjectName = prj.Name;
