@@ -11,7 +11,7 @@ using System.Windows;
 
 namespace ErlangEditor.ViewModel
 {
-    public class ProjectVM : DependencyObject, INotifyPropertyChanged
+    public class ProjectVM : DependencyObject, INotifyPropertyChanged, IComparable 
     {
         private ProjectEntity entity_;
         public ProjectVM():this(new ProjectEntity{ Name="EmptyPrj"}) { }
@@ -27,8 +27,12 @@ namespace ErlangEditor.ViewModel
         {
             get
             {
-                if(children_ == null )
-                    children_ = new ObservableCollection<ItemVM>(entity_.Children.Select(x => new ItemVM(x)));
+                if (children_ == null)
+                {
+                    var lst = new List<ItemVM>(entity_.Children.Select(x => new ItemVM(x)));
+                    lst.Sort();
+                    children_ = new ObservableCollection<ItemVM>(lst);
+                }
                 return children_;
             }
         }
@@ -77,5 +81,11 @@ namespace ErlangEditor.ViewModel
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public int CompareTo(object obj)
+        {
+            var other = obj as ProjectVM;
+            return Name.CompareTo(other.Name);
+        }
     }
 }

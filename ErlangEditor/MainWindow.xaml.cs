@@ -32,13 +32,13 @@ namespace ErlangEditor
             DataContext = App.ViewModel;
         }
 
-        private void createNewSolution(object sender, Telerik.Windows.RadRoutedEventArgs e)
+        private void CreateNewSolution(object sender, Telerik.Windows.RadRoutedEventArgs e)
         {
             NewSolution ns = new NewSolution();
             ns.ShowDialog();
         }
 
-        private void openSolution(object sender, Telerik.Windows.RadRoutedEventArgs e)
+        private void OpenSolution(object sender, Telerik.Windows.RadRoutedEventArgs e)
         {
             OpenFileDialog fileDialog = new OpenFileDialog();
             fileDialog.Title = "选择解决方案";
@@ -50,12 +50,12 @@ namespace ErlangEditor
             }
         }
 
-        private void saveSolution(object sender, Telerik.Windows.RadRoutedEventArgs e)
+        private void SaveSolution(object sender, Telerik.Windows.RadRoutedEventArgs e)
         {
             App.ViewModel.SaveSolution();
         }
 
-        private void exitApplication(object sender, Telerik.Windows.RadRoutedEventArgs e)
+        private void ExitApplication(object sender, Telerik.Windows.RadRoutedEventArgs e)
         {
 
         }
@@ -63,10 +63,11 @@ namespace ErlangEditor
         private void RadContextMenu_Opened(object sender, RoutedEventArgs e)
         {
             RadTreeViewItem clickedItemContainer = radContextMenu.GetClickedElement<RadTreeViewItem>();
-            if (clickedItemContainer != null)
-            {
-                App.ViewModel.UpdateContextOperationMenu(clickedItemContainer);
-            }
+            App.ViewModel.UpdateContextOperationMenu(clickedItemContainer);
+            if (clickedItemContainer == null)
+                radContextMenu.Visibility = System.Windows.Visibility.Collapsed;
+            else
+                radContextMenu.Visibility = System.Windows.Visibility.Visible;
         }
 
         private void TextBox_LostFocus(object sender, RoutedEventArgs e)
@@ -78,7 +79,7 @@ namespace ErlangEditor
         {
             try
             {
-                App.ViewModel.CommitItemUpdate((sender as FrameworkElement).Tag, (sender as TextBox).Text);
+                App.ViewModel.CommitItemAddOrUpdate((sender as FrameworkElement).Tag, (sender as TextBox).Text);
             }
             catch (Exception ep)
             {
@@ -98,6 +99,15 @@ namespace ErlangEditor
         {
             (sender as TextBox).SelectAll();
             (sender as TextBox).Focus();
+        }
+
+        private void TextBox_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if ((sender as TextBox).Visibility == System.Windows.Visibility.Visible)
+            {
+                (sender as TextBox).SelectAll();
+                (sender as TextBox).Focus();
+            }
         }
     }
 }

@@ -7,6 +7,7 @@ using Telerik.Windows;
 using System.Diagnostics;
 using Telerik.Windows.Controls;
 using ErlangEditor.Core.Entity;
+using System.Collections.ObjectModel;
 
 namespace ErlangEditor.ViewModel.ContextMenu
 {
@@ -21,6 +22,7 @@ namespace ErlangEditor.ViewModel.ContextMenu
         public static void Click(object sender, RadRoutedEventArgs e)
         {
             VM = App.ViewModel.SelectVMItem;
+            App.ViewModel.ContextOperation = MainViewModel.ContextOperationTypeEnum.Add;
             if (App.ViewModel.SelectVMItem is ProjectVM)
             {
                 var prj = App.ViewModel.SelectVMItem as ProjectVM;
@@ -83,7 +85,6 @@ namespace ErlangEditor.ViewModel.ContextMenu
                             throw new Exception("文件夹已经存在");
                         }
                     }
-                    VM = null;
                     itm.TextBoxVisibility = System.Windows.Visibility.Collapsed;
                     itm.TextBlockVisibility = System.Windows.Visibility.Visible;
                     itm.Name = aNewFolderName;
@@ -92,10 +93,23 @@ namespace ErlangEditor.ViewModel.ContextMenu
                     if (!Directory.Exists(dirPath))
                     {
                         Directory.CreateDirectory(dirPath);
-                        App.ViewModel.SaveSolutionFile();
                     }
+                    App.ViewModel.SaveSolutionFile();
+                    SortChildItem(VM);
+                    VM = null;
                 }
             }
         }
+
+        private static void SortChildItem(object aVM)
+        {
+            dynamic parent = aVM;
+            var sorted = new List<ItemVM>(parent.Children);
+            sorted.Sort();
+            parent.Children.Clear();
+            foreach (var i in sorted)
+                parent.Children.Add(i);
+        }
+
     }
 }

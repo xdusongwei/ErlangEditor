@@ -11,11 +11,13 @@ using Telerik.Windows.Controls.Navigation;
 using Telerik.Windows.Controls;
 using ErlangEditor.ViewModel.ContextMenu;
 using ErlangEditor.Core.Entity;
+using ErlangEditor.ViewModel.ContextMenuMaker;
 
 namespace ErlangEditor.ViewModel
 {
     public class MainViewModel : INotifyPropertyChanged
     {
+        #region All about load
         public bool Loaded
         {
             get;
@@ -28,6 +30,9 @@ namespace ErlangEditor.ViewModel
             Loaded = true;
         }
 
+        #endregion
+
+        #region  解决方案的操作
         public void CreateSolution(
             string aName,
             string aPath,
@@ -36,43 +41,57 @@ namespace ErlangEditor.ViewModel
             )
         {
             var macro = new StdProcessTemplate(aName, true, string.Empty, string.Empty).Macro;
-            currentSolution_.Clear();
-            CurrentSolution.Add(new SolutionVM(Solution.CreateSolution(aName, aPath, aCompilerPath, aShellPath, macro, "Template\\module.erl")));
+            CurrentSolutions.Clear();
+            CurrentSolutions.Add(new SolutionVM(Solution.CreateSolution(aName, aPath, aCompilerPath, aShellPath, macro, "Template\\module.erl")));
         }
 
         public void SaveSolution()
         {
-            if(CurrentSolution.Count > 0)
-                Solution.SaveSolution(CurrentSolution.First().Entity);
+            if (CurrentSolutions.Count > 0)
+            {
+                Solution.SaveSolution(CurrentSolution.Entity);
+                IsModified = false;
+            }
         }
 
         public void SaveSolutionFile()
         {
-            if (CurrentSolution.Count > 0)
-                Solution.SaveSolutionFile(CurrentSolution.First().Entity);
+            if (CurrentSolutions.Count > 0)
+            {
+                Solution.SaveSolutionFile(CurrentSolution.Entity);
+                IsModified = false;
+            }
         }
 
         public void LoadSolution(string aPath)
         {
-            currentSolution_.Clear();
-            CurrentSolution.Add(new SolutionVM(Solution.LoadSolution(aPath)));
+            CurrentSolutions.Clear();
+            CurrentSolutions.Add(new SolutionVM(Solution.LoadSolution(aPath)));
             IsModified = false;
         }
 
         public void CloseSolution()
         {
-            CurrentSolution = null;
+            CurrentSolutions.Clear();
         }
 
-        private ObservableCollection<SolutionVM> currentSolution_ = new ObservableCollection<SolutionVM>();
-        public ObservableCollection<SolutionVM> CurrentSolution
+        #endregion
+
+        #region Property
+        private ObservableCollection<SolutionVM> currentSolutions_ = new ObservableCollection<SolutionVM>();
+        public ObservableCollection<SolutionVM> CurrentSolutions
         {
-            get { return currentSolution_; }
+            get { return currentSolutions_; }
             set
             {
-                currentSolution_ = value;
-                NotifyPropertyChanged("CurrentSolution");
+                currentSolutions_ = value;
+                NotifyPropertyChanged("CurrentSolutions");
             }
+        }
+
+        public SolutionVM CurrentSolution
+        {
+            get {  return currentSolutions_.DefaultIfEmpty(new SolutionVM()).First(); }
         }
 
         public bool IsModified
@@ -104,76 +123,7 @@ namespace ErlangEditor.ViewModel
             }
         }
 
-        public void CommitItemUpdate(object aVM , string aNewFolderName)
-        {
-            NewFolder.Commit(aVM, aNewFolderName);
-        }
-
-        public void UpdateContextOperationMenu(RadTreeViewItem aSelectItem)
-        {
-            SelectVMItem = aSelectItem.Item;
-            SelectItem = aSelectItem;
-            contextOperations_.Clear();
-            if (SelectVMItem is SolutionVM)
-            {
-                Debug.WriteLine("sln!");
-                contextOperations_.Add(new RadMenuItem { Header = "添加新项目" });
-                contextOperations_.Add(new RadMenuItem { Header = "排除" });
-            }
-            else if (SelectVMItem is ProjectVM)
-            {
-                Debug.WriteLine("prj!");
-                var newItem = new RadMenuItem { Header = "添加新Erlang代码文件" };
-                var newItem2 = new RadMenuItem { Header = "添加新Hrl代码文件" };
-                var newItem3 = new RadMenuItem { Header = "添加新的其他文件" };
-                var existItem = new RadMenuItem { Header = "添加现有Erlang代码文件" };
-                var existItem2 = new RadMenuItem { Header = "添加现有Hrl代码文件" };
-                var existItem3 = new RadMenuItem { Header = "添加现有文件" };
-                var folderItem = new RadMenuItem { Header = "新建文件夹"};
-                folderItem.Click += NewFolder.Click;
-                var addChildren = new RadMenuItem[] { newItem, newItem2, newItem3, existItem, existItem2, existItem3, folderItem };
-                contextOperations_.Add(new RadMenuItem { Header = "添加", ItemsSource = new ObservableCollection<RadMenuItem>(addChildren) });
-                contextOperations_.Add(new RadMenuItem { Header = "重命名" });
-                contextOperations_.Add(new RadMenuItem { Header = "删除" });
-            }
-            else if (SelectVMItem is ItemVM)
-            {
-                Debug.WriteLine("itm!");
-                if ((SelectVMItem as ItemVM).IsFolder)
-                {
-                    var newItem = new RadMenuItem { Header = "添加新Erlang代码文件" };
-                    var newItem2 = new RadMenuItem { Header = "添加新Hrl代码文件" };
-                    var newItem3 = new RadMenuItem { Header = "添加新的其他文件" };
-                    var existItem = new RadMenuItem { Header = "添加现有Erlang代码文件" };
-                    var existItem2 = new RadMenuItem { Header = "添加现有Hrl代码文件" };
-                    var existItem3 = new RadMenuItem { Header = "添加现有文件" };
-                    var folderItem = new RadMenuItem { Header = "新建文件夹" };
-                    folderItem.Click += NewFolder.Click;
-                    var addChildren = new RadMenuItem[] { newItem, newItem2, newItem3, existItem, existItem2, existItem3, folderItem };
-                    contextOperations_.Add(new RadMenuItem { Header = "添加", ItemsSource = new ObservableCollection<RadMenuItem>(addChildren) });
-                }
-                contextOperations_.Add(new RadMenuItem { Header = "重命名" });
-                contextOperations_.Add(new RadMenuItem { Header = "排除" });
-                var delete = new RadMenuItem { Header = "删除" };
-                if ((SelectVMItem as ItemVM).IsFolder)
-                {
-                    delete.Click += DeleteFolder.Click;
-                }
-                else
-                {
-
-                }
-                contextOperations_.Add(delete);
-
-            }
-        }
-
-        public string GetVMFilePath(object aVM)
-        {
-            dynamic dyVM = aVM;
-            return Solution.GetFullPath(dyVM.Entity);
-        }
-
+        //下面这三个属性是上下文菜单有关的
         public object SelectVMItem
         {
             get;
@@ -186,6 +136,80 @@ namespace ErlangEditor.ViewModel
             private set;
         }
 
+        public ContextOperationTypeEnum ContextOperation
+        {
+            get;
+            set;
+        }
+        #endregion
+        
+
+        public void CommitItemAddOrUpdate(object aVM , string aNewItemName)
+        {
+            if (aVM is SolutionVM)
+            {
+
+            }
+            else if (aVM is ProjectVM)
+            {
+
+            }
+            else if (aVM is ItemVM)
+            {
+                if ((aVM as ItemVM).IsFolder)
+                {
+                    if (ContextOperation == ContextOperationTypeEnum.Add)
+                        NewFolder.Commit(aVM, aNewItemName);
+                    else
+                        RenameFolder.Commit(aVM, aNewItemName);
+                }
+                else
+                {
+
+                }
+            }
+            
+        }
+
+        public void UpdateContextOperationMenu(RadTreeViewItem aSelectItem)
+        {
+            if (aSelectItem == null)
+            {
+                contextOperations_.Clear();
+                return;
+            }
+            SelectVMItem = aSelectItem.Item;
+            SelectItem = aSelectItem;
+            
+            if (SelectVMItem is SolutionVM)
+            {
+                SolutionContextMenu.MakeMenu(contextOperations_);
+            }
+            else if (SelectVMItem is ProjectVM)
+            {
+                ProjectContextMenu.MakeMenu(contextOperations_);
+            }
+            else if (SelectVMItem is ItemVM)
+            {
+                ItemContextMenu.MakeMenu(contextOperations_);
+            }
+            else
+            {
+                contextOperations_.Clear();
+            }
+        }
+
+        public string GetVMFilePath(object aVM)
+        {
+            dynamic dyVM = aVM;
+            return Solution.GetFullPath(dyVM.Entity);
+        }
+
+        #region Enum Types
+        public enum ContextOperationTypeEnum { Add, Rename };
+        #endregion
+
+        #region All about INotifyPropertyChanged
         private void NotifyPropertyChanged(string aName)
         {
             var evt = PropertyChanged;
@@ -194,5 +218,6 @@ namespace ErlangEditor.ViewModel
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+#endregion
     }
 }

@@ -11,7 +11,7 @@ using System.Collections.ObjectModel;
 
 namespace ErlangEditor.ViewModel
 {
-    public class ItemVM : DependencyObject, INotifyPropertyChanged
+    public class ItemVM : DependencyObject, INotifyPropertyChanged, IComparable 
     {
         public ItemVM() :this(new FileEntity{ Name ="emptyfile"}) { }
         public ItemVM(FileEntity aEntity) { entity_ = aEntity; }
@@ -34,22 +34,14 @@ namespace ErlangEditor.ViewModel
             get
             {
                 if (children_ == null)
-                    children_ = new ObservableCollection<ItemVM>(entity_.Children.Select(x => new ItemVM(x)));
+                {
+                    var lst = new List<ItemVM>(entity_.Children.Select(x => new ItemVM(x)));
+                    lst.Sort();
+                    children_ = new ObservableCollection<ItemVM>(lst);
+                }
                 return children_;
             }
         }
-
-
-
-        //public string EditableName
-        //{
-        //    get { return (string)GetValue(EditableNameProperty); }
-        //    set { SetValue(EditableNameProperty, value); }
-        //}
-
-        //// Using a DependencyProperty as the backing store for EditableName.  This enables animation, styling, binding, etc...
-        //public static readonly DependencyProperty EditableNameProperty =
-        //    DependencyProperty.Register("EditableName", typeof(string), typeof(ItemVM), new UIPropertyMetadata(string.Empty));
 
 
         public FileEntity Entity
@@ -100,5 +92,17 @@ namespace ErlangEditor.ViewModel
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public int CompareTo(object obj)
+        {
+            var other = obj as ItemVM;
+            var result = -IsFolder.CompareTo(other.IsFolder);
+            if (result == 0)
+            {
+                result = Name.CompareTo(other.Name);
+                return result;
+            }
+            return result;
+        }
     }
 }

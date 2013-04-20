@@ -15,15 +15,15 @@
         </Grid.RowDefinitions>
         <telerik:RadMenu Grid.Row="0">
             <telerik:RadMenuItem Header="文件">
-                <telerik:RadMenuItem Header="新建" Click="createNewSolution" />
-                <telerik:RadMenuItem Header="打开" Click="openSolution"/>
+                <telerik:RadMenuItem Header="新建" Click="CreateNewSolution" />
+                <telerik:RadMenuItem Header="打开" Click="OpenSolution"/>
                 <telerik:RadMenuItem IsSeparator="True" />
                 <telerik:RadMenuItem Header="保存" />
-                <telerik:RadMenuItem Header="保存全部" Click="saveSolution" />
+                <telerik:RadMenuItem Header="保存全部" Click="SaveSolution" />
                 <telerik:RadMenuItem Header="另存为" />
                 <telerik:RadMenuItem Header="关闭解决方案" />
                 <telerik:RadMenuItem IsSeparator="True" />
-                <telerik:RadMenuItem Header="退出" Click="exitApplication"/>
+                <telerik:RadMenuItem Header="退出" Click="ExitApplication"/>
             </telerik:RadMenuItem>
             <telerik:RadMenuItem Header="视图" />
             <telerik:RadMenuItem Header="编辑" />
@@ -54,7 +54,7 @@
             <telerik:RadSplitContainer InitialPosition="DockedRight">
                 <telerik:RadPaneGroup>
                     <telerik:RadPane Header="解决方案浏览器">
-                        <telerik:RadTreeView ItemsSource="{Binding CurrentSolution}" >
+                        <telerik:RadTreeView ItemsSource="{Binding CurrentSolutions}" >
                             <telerik:RadTreeView.ItemTemplate>
                                 <HierarchicalDataTemplate ItemsSource="{Binding Path=Children}">
                                     <StackPanel Orientation="Horizontal" Height="22" Margin="2">
@@ -63,7 +63,9 @@
                                                  Visibility="{Binding TextBoxVisibility}" 
                                                  LostFocus="TextBox_LostFocus" 
                                                  KeyDown="TextBox_KeyDown" 
-                                                 Tag="{Binding}" BorderBrush="#FF070707" Loaded="TextBox_Loaded" />
+                                                 Tag="{Binding}" BorderBrush="#FF070707" 
+                                                 Loaded="TextBox_Loaded"
+                                                 IsVisibleChanged="TextBox_IsVisibleChanged"  />
                                         <TextBlock Text="{Binding Path=Name}" VerticalAlignment="Center" Visibility="{Binding TextBlockVisibility}"/>
                                     </StackPanel>
                                 </HierarchicalDataTemplate>
@@ -72,11 +74,6 @@
                                 <telerik:RadContextMenu x:Name="radContextMenu"
 						            Opened="RadContextMenu_Opened"
 						            ItemsSource="{Binding ContextOperations}">
-                                    <!--<telerik:RadContextMenu.ItemTemplate>
-                                        <HierarchicalDataTemplate ItemsSource="{Binding Path=Children}">
-                                            <telerik:RadMenuItem Header="{Binding Header}" ItemsSource="{Binding Children}"/>
-                                        </HierarchicalDataTemplate>
-                                    </telerik:RadContextMenu.ItemTemplate>-->
                                 </telerik:RadContextMenu>
                             </telerik:RadContextMenu.ContextMenu>
                         </telerik:RadTreeView>

@@ -81,8 +81,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ViewModel\ContextMenuMaker\ItemContextMenu.cs" />
+    <Compile Include="ViewModel\ContextMenuMaker\ProjectContextMenu.cs" />
+    <Compile Include="ViewModel\ContextMenuMaker\SolutionContextMenu.cs" />
     <Compile Include="ViewModel\ContextMenu\DeleteFolder.cs" />
+    <Compile Include="ViewModel\ContextMenu\NewErlFile.cs" />
     <Compile Include="ViewModel\ContextMenu\NewFolder.cs" />
+    <Compile Include="ViewModel\ContextMenu\RemoveFolder.cs" />
+    <Compile Include="ViewModel\ContextMenu\RenameFolder.cs" />
     <Compile Include="ViewModel\ContextOperationVM.cs" />
     <Compile Include="ViewModel\ItemVM.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
@@ -173,6 +179,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="ContextHelper\" />
     <Folder Include="Import\Telerik\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
