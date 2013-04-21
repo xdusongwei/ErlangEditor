@@ -51,7 +51,7 @@ namespace ErlangEditor.ViewModel.ContextMenu
                 {
                     if (itm.Entity.Parent is ProjectEntity)
                     {
-                        if ((itm.Entity.Parent as ProjectEntity).Children.Except(new FileEntity[] { itm.Entity }).Any(x => x.Name == aNewFolderName))
+                        if ((itm.Entity.Parent as ProjectEntity).Children.Except(new FileEntity[] { itm.Entity }).Any(x => x.IsFolder && x.Name == aNewFolderName))
                         {
                             if (VM is ProjectVM)
                             {
@@ -69,7 +69,7 @@ namespace ErlangEditor.ViewModel.ContextMenu
                     }
                     else if (itm.Entity.Parent is FileEntity)
                     {
-                        if ((itm.Entity.Parent as FileEntity).Children.Except(new FileEntity[] { itm.Entity }).Any(x => x.Name == aNewFolderName))
+                        if ((itm.Entity.Parent as FileEntity).Children.Except(new FileEntity[] { itm.Entity }).Any(x => x.IsFolder && x.Name == aNewFolderName))
                         {
                             if (VM is ProjectVM)
                             {
@@ -95,21 +95,20 @@ namespace ErlangEditor.ViewModel.ContextMenu
                         Directory.CreateDirectory(dirPath);
                     }
                     App.ViewModel.SaveSolutionFile();
-                    SortChildItem(VM);
+                    SortChildItem();
                     VM = null;
                 }
             }
         }
 
-        private static void SortChildItem(object aVM)
+        private static void SortChildItem()
         {
-            dynamic parent = aVM;
+            dynamic parent = VM;
             var sorted = new List<ItemVM>(parent.Children);
             sorted.Sort();
             parent.Children.Clear();
             foreach (var i in sorted)
                 parent.Children.Add(i);
         }
-
     }
 }

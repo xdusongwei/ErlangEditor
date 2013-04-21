@@ -81,19 +81,26 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Template\TemplateConstant.cs" />
     <Compile Include="ViewModel\ContextMenuMaker\ItemContextMenu.cs" />
     <Compile Include="ViewModel\ContextMenuMaker\ProjectContextMenu.cs" />
     <Compile Include="ViewModel\ContextMenuMaker\SolutionContextMenu.cs" />
+    <Compile Include="ViewModel\ContextMenu\DeleteFile.cs" />
     <Compile Include="ViewModel\ContextMenu\DeleteFolder.cs" />
     <Compile Include="ViewModel\ContextMenu\NewErlFile.cs" />
     <Compile Include="ViewModel\ContextMenu\NewFolder.cs" />
+    <Compile Include="ViewModel\ContextMenu\RemoveFile.cs" />
     <Compile Include="ViewModel\ContextMenu\RemoveFolder.cs" />
+    <Compile Include="ViewModel\ContextMenu\RenameFile.cs" />
     <Compile Include="ViewModel\ContextMenu\RenameFolder.cs" />
     <Compile Include="ViewModel\ContextOperationVM.cs" />
     <Compile Include="ViewModel\ItemVM.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ProjectVM.cs" />
     <Compile Include="ViewModel\SolutionVM.cs" />
+    <Compile Include="Windows\NewCodeFile.xaml.cs">
+      <DependentUpon>NewCodeFile.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\NewProject.xaml.cs">
       <DependentUpon>NewProject.xaml</DependentUpon>
     </Compile>
@@ -112,6 +119,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Windows\NewCodeFile.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\NewProject.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

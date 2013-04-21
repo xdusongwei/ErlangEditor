@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Collections.ObjectModel;
 using Telerik.Windows.Controls;
+using Telerik.Windows;
 using ErlangEditor.ViewModel.ContextMenu;
 
 namespace ErlangEditor.ViewModel.ContextMenuMaker
@@ -12,11 +13,12 @@ namespace ErlangEditor.ViewModel.ContextMenuMaker
     {
         public static void MakeMenu(ObservableCollection<RadMenuItem> aContextMenuContainer)
         {
+            aContextMenuContainer.Clear();
             var isFolder = (App.ViewModel.SelectVMItem as ItemVM).IsFolder;
             if (isFolder)
             {
-                aContextMenuContainer.Clear();
                 var newItem = new RadMenuItem { Header = "添加新Erlang代码文件" };
+                newItem.Click += NewErlFile.Click;
                 var newItem2 = new RadMenuItem { Header = "添加新Hrl代码文件" };
                 var newItem3 = new RadMenuItem { Header = "添加新的其他文件" };
                 var existItem = new RadMenuItem { Header = "添加现有Erlang代码文件" };
@@ -28,26 +30,13 @@ namespace ErlangEditor.ViewModel.ContextMenuMaker
                 aContextMenuContainer.Add(new RadMenuItem { Header = "添加", ItemsSource = new ObservableCollection<RadMenuItem>(addChildren) });
             }
             var rename = new RadMenuItem { Header = "重命名" };
-            if (isFolder)
-            {
-                rename.Click += RenameFolder.Click;
-            }
+            rename.Click += isFolder ? new RadRoutedEventHandler(RenameFolder.Click) : new RadRoutedEventHandler(RenameFile.Click);
             aContextMenuContainer.Add(rename);
             var remove = new RadMenuItem { Header = "排除" };
-            if (isFolder)
-            {
-                remove.Click += RemoveFolder.Click;
-            }
+            remove.Click += isFolder ? new RadRoutedEventHandler(RemoveFolder.Click) : new RadRoutedEventHandler(RemoveFile.Click);
             aContextMenuContainer.Add(remove);
             var delete = new RadMenuItem { Header = "删除" };
-            if (isFolder)
-            {
-                delete.Click += DeleteFolder.Click;
-            }
-            else
-            {
-
-            }
+            delete.Click += isFolder ? new RadRoutedEventHandler(DeleteFolder.Click) : new RadRoutedEventHandler(DeleteFile.Click);
             aContextMenuContainer.Add(delete);
         }
     }

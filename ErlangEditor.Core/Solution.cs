@@ -50,6 +50,8 @@ namespace ErlangEditor.Core
 
         public void CreateCodeFile(FileEntity aEntity, Dictionary<string, string> aMacro , string aTemplatePath)
         {
+            if (File.Exists(GetFullPath(aEntity)))
+                throw new Exception("文件已经存在");
             using (StreamReader sr = new StreamReader(aTemplatePath))
             {
                 string codeTemplate = sr.ReadToEnd();

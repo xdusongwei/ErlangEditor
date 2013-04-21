@@ -1,0 +1,61 @@
+﻿<Window x:Class="ErlangEditor.Windows.NewCodeFile"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+        Title="新代码文件" Height="203" Width="283" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="0.5*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <TextBlock
+            Grid.Column="0" Grid.Row="0"
+            VerticalAlignment= "Center"
+            HorizontalAlignment="Right">
+            名称:
+        </TextBlock>
+        <TextBox
+            Grid.Column="1" Grid.Row="0" 
+            Margin="6"
+            VerticalAlignment="Center"
+            Text="{Binding Name, Mode=TwoWay}"/>
+        <TextBlock
+            Grid.Column="0" Grid.Row="1"
+            VerticalAlignment= "Center"
+            HorizontalAlignment="Right">
+            导出函数:
+        </TextBlock>
+        <CheckBox
+            Grid.Column="1" Grid.Row="1"
+            Margin="6"
+            VerticalAlignment="Center" 
+            IsChecked="{Binding ExportAll, Mode=TwoWay}">
+            全部
+        </CheckBox>
+        <TextBlock
+            Grid.Column="0" Grid.Row="2"
+            VerticalAlignment= "Center"
+            HorizontalAlignment="Right">
+            导入函数:
+        </TextBlock>
+        <TextBox
+            Grid.Column="1" Grid.Row="2"
+            Margin="6"
+            VerticalAlignment="Center" 
+            Text="{Binding Import, Mode=TwoWay}"/>
+        <telerik:RadButton
+            Grid.Column="1" Grid.Row="3"
+            Margin="6"
+            HorizontalAlignment="Right"
+            Height="26" Width="100" Click="Create_Click">
+            创建
+        </telerik:RadButton>
+    </Grid>
+</Window>

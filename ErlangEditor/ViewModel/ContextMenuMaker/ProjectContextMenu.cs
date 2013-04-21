@@ -14,6 +14,7 @@ namespace ErlangEditor.ViewModel.ContextMenuMaker
         {
             aContextMenuContainer.Clear();
             var newItem = new RadMenuItem { Header = "添加新Erlang代码文件" };
+            newItem.Click += NewErlFile.Click;
             var newItem2 = new RadMenuItem { Header = "添加新Hrl代码文件" };
             var newItem3 = new RadMenuItem { Header = "添加新的其他文件" };
             var existItem = new RadMenuItem { Header = "添加现有Erlang代码文件" };

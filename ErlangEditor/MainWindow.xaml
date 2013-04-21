@@ -4,7 +4,7 @@
         xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
         xmlns:ae ="http://icsharpcode.net/sharpdevelop/avalonedit"
         xmlns:vm="clr-namespace:ErlangEditor.ViewModel"
-        Title="ErlangEditor" Height="400" Width="800">
+        Title="ErlangEditor" Height="400" Width="800" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         
     </Window.Resources>

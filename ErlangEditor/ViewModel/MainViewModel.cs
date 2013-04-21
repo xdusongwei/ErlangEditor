@@ -12,6 +12,7 @@ using Telerik.Windows.Controls;
 using ErlangEditor.ViewModel.ContextMenu;
 using ErlangEditor.Core.Entity;
 using ErlangEditor.ViewModel.ContextMenuMaker;
+using ErlangEditor.Template;
 
 namespace ErlangEditor.ViewModel
 {
@@ -42,7 +43,7 @@ namespace ErlangEditor.ViewModel
         {
             var macro = new StdProcessTemplate(aName, true, string.Empty, string.Empty).Macro;
             CurrentSolutions.Clear();
-            CurrentSolutions.Add(new SolutionVM(Solution.CreateSolution(aName, aPath, aCompilerPath, aShellPath, macro, "Template\\module.erl")));
+            CurrentSolutions.Add(new SolutionVM(Solution.CreateSolution(aName, aPath, aCompilerPath, aShellPath, macro, TemplateConstant.StdModuleTemplateFilePath)));
         }
 
         public void SaveSolution()
@@ -100,10 +101,10 @@ namespace ErlangEditor.ViewModel
             set;
         }
 
-        private Solution Solution
+        public Solution Solution
         {
             get;
-            set;
+            private set;
         }
 
         private ObservableCollection<RadMenuItem> contextOperations_ = new ObservableCollection<RadMenuItem>();
@@ -165,7 +166,8 @@ namespace ErlangEditor.ViewModel
                 }
                 else
                 {
-
+                    if (ContextOperation == ContextOperationTypeEnum.Rename)
+                        RenameFile.Commit(aVM, aNewItemName);
                 }
             }
             
