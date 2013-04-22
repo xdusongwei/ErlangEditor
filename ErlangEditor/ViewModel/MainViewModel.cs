@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using System.ComponentModel;
 using ErlangEditor.Core;
-using ErlangEditor.Template;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using Telerik.Windows.Controls.Navigation;
-using Telerik.Windows.Controls;
-using ErlangEditor.ViewModel.ContextMenu;
 using ErlangEditor.Core.Entity;
-using ErlangEditor.ViewModel.ContextMenuMaker;
 using ErlangEditor.Template;
+using ErlangEditor.ViewModel.ContextMenu;
+using ErlangEditor.ViewModel.ContextMenuMaker;
+using Telerik.Windows.Controls;
+using Telerik.Windows.Controls.Navigation;
 
 namespace ErlangEditor.ViewModel
 {
@@ -143,8 +142,23 @@ namespace ErlangEditor.ViewModel
             set;
         }
         #endregion
-        
 
+        #region 文件的操作
+        public void OpenFile(ItemVM aItemVM)
+        {
+
+        }
+
+        public void CloseFile(ItemVM aItemVM)
+        {
+
+        }
+
+        public void SaveFile(ItemVM aItemVM)
+        {
+
+        }
+        #endregion
         public void CommitItemAddOrUpdate(object aVM , string aNewItemName)
         {
             if (aVM is SolutionVM)

@@ -87,6 +87,9 @@
     <Compile Include="ViewModel\ContextMenuMaker\SolutionContextMenu.cs" />
     <Compile Include="ViewModel\ContextMenu\DeleteFile.cs" />
     <Compile Include="ViewModel\ContextMenu\DeleteFolder.cs" />
+    <Compile Include="ViewModel\ContextMenu\ExistsErlFile.cs" />
+    <Compile Include="ViewModel\ContextMenu\ExistsFile.cs" />
+    <Compile Include="ViewModel\ContextMenu\ExistsHrlFile.cs" />
     <Compile Include="ViewModel\ContextMenu\NewErlFile.cs" />
     <Compile Include="ViewModel\ContextMenu\NewFolder.cs" />
     <Compile Include="ViewModel\ContextMenu\RemoveFile.cs" />

@@ -45,16 +45,7 @@ namespace ErlangEditor.ViewModel.ContextMenu
                 {
                     if ((itm.Entity.Parent as ProjectEntity).Children.Except(new FileEntity[] { itm.Entity }).Any(x => x.IsFolder && x.Name == aNewFolderName))
                     {
-                        if (VM is ProjectVM)
-                        {
-                            (itm.Entity.Parent as ProjectEntity).Children.Remove(itm.Entity);
-                            (VM as ProjectVM).Children.Remove(itm);
-                        }
-                        else if (VM is ItemVM)
-                        {
-                            (itm.Entity.Parent as FileEntity).Children.Remove(itm.Entity);
-                            (VM as ItemVM).Children.Remove(itm);
-                        }
+                        itm.Name = Name;
                         VM = null;
                         throw new Exception("文件夹已经存在");
                     }
@@ -63,16 +54,7 @@ namespace ErlangEditor.ViewModel.ContextMenu
                 {
                     if ((itm.Entity.Parent as FileEntity).Children.Except(new FileEntity[] { itm.Entity }).Any(x => x.IsFolder && x.Name == aNewFolderName))
                     {
-                        if (VM is ProjectVM)
-                        {
-                            (itm.Entity.Parent as ProjectEntity).Children.Remove(itm.Entity);
-                            (VM as ProjectVM).Children.Remove(itm);
-                        }
-                        else if (VM is ItemVM)
-                        {
-                            (itm.Entity.Parent as FileEntity).Children.Remove(itm.Entity);
-                            (VM as ItemVM).Children.Remove(itm);
-                        }
+                        itm.Name = Name;
                         VM = null;
                         throw new Exception("文件夹已经存在");
                     }

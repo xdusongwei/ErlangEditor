@@ -45,16 +45,7 @@ namespace ErlangEditor.ViewModel.ContextMenu
                 {
                     if ((itm.Entity.Parent as ProjectEntity).Children.Except(new FileEntity[] { itm.Entity }).Any(x => x.IsFolder && x.Name == aNewFileName))
                     {
-                        if (VM is ProjectVM)
-                        {
-                            (itm.Entity.Parent as ProjectEntity).Children.Remove(itm.Entity);
-                            (VM as ProjectVM).Children.Remove(itm);
-                        }
-                        else if (VM is ItemVM)
-                        {
-                            (itm.Entity.Parent as FileEntity).Children.Remove(itm.Entity);
-                            (VM as ItemVM).Children.Remove(itm);
-                        }
+                        itm.Name = Name;
                         VM = null;
                         throw new Exception("文件已经存在");
                     }
@@ -63,16 +54,7 @@ namespace ErlangEditor.ViewModel.ContextMenu
                 {
                     if ((itm.Entity.Parent as FileEntity).Children.Except(new FileEntity[] { itm.Entity }).Any(x => x.IsFolder && x.Name == aNewFileName))
                     {
-                        if (VM is ProjectVM)
-                        {
-                            (itm.Entity.Parent as ProjectEntity).Children.Remove(itm.Entity);
-                            (VM as ProjectVM).Children.Remove(itm);
-                        }
-                        else if (VM is ItemVM)
-                        {
-                            (itm.Entity.Parent as FileEntity).Children.Remove(itm.Entity);
-                            (VM as ItemVM).Children.Remove(itm);
-                        }
+                        itm.Name = Name;
                         VM = null;
                         throw new Exception("文件已经存在");
                     }
@@ -90,19 +72,19 @@ namespace ErlangEditor.ViewModel.ContextMenu
                     {
                         File.Move(oldPath, dirPath);
                     }
+                    else
+                    {
+                        throw new Exception("文件已经存在");
+                    }
+                    App.ViewModel.Solution.SaveFile(itm.Entity);
                 }
                 catch (Exception ep)
                 {
-                    if (!ep.Message.Contains("未能找到"))
-                    {
-                        itm.Name = Name;
-                        itm.Entity.Path = Name;
-                        throw ep;
-                    }
-                    else
-                    {
-                        App.ViewModel.Solution.SaveFile(itm.Entity);
-                    }
+                    itm.Name = Name;
+                    itm.Entity.Path = Name;
+                    App.ViewModel.Solution.SaveFile(itm.Entity);
+                    VM = null;
+                    throw ep;
                 }
                 App.ViewModel.SaveSolutionFile();
                 SortChildItem();
