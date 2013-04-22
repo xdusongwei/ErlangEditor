@@ -62,7 +62,7 @@ namespace ErlangEditor.Core
                 if (dictCode_.ContainsKey(aEntity))
                     dictCode_.Remove(aEntity);
                 aEntity.Modified = true;
-                dictCode_.Add(aEntity, new CodeEntity { Content = codeTemplate });
+                dictCode_.Add(aEntity, new CodeEntity { Content = codeTemplate.Trim() });
             }
         }
 

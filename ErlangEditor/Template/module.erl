@@ -1,4 +1,4 @@
--module(%_FILENAME_%).
+%_MODULE_NAME_%
 %_EXPORTALL_%
 %_EXPORT_%
 %_IMPORT_%

@@ -26,6 +26,7 @@ namespace ErlangEditor.Windows
             bindingSource.Name = "myModule.erl";
             bindingSource.ExportAll = false;
             bindingSource.Import = "[]";
+            bindingSource.IsModule = true;
             DataContext = bindingSource;
         }
 

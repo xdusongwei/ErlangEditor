@@ -40,7 +40,7 @@ namespace ErlangEditor.ViewModel
             string aShellPath
             )
         {
-            var macro = new StdProcessTemplate(aName, true, string.Empty, string.Empty).Macro;
+            var macro = new StdProcessTemplate(aName, true, string.Empty, string.Empty , true).Macro;
             CurrentSolutions.Clear();
             CurrentSolutions.Add(new SolutionVM(Solution.CreateSolution(aName, aPath, aCompilerPath, aShellPath, macro, TemplateConstant.StdModuleTemplateFilePath)));
         }

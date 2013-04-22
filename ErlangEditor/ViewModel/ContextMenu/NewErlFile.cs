@@ -49,7 +49,7 @@ namespace ErlangEditor.ViewModel.ContextMenu
                     }
                     var vm = new ItemVM(entity);
                     var path = App.ViewModel.GetVMFilePath(vm);
-                    var macro = new StdProcessTemplate(entity.Name, result.ExportAll, string.Format("-import({0}).", result.Import), "-export([start/0]).").Macro;
+                    var macro = new StdProcessTemplate(entity.Name, result.ExportAll, string.Format("-import({0}).", result.Import), "-export([start/0]).", result.IsModule).Macro;
                     App.ViewModel.Solution.CreateCodeFile(entity, macro, TemplateConstant.StdModuleTemplateFilePath);
                     (App.ViewModel.SelectVMItem as dynamic).Entity.Children.Add(entity);
                     (App.ViewModel.SelectVMItem as dynamic).Children.Add(vm);

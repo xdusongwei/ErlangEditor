@@ -7,7 +7,7 @@ namespace ErlangEditor.Template
 {
     public class StdProcessTemplate
     {
-        private static readonly string constantModuleNameMacro = "%_FILENAME_%";
+        private static readonly string constantModuleNameMacro = "%_MODULE_NAME_%";
         private static readonly string constantExportAllMacro = "%_EXPORTALL_%";
         private static readonly string constantExportMacro = "%_EXPORT_%";
         private static readonly string constantImportMacro = "%_IMPORT_%";
@@ -20,7 +20,7 @@ namespace ErlangEditor.Template
             { return macro_; }
         }
 
-        public StdProcessTemplate(string aModuleName, bool aIsExportAll, string aImport, string aExport)
+        public StdProcessTemplate(string aModuleName, bool aIsExportAll, string aImport, string aExport ,bool aIsModule)
         {
             if (aIsExportAll)
             {
@@ -32,7 +32,14 @@ namespace ErlangEditor.Template
                 macro_.Add(constantExportAllMacro, string.Empty);
                 macro_.Add(constantExportMacro, aExport);
             }
-            macro_.Add(constantModuleNameMacro, aModuleName);
+            if (aIsModule)
+            {
+                macro_.Add(constantModuleNameMacro, string.Format("-module({0}).", aModuleName));
+            }
+            else
+            {
+                macro_.Add(constantModuleNameMacro, string.Empty);
+            }
             macro_.Add(constantImportMacro, aImport);
         }
     }
