@@ -123,7 +123,7 @@ namespace ErlangEditor.ViewModel
             }
         }
 
-        //下面这三个属性是上下文菜单有关的
+        //下面这4个属性是上下文菜单有关的
         public object SelectVMItem
         {
             get;
@@ -137,6 +137,12 @@ namespace ErlangEditor.ViewModel
         }
 
         public ContextOperationTypeEnum ContextOperation
+        {
+            get;
+            set;
+        }
+
+        public Action<object, string> CommitItemNameAction
         {
             get;
             set;
@@ -161,29 +167,30 @@ namespace ErlangEditor.ViewModel
         #endregion
         public void CommitItemAddOrUpdate(object aVM , string aNewItemName)
         {
-            if (aVM is SolutionVM)
-            {
+            CommitItemNameAction(aVM, aNewItemName);
+            //if (aVM is SolutionVM)
+            //{
 
-            }
-            else if (aVM is ProjectVM)
-            {
+            //}
+            //else if (aVM is ProjectVM)
+            //{
 
-            }
-            else if (aVM is ItemVM)
-            {
-                if ((aVM as ItemVM).IsFolder)
-                {
-                    if (ContextOperation == ContextOperationTypeEnum.Add)
-                        NewFolder.Commit(aVM, aNewItemName);
-                    else
-                        RenameFolder.Commit(aVM, aNewItemName);
-                }
-                else
-                {
-                    if (ContextOperation == ContextOperationTypeEnum.Rename)
-                        RenameFile.Commit(aVM, aNewItemName);
-                }
-            }
+            //}
+            //else if (aVM is ItemVM)
+            //{
+            //    if ((aVM as ItemVM).IsFolder)
+            //    {
+            //        if (ContextOperation == ContextOperationTypeEnum.Add)
+            //            NewFolder.Commit(aVM, aNewItemName);
+            //        if (ContextOperation == ContextOperationTypeEnum.Rename)
+            //            RenameFolder.Commit(aVM, aNewItemName);
+            //    }
+            //    else
+            //    {
+            //        if (ContextOperation == ContextOperationTypeEnum.Rename)
+            //            RenameFile.Commit(aVM, aNewItemName);
+            //    }
+            //}
             
         }
 

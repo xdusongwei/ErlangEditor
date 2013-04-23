@@ -72,7 +72,8 @@ namespace ErlangEditor
 
         private void TextBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            CommitItemChange(sender);
+            if((sender as FrameworkElement).Visibility == System.Windows.Visibility.Visible)
+                CommitItemChange(sender);
         }
 
         private void CommitItemChange(object sender)

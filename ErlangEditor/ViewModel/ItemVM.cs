@@ -73,6 +73,7 @@ namespace ErlangEditor.ViewModel
 
         private static readonly ImageSource IconSource =new BitmapImage(new Uri("/Images/Generic_Document.png", UriKind.RelativeOrAbsolute));
         private static readonly ImageSource IconSource2 = new BitmapImage(new Uri("/Images/Stuffed_Folder.png", UriKind.RelativeOrAbsolute));
+        private static readonly ImageSource 
         public ImageSource Icon
         {
             get { return IsFolder ? IconSource2 : IconSource; }
@@ -83,12 +84,6 @@ namespace ErlangEditor.ViewModel
             var evt = PropertyChanged;
             if (evt != null)
                 evt(this, new PropertyChangedEventArgs(aName));
-        }
-
-        public bool IsNewObject
-        {
-            get;
-            set;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

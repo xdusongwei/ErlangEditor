@@ -33,6 +33,7 @@ namespace ErlangEditor.ViewModel.ContextMenu
                 itm.TextBlockVisibility = System.Windows.Visibility.Collapsed;
                 itm.TextBoxVisibility = System.Windows.Visibility.Visible;
             }
+            App.ViewModel.CommitItemNameAction = new Action<object, string>(Commit);
         }
 
         public static void Commit(object aVM, string aNewFileName)
@@ -41,6 +42,9 @@ namespace ErlangEditor.ViewModel.ContextMenu
             if (aVM is ItemVM) 
             {
                 var itm = aVM as ItemVM;
+                itm.TextBoxVisibility = System.Windows.Visibility.Collapsed;
+                itm.TextBlockVisibility = System.Windows.Visibility.Visible;
+                if (itm.Name == aNewFileName) return;
                 if (itm.Entity.Parent is ProjectEntity)
                 {
                     if ((itm.Entity.Parent as ProjectEntity).Children.Except(new FileEntity[] { itm.Entity }).Any(x => x.IsFolder && x.Name == aNewFileName))
@@ -60,8 +64,7 @@ namespace ErlangEditor.ViewModel.ContextMenu
                     }
                 }
 
-                itm.TextBoxVisibility = System.Windows.Visibility.Collapsed;
-                itm.TextBlockVisibility = System.Windows.Visibility.Visible;
+                
                 var oldPath = App.ViewModel.GetVMFilePath(itm);
                 itm.Name = aNewFileName;
                 itm.Entity.Path = aNewFileName;

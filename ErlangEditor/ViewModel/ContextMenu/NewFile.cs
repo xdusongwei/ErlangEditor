@@ -1,17 +1,15 @@
 ﻿using System;
-using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Telerik.Windows;
-using System.Diagnostics;
-using Telerik.Windows.Controls;
 using ErlangEditor.Core.Entity;
-using System.Collections.ObjectModel;
+using System.IO;
+using ErlangEditor.Template;
 
 namespace ErlangEditor.ViewModel.ContextMenu
 {
-    public static class NewFolder
+    public static class NewFile
     {
         private static object VM
         {
@@ -26,7 +24,7 @@ namespace ErlangEditor.ViewModel.ContextMenu
             if (App.ViewModel.SelectVMItem is ProjectVM)
             {
                 var prj = App.ViewModel.SelectVMItem as ProjectVM;
-                var newEntity = new FileEntity { IsFolder = true, Parent = prj.Entity, Name = "NewFolder" };
+                var newEntity = new FileEntity { Compilable = false, Parent = prj.Entity, Name = "新建文件.unknown" };
                 prj.Entity.Children.Add(newEntity);
                 prj.Children.Insert(0, new ItemVM(newEntity) { TextBlockVisibility = System.Windows.Visibility.Hidden, TextBoxVisibility = System.Windows.Visibility.Visible });
                 App.ViewModel.SelectItem.ExpandAll();
@@ -34,7 +32,7 @@ namespace ErlangEditor.ViewModel.ContextMenu
             else if (App.ViewModel.SelectVMItem is ItemVM)
             {
                 var itm = App.ViewModel.SelectVMItem as ItemVM;
-                var newEntity = new FileEntity { IsFolder = true, Parent = itm.Entity, Name = "NewFolder" };
+                var newEntity = new FileEntity { Compilable = false, Parent = itm.Entity, Name = "新建文件.unknown" };
                 itm.Entity.Children.Add(newEntity);
                 itm.Children.Insert(0, new ItemVM(newEntity) { TextBlockVisibility = System.Windows.Visibility.Hidden, TextBoxVisibility = System.Windows.Visibility.Visible });
                 App.ViewModel.SelectItem.ExpandAll();
@@ -42,7 +40,7 @@ namespace ErlangEditor.ViewModel.ContextMenu
             App.ViewModel.CommitItemNameAction = new Action<object, string>(Commit);
         }
 
-        public static void Commit(object aVM  ,string aNewFolderName)
+        public static void Commit(object aVM, string aNewFileName)
         {
             if (VM == null) return;
             if (aVM is ItemVM)
@@ -52,7 +50,7 @@ namespace ErlangEditor.ViewModel.ContextMenu
                 {
                     if (itm.Entity.Parent is ProjectEntity)
                     {
-                        if ((itm.Entity.Parent as ProjectEntity).Children.Except(new FileEntity[] { itm.Entity }).Any(x => x.IsFolder && x.Name == aNewFolderName))
+                        if ((itm.Entity.Parent as ProjectEntity).Children.Except(new FileEntity[] { itm.Entity }).Any(x => !x.IsFolder && x.Name == aNewFileName))
                         {
                             if (VM is ProjectVM)
                             {
@@ -65,12 +63,12 @@ namespace ErlangEditor.ViewModel.ContextMenu
                                 (VM as ItemVM).Children.Remove(itm);
                             }
                             VM = null;
-                            throw new Exception("文件夹已经存在");
+                            throw new Exception("文件已经存在");
                         }
                     }
                     else if (itm.Entity.Parent is FileEntity)
                     {
-                        if ((itm.Entity.Parent as FileEntity).Children.Except(new FileEntity[] { itm.Entity }).Any(x => x.IsFolder && x.Name == aNewFolderName))
+                        if ((itm.Entity.Parent as FileEntity).Children.Except(new FileEntity[] { itm.Entity }).Any(x => !x.IsFolder && x.Name == aNewFileName))
                         {
                             if (VM is ProjectVM)
                             {
@@ -83,17 +81,18 @@ namespace ErlangEditor.ViewModel.ContextMenu
                                 (VM as ItemVM).Children.Remove(itm);
                             }
                             VM = null;
-                            throw new Exception("文件夹已经存在");
+                            throw new Exception("文件已经存在");
                         }
                     }
                     itm.TextBoxVisibility = System.Windows.Visibility.Collapsed;
                     itm.TextBlockVisibility = System.Windows.Visibility.Visible;
-                    itm.Name = aNewFolderName;
-                    itm.Entity.Path = aNewFolderName + "\\";
+                    itm.Name = aNewFileName;
+                    itm.Entity.Path = aNewFileName;
                     var dirPath = App.ViewModel.GetVMFilePath(itm);
-                    if (!Directory.Exists(dirPath))
+                    using (var sw = File.CreateText(dirPath))
                     {
-                        Directory.CreateDirectory(dirPath);
+                        var macro = new NormalTextFileTemplate().Macro;
+                        App.ViewModel.Solution.CreateCodeFile(itm.Entity, macro, TemplateConstant.NormalTextFileTemplateFilePath);
                     }
                     App.ViewModel.SaveSolutionFile();
                     SortChildItem();
@@ -104,7 +103,7 @@ namespace ErlangEditor.ViewModel.ContextMenu
 
         private static void SortChildItem()
         {
-            dynamic parent = VM;
+            dynamic parent = App.ViewModel.SelectVMItem;
             var sorted = new List<ItemVM>(parent.Children);
             sorted.Sort();
             parent.Children.Clear();

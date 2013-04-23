@@ -91,7 +91,9 @@
     <Compile Include="ViewModel\ContextMenu\ExistsFile.cs" />
     <Compile Include="ViewModel\ContextMenu\ExistsHrlFile.cs" />
     <Compile Include="ViewModel\ContextMenu\NewErlFile.cs" />
+    <Compile Include="ViewModel\ContextMenu\NewFile.cs" />
     <Compile Include="ViewModel\ContextMenu\NewFolder.cs" />
+    <Compile Include="ViewModel\ContextMenu\NewHrlFile.cs" />
     <Compile Include="ViewModel\ContextMenu\RemoveFile.cs" />
     <Compile Include="ViewModel\ContextMenu\RemoveFolder.cs" />
     <Compile Include="ViewModel\ContextMenu\RenameFile.cs" />
@@ -163,6 +165,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Template\NormalText.txt" />
     <Resource Include="Images\Gear.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
@@ -175,8 +178,8 @@
     <Resource Include="Images\Stuffed_Folder.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Images\erlang-logo.png" />
     <Content Include="Import\ICSharpCode.AvalonEdit.dll" />
-    <Content Include="Import\Newtonsoft.Json.dll" />
     <Content Include="Import\Telerik.Windows.Controls.Data.dll" />
     <Content Include="Import\Telerik.Windows.Controls.Docking.dll" />
     <Content Include="Import\Telerik.Windows.Controls.GridView.dll" />
