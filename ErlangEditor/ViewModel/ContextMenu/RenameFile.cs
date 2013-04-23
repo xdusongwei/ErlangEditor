@@ -26,7 +26,6 @@ namespace ErlangEditor.ViewModel.ContextMenu
         {
             VM = App.ViewModel.SelectVMItem;
             Name = (App.ViewModel.SelectVMItem as dynamic).Name;
-            App.ViewModel.ContextOperation = MainViewModel.ContextOperationTypeEnum.Rename;
             if (App.ViewModel.SelectVMItem is ItemVM)
             {
                 var itm = App.ViewModel.SelectVMItem as ItemVM;

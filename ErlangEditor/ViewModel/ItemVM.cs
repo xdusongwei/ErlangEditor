@@ -73,10 +73,10 @@ namespace ErlangEditor.ViewModel
 
         private static readonly ImageSource IconSource =new BitmapImage(new Uri("/Images/Generic_Document.png", UriKind.RelativeOrAbsolute));
         private static readonly ImageSource IconSource2 = new BitmapImage(new Uri("/Images/Stuffed_Folder.png", UriKind.RelativeOrAbsolute));
-        private static readonly ImageSource 
+        private static readonly ImageSource IconSource3 = new BitmapImage(new Uri("/Images/erlang-logo.png", UriKind.RelativeOrAbsolute));
         public ImageSource Icon
         {
-            get { return IsFolder ? IconSource2 : IconSource; }
+            get { return IsFolder ? IconSource2 : entity_.Compilable? IconSource3: IconSource; }
         }
 
         private void NotifyPropertyChanged(string aName)

@@ -4,7 +4,7 @@
         xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
         xmlns:ae ="http://icsharpcode.net/sharpdevelop/avalonedit"
         xmlns:vm="clr-namespace:ErlangEditor.ViewModel"
-        Title="ErlangEditor" Height="400" Width="800" WindowStartupLocation="CenterScreen">
+        Title="ErlangEditor" Height="400" Width="891" WindowStartupLocation="CenterScreen" WindowState="Maximized">
     <Window.Resources>
         
     </Window.Resources>
@@ -34,27 +34,29 @@
         <telerik:RadDocking Grid.Row="1">
             <telerik:RadDocking.DocumentHost>
                 <telerik:RadSplitContainer>
-                    <telerik:RadPaneGroup>
-                        <telerik:RadPane Header="代码1.erl">
-                            <Grid>
-                                <ae:TextEditor SyntaxHighlighting="C#"/>
-                            </Grid>
-                        </telerik:RadPane>
-                        <telerik:RadPane Header="代码2.erl" CanFloat="False" CanUserClose="False">
-                        </telerik:RadPane>
+                    <telerik:RadPaneGroup ItemsSource="{Binding OpenedFiles}">
+                        <telerik:RadPaneGroup.ItemTemplate>
+                            <DataTemplate>
+                                <telerik:RadPane Header="{Binding BarText}">
+                                    <Grid>
+                                        <ae:TextEditor SyntaxHighlighting="C#" Text="Code" />
+                                    </Grid>
+                                </telerik:RadPane>
+                            </DataTemplate>
+                        </telerik:RadPaneGroup.ItemTemplate>
                     </telerik:RadPaneGroup>
                 </telerik:RadSplitContainer>
             </telerik:RadDocking.DocumentHost>
             <telerik:RadSplitContainer InitialPosition="DockedLeft">
                 <telerik:RadPaneGroup>
-                    <telerik:RadPane Header="节点管理器"/>
+                    <telerik:RadPane Header="节点管理器" CanUserClose="False"/>
                 </telerik:RadPaneGroup>
             </telerik:RadSplitContainer>
 
             <telerik:RadSplitContainer InitialPosition="DockedRight">
                 <telerik:RadPaneGroup>
-                    <telerik:RadPane Header="解决方案浏览器">
-                        <telerik:RadTreeView ItemsSource="{Binding CurrentSolutions}" >
+                    <telerik:RadPane Header="解决方案浏览器" CanUserClose="False">
+                        <telerik:RadTreeView ItemsSource="{Binding CurrentSolutions}" MouseDoubleClick="RadTreeView_MouseDoubleClick" Name="rtvSolution">
                             <telerik:RadTreeView.ItemTemplate>
                                 <HierarchicalDataTemplate ItemsSource="{Binding Path=Children}">
                                     <StackPanel Orientation="Horizontal" Height="22" Margin="2">
@@ -78,14 +80,13 @@
                             </telerik:RadContextMenu.ContextMenu>
                         </telerik:RadTreeView>
                     </telerik:RadPane>
-                    <telerik:RadPane Header="属性"/>
                 </telerik:RadPaneGroup>
             </telerik:RadSplitContainer>
 
             <telerik:RadSplitContainer InitialPosition="DockedBottom">
                 <telerik:RadPaneGroup>
-                    <telerik:RadPane Header="输出"/>
-                    <telerik:RadPane Header="错误列表"/>
+                    <telerik:RadPane Header="输出" CanUserClose="False"/>
+                    <telerik:RadPane Header="错误列表" CanUserClose="False"/>
                 </telerik:RadPaneGroup>
             </telerik:RadSplitContainer>
         </telerik:RadDocking>

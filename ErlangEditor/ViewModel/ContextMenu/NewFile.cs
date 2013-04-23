@@ -20,7 +20,6 @@ namespace ErlangEditor.ViewModel.ContextMenu
         public static void Click(object sender, RadRoutedEventArgs e)
         {
             VM = App.ViewModel.SelectVMItem;
-            App.ViewModel.ContextOperation = MainViewModel.ContextOperationTypeEnum.Add;
             if (App.ViewModel.SelectVMItem is ProjectVM)
             {
                 var prj = App.ViewModel.SelectVMItem as ProjectVM;

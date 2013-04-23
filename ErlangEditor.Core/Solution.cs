@@ -115,12 +115,33 @@ namespace ErlangEditor.Core
         {
             var path = GetFullPath(aFile);
             aFile.Modified = false;
-            Debug.WriteLine("Save file path " + path);
             using (StreamWriter sw = new StreamWriter(path))
             {
                 if(dictCode_.ContainsKey(aFile))
                     sw.Write(dictCode_[aFile].Content);
             }
+        }
+
+        public void OpenFile(FileEntity aFile)
+        {
+            if (!dictCode_.ContainsKey(aFile))
+            {
+                using (StreamReader sr = new StreamReader(GetFullPath(aFile)))
+                {
+                    var code = sr.ReadToEnd();
+                    if (dictCode_.ContainsKey(aFile))
+                        dictCode_.Remove(aFile);
+                    aFile.Modified = true;
+                    dictCode_.Add(aFile, new CodeEntity { Content = code });
+                }
+            }
+        }
+
+        public void CloseFile(FileEntity aFile)
+        {
+            if (aFile.Modified)
+                SaveFile(aFile);
+            dictCode_.Remove(aFile);
         }
 
         public string GetFullPath(object aNode)

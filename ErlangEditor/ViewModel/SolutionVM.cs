@@ -48,8 +48,6 @@ namespace ErlangEditor.ViewModel
         public static readonly DependencyProperty TextBlockVisibilityProperty =
             DependencyProperty.Register("TextBlockVisibility", typeof(Visibility), typeof(SolutionVM), new UIPropertyMetadata(Visibility.Visible));
 
-
-
         public Visibility TextBoxVisibility
         {
             get { return (Visibility)GetValue(TextBoxVisibilityProperty); }

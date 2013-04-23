@@ -20,7 +20,7 @@ namespace ErlangEditor.ViewModel.ContextMenuMaker
                 var newItem = new RadMenuItem { Header = "添加新Erlang代码文件" };
                 newItem.Click += NewErlFile.Click;
                 var newItem2 = new RadMenuItem { Header = "添加新Hrl代码文件" };
-
+                newItem2.Click += NewHrlFile.Click;
                 var newItem3 = new RadMenuItem { Header = "添加新的其他文件" };
                 newItem3.Click += NewFile.Click;
                 var sep = new RadMenuItem { IsSeparator = true };

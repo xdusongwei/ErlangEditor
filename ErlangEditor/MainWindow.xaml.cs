@@ -110,5 +110,15 @@ namespace ErlangEditor
                 (sender as TextBox).Focus();
             }
         }
+
+        private void RadTreeView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var vm = (sender as RadTreeView).SelectedItem as ItemVM;
+            if (vm == null) return;
+            if (!vm.IsFolder)
+            {
+                App.ViewModel.OpenFile(vm);
+            }
+        }
     }
 }

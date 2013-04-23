@@ -78,6 +78,20 @@ namespace ErlangEditor.ViewModel
         #endregion
 
         #region Property
+        private ObservableCollection<OpenedFileVM> openedFiles_ = new ObservableCollection<OpenedFileVM>();
+        public ObservableCollection<OpenedFileVM> OpenedFiles
+        {
+            get
+            {
+                return openedFiles_;
+            }
+            set
+            {
+                openedFiles_ = value;
+                NotifyPropertyChanged("OpenedFiles");
+            }
+        }
+
         private ObservableCollection<SolutionVM> currentSolutions_ = new ObservableCollection<SolutionVM>();
         public ObservableCollection<SolutionVM> CurrentSolutions
         {
@@ -136,11 +150,11 @@ namespace ErlangEditor.ViewModel
             private set;
         }
 
-        public ContextOperationTypeEnum ContextOperation
-        {
-            get;
-            set;
-        }
+        //public ContextOperationTypeEnum ContextOperation
+        //{
+        //    get;
+        //    set;
+        //}
 
         public Action<object, string> CommitItemNameAction
         {
@@ -152,46 +166,25 @@ namespace ErlangEditor.ViewModel
         #region 文件的操作
         public void OpenFile(ItemVM aItemVM)
         {
-
+            Solution.OpenFile(aItemVM.Entity);
+            OpenedFiles.Add(new OpenedFileVM(aItemVM.Entity));
         }
 
-        public void CloseFile(ItemVM aItemVM)
+        public void CloseFile(OpenedFileVM aItemVM)
         {
-
+            Solution.CloseFile(aItemVM.Entity);
+            OpenedFiles.Remove(aItemVM);
         }
 
-        public void SaveFile(ItemVM aItemVM)
+        public void SaveFile(OpenedFileVM aItemVM)
         {
-
+            Solution.SaveFile(aItemVM.Entity);
+            aItemVM.Modified = aItemVM.Modified;
         }
         #endregion
         public void CommitItemAddOrUpdate(object aVM , string aNewItemName)
         {
             CommitItemNameAction(aVM, aNewItemName);
-            //if (aVM is SolutionVM)
-            //{
-
-            //}
-            //else if (aVM is ProjectVM)
-            //{
-
-            //}
-            //else if (aVM is ItemVM)
-            //{
-            //    if ((aVM as ItemVM).IsFolder)
-            //    {
-            //        if (ContextOperation == ContextOperationTypeEnum.Add)
-            //            NewFolder.Commit(aVM, aNewItemName);
-            //        if (ContextOperation == ContextOperationTypeEnum.Rename)
-            //            RenameFolder.Commit(aVM, aNewItemName);
-            //    }
-            //    else
-            //    {
-            //        if (ContextOperation == ContextOperationTypeEnum.Rename)
-            //            RenameFile.Commit(aVM, aNewItemName);
-            //    }
-            //}
-            
         }
 
         public void UpdateContextOperationMenu(RadTreeViewItem aSelectItem)
@@ -227,10 +220,6 @@ namespace ErlangEditor.ViewModel
             dynamic dyVM = aVM;
             return Solution.GetFullPath(dyVM.Entity);
         }
-
-        #region Enum Types
-        public enum ContextOperationTypeEnum { Add, Rename };
-        #endregion
 
         #region All about INotifyPropertyChanged
         private void NotifyPropertyChanged(string aName)
