@@ -16,6 +16,8 @@ using Microsoft.Win32;
 using Telerik.Windows.Controls;
 using System.Diagnostics;
 using ErlangEditor.ViewModel;
+using ICSharpCode.AvalonEdit.Document;
+using ICSharpCode.AvalonEdit;
 
 namespace ErlangEditor
 {
@@ -118,6 +120,11 @@ namespace ErlangEditor
             if (!vm.IsFolder)
             {
                 App.ViewModel.OpenFile(vm);
+                var rp = new RadPane();
+                rp.SetBinding(RadPane.HeaderProperty, new Binding("Name") { Source = vm });
+                var editor = new TextEditor();
+                rp.Content = editor;
+                rpContent.Items.Add(rp);
             }
         }
     }

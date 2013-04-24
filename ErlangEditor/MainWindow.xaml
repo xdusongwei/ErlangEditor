@@ -34,16 +34,7 @@
         <telerik:RadDocking Grid.Row="1">
             <telerik:RadDocking.DocumentHost>
                 <telerik:RadSplitContainer>
-                    <telerik:RadPaneGroup ItemsSource="{Binding OpenedFiles}">
-                        <telerik:RadPaneGroup.ItemTemplate>
-                            <DataTemplate>
-                                <telerik:RadPane Header="{Binding BarText}">
-                                    <Grid>
-                                        <ae:TextEditor SyntaxHighlighting="C#" Text="Code" />
-                                    </Grid>
-                                </telerik:RadPane>
-                            </DataTemplate>
-                        </telerik:RadPaneGroup.ItemTemplate>
+                    <telerik:RadPaneGroup Name="rpContent">
                     </telerik:RadPaneGroup>
                 </telerik:RadSplitContainer>
             </telerik:RadDocking.DocumentHost>
