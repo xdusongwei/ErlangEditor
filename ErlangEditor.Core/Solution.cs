@@ -36,7 +36,8 @@ namespace ErlangEditor.Core
             var file = new FileEntity
             {
                 Name = aName + EditorConstant.ErlangCodeFileExtentFileType,
-                Path = aName + EditorConstant.ErlangCodeFileExtentFileType
+                Path = aName + EditorConstant.ErlangCodeFileExtentFileType,
+                Compilable = true
             };
             CreateCodeFile(file, aMacro, aTemplatePath);
             sln.StartupProjectName = prj.Name;
@@ -122,7 +123,7 @@ namespace ErlangEditor.Core
             }
         }
 
-        public void OpenFile(FileEntity aFile)
+        public CodeEntity OpenFile(FileEntity aFile)
         {
             if (!dictCode_.ContainsKey(aFile))
             {
@@ -131,10 +132,11 @@ namespace ErlangEditor.Core
                     var code = sr.ReadToEnd();
                     if (dictCode_.ContainsKey(aFile))
                         dictCode_.Remove(aFile);
-                    aFile.Modified = true;
+                    aFile.Modified = false;
                     dictCode_.Add(aFile, new CodeEntity { Content = code });
                 }
             }
+            return dictCode_[aFile];
         }
 
         public void CloseFile(FileEntity aFile)

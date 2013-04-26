@@ -23,7 +23,7 @@ namespace ErlangEditor.Windows
         {
             InitializeComponent();
             dynamic bindingSource = new ExpandoObject();
-            bindingSource.Name = "myModule.erl";
+            bindingSource.Name = "myModule";
             bindingSource.ExportAll = false;
             bindingSource.Import = "[]";
             bindingSource.IsModule = true;

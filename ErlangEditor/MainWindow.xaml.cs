@@ -55,6 +55,8 @@ namespace ErlangEditor
         private void SaveSolution(object sender, Telerik.Windows.RadRoutedEventArgs e)
         {
             App.ViewModel.SaveSolution();
+            foreach (dynamic i in rpContent.Items)
+                i.Tag.Entity.Modified = i.Tag.Entity.Modified;
         }
 
         private void ExitApplication(object sender, Telerik.Windows.RadRoutedEventArgs e)
@@ -119,10 +121,17 @@ namespace ErlangEditor
             if (vm == null) return;
             if (!vm.IsFolder)
             {
-                App.ViewModel.OpenFile(vm);
-                var rp = new RadPane();
-                rp.SetBinding(RadPane.HeaderProperty, new Binding("Name") { Source = vm });
+                foreach(dynamic i in rpContent.Items)
+                    if (i.Tag.Entity == vm.Entity)
+                    {
+                        rpContent.SelectedItem = i;
+                        return;
+                    }
+                var openFileVM = App.ViewModel.OpenFile(vm);
+                var rp = new RadPane() { Tag = openFileVM };
+                rp.SetBinding(RadPane.TitleProperty, new Binding("BarText") { Source = openFileVM ,Mode= BindingMode.OneWay});
                 var editor = new TextEditor();
+                editor.Text = openFileVM.Code;
                 rp.Content = editor;
                 rpContent.Items.Add(rp);
             }

@@ -25,8 +25,14 @@ namespace ErlangEditor.ViewModel
 
         public string Code
         {
-            get;
-            set;
+            get
+            {
+                return CodeEntity.Content;
+            }
+            set
+            {
+                CodeEntity.Content = value;
+            }
         }
 
         public bool Modified
@@ -35,14 +41,22 @@ namespace ErlangEditor.ViewModel
             set { Entity.Modified = value; NotifyPropertyChanged("BarText"); }
         }
 
-        public OpenedFileVM(FileEntity aEntity)
+        public CodeEntity CodeEntity
+        {
+            get;
+            set;
+        }
+
+        public OpenedFileVM(FileEntity aEntity ,CodeEntity aCodeEntity)
         {
             Entity = aEntity;
+            CodeEntity = aCodeEntity;
         }
 
         public OpenedFileVM()
         {
             Entity = new FileEntity();
+            CodeEntity = new CodeEntity();
         }
 
         private void NotifyPropertyChanged(string aName)

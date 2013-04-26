@@ -12,6 +12,7 @@ using ErlangEditor.ViewModel.ContextMenu;
 using ErlangEditor.ViewModel.ContextMenuMaker;
 using Telerik.Windows.Controls;
 using Telerik.Windows.Controls.Navigation;
+using System.Windows;
 
 namespace ErlangEditor.ViewModel
 {
@@ -164,10 +165,20 @@ namespace ErlangEditor.ViewModel
         #endregion
 
         #region 文件的操作
-        public void OpenFile(ItemVM aItemVM)
+        public OpenedFileVM OpenFile(ItemVM aItemVM)
         {
-            Solution.OpenFile(aItemVM.Entity);
-            OpenedFiles.Add(new OpenedFileVM(aItemVM.Entity));
+            OpenedFileVM vm = null;
+            try
+            {
+                var entity = Solution.OpenFile(aItemVM.Entity);
+                vm = new OpenedFileVM(aItemVM.Entity, entity);
+                OpenedFiles.Add(vm);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "错误", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            return vm;
         }
 
         public void CloseFile(OpenedFileVM aItemVM)
