@@ -23,13 +23,15 @@ namespace ErlangEditor.ViewModel.ContextMenu
                     dynamic result = dlg.DataContext;
                     var entity = new FileEntity
                     {
-                        Name = result.Name + ".erl" ,
+                        Name = result.Name + ".erl",
                         Compilable = true,
                         IsFolder = false,
                         Modified = true,
                         Path = result.Name + ".erl",
                         Parent = (App.ViewModel.SelectVMItem as dynamic).Entity
                     };
+                    if (!IsValidFileName(result.Name))
+                        throw new Exception("文件名不合法");
                     object parentVM = App.ViewModel.SelectVMItem;
                     if (parentVM is ProjectVM)
                     {
@@ -43,11 +45,12 @@ namespace ErlangEditor.ViewModel.ContextMenu
                     }
                     var vm = new ItemVM(entity);
                     var path = App.ViewModel.GetVMFilePath(vm);
-                    var macro = new StdProcessTemplate(entity.Name, result.ExportAll, string.Format("-import({0}).", result.Import), "-export([start/0]).", result.IsModule).Macro;
+                    var macro = new StdProcessTemplate(result.Name, result.ExportAll, string.Format("-import({0}).", result.Import), "-export([start/0]).", result.IsModule).Macro;
                     App.ViewModel.Solution.CreateCodeFile(entity, macro, TemplateConstant.StdModuleTemplateFilePath);
                     (App.ViewModel.SelectVMItem as dynamic).Entity.Children.Add(entity);
                     (App.ViewModel.SelectVMItem as dynamic).Children.Add(vm);
                     SortChildItem();
+                    App.ViewModel.SelectItem.ExpandAll();
                     App.ViewModel.SaveSolutionFile();
                 }
             }
@@ -65,6 +68,29 @@ namespace ErlangEditor.ViewModel.ContextMenu
             parent.Children.Clear();
             foreach (var i in sorted)
                 parent.Children.Add(i);
+        }
+
+
+        private static bool IsValidFileName(string fileName)
+        {
+            bool isValid = true;
+            string errChar = "\\/:*?\"<>|"; 
+            if (string.IsNullOrEmpty(fileName))
+            {
+                isValid = false;
+            }
+            else
+            {
+                for (int i = 0; i < errChar.Length; i++)
+                {
+                    if (fileName.Contains(errChar[i].ToString()))
+                    {
+                        isValid = false;
+                        break;
+                    }
+                }
+            }
+            return isValid;
         }
     }
 }
