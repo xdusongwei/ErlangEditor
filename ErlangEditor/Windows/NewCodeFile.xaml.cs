@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Dynamic;
+using ErlangEditor.ViewModel;
 
 namespace ErlangEditor.Windows
 {
@@ -23,7 +24,7 @@ namespace ErlangEditor.Windows
         {
             InitializeComponent();
             dynamic bindingSource = new ExpandoObject();
-            bindingSource.Name = "myModule";
+            bindingSource.Name = string.Format("{0}_", App.ViewModel.GetProjectEntityByVM(App.ViewModel.SelectVMItem).Name);
             bindingSource.ExportAll = false;
             bindingSource.Import = "[]";
             bindingSource.IsModule = true;

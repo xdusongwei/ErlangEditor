@@ -12,5 +12,11 @@ namespace ErlangEditor.Core.Entity
             get;
             set;
         }
+
+        public FileEntity Entity
+        {
+            get;
+            set;
+        }
     }
 }

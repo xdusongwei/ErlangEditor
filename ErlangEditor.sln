@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ErlangEditor.Core", "Erlang
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ErlangEditor.Template", "ErlangEditor.Template\ErlangEditor.Template.csproj", "{0B4363A8-44F5-43AF-81DE-1661E89BB8EF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ErlangEditor.CompilerProxy", "ErlangEditor.CompilerProxy\ErlangEditor.CompilerProxy.csproj", "{9C5BFE5C-3854-4BAC-98D9-301B2A747D04}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,16 @@ Global
 		{0B4363A8-44F5-43AF-81DE-1661E89BB8EF}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{0B4363A8-44F5-43AF-81DE-1661E89BB8EF}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{0B4363A8-44F5-43AF-81DE-1661E89BB8EF}.Release|x86.ActiveCfg = Release|Any CPU
+		{9C5BFE5C-3854-4BAC-98D9-301B2A747D04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C5BFE5C-3854-4BAC-98D9-301B2A747D04}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C5BFE5C-3854-4BAC-98D9-301B2A747D04}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{9C5BFE5C-3854-4BAC-98D9-301B2A747D04}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{9C5BFE5C-3854-4BAC-98D9-301B2A747D04}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9C5BFE5C-3854-4BAC-98D9-301B2A747D04}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C5BFE5C-3854-4BAC-98D9-301B2A747D04}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C5BFE5C-3854-4BAC-98D9-301B2A747D04}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{9C5BFE5C-3854-4BAC-98D9-301B2A747D04}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{9C5BFE5C-3854-4BAC-98D9-301B2A747D04}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

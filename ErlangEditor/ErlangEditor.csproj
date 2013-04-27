@@ -187,6 +187,10 @@
     <Content Include="Import\Telerik.Windows.Controls.Navigation.dll" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ErlangEditor.CompilerProxy\ErlangEditor.CompilerProxy.csproj">
+      <Project>{9C5BFE5C-3854-4BAC-98D9-301B2A747D04}</Project>
+      <Name>ErlangEditor.CompilerProxy</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ErlangEditor.Core\ErlangEditor.Core.csproj">
       <Project>{2F06B7C0-9CB4-4011-90E2-12303864D037}</Project>
       <Name>ErlangEditor.Core</Name>

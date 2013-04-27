@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Windows;
 using ErlangEditor.ViewModel;
+using ErlangEditor.CompilerProxy;
 
 namespace ErlangEditor
 {
@@ -17,6 +18,12 @@ namespace ErlangEditor
         public static MainViewModel ViewModel
         {
             get { return mainViewModel_; }
+        }
+
+        private static SolutionCompiler solutionCompiler_ = new SolutionCompiler();
+        public static SolutionCompiler CompilerProxy
+        {
+            get { return solutionCompiler_; }
         }
     }
 }

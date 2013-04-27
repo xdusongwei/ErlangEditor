@@ -232,6 +232,17 @@ namespace ErlangEditor.ViewModel
             return Solution.GetFullPath(dyVM.Entity);
         }
 
+        public ProjectEntity GetProjectEntityByVM(object aVM)
+        {
+            dynamic entity = aVM;
+            entity = entity.Entity;
+            while (!(entity is ProjectEntity))
+            {
+                entity = entity.Parent;
+            }
+            return entity;
+        }
+
         #region All about INotifyPropertyChanged
         private void NotifyPropertyChanged(string aName)
         {
