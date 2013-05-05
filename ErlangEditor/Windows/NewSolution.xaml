@@ -10,6 +10,7 @@
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="39*" />
@@ -21,6 +22,7 @@
         <TextBlock Grid.Row="1" Grid.Column="1" Text="编译器位置" VerticalAlignment="Bottom" />
         <TextBlock Grid.Row="2" Grid.Column="1" Text="Shell位置"  VerticalAlignment="Bottom" />
         <TextBlock Grid.Row="3" Grid.Column="1" Text="解决方案位置" VerticalAlignment="Bottom" />
+        <TextBlock Grid.Row="4" Grid.Column="1" Text="输出目录" VerticalAlignment="Bottom" />
         <TextBox Grid.Column="2" VerticalAlignment="Bottom" Name="tbSlnName" />
         <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="2">
             <TextBox  VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Width="173" Name="tbCompiler" IsReadOnly="True" />
@@ -34,6 +36,7 @@
             <TextBox  VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Width="173" Name="tbBasePath" IsReadOnly="True" />
             <telerik:RadButton VerticalAlignment="Bottom" Content="..." Width="24" Click="SetPath" />
         </StackPanel>
-        <telerik:RadButton Content="创建" Grid.Column="2" Grid.Row="5" Height="Auto" HorizontalAlignment="Left" Margin="30,0,0,0" Name="radButton1" VerticalAlignment="Top" Width="80" Click="CreateClick" />
+        <TextBox Grid.Column="2" Grid.Row="4" VerticalAlignment="Bottom" Name="tbMakeFolder" Text="Debug"/>
+        <telerik:RadButton Content="创建" Grid.Column="2" Grid.Row="6" Height="Auto" HorizontalAlignment="Left" Margin="30,0,0,0" Name="radButton1" VerticalAlignment="Top" Width="80" Click="CreateClick" />
     </Grid>
 </Window>

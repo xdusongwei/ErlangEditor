@@ -28,7 +28,11 @@
             <telerik:RadMenuItem Header="视图" />
             <telerik:RadMenuItem Header="编辑" />
             <telerik:RadMenuItem Header="项目" />
-            <telerik:RadMenuItem Header="运行" />
+            <telerik:RadMenuItem Header="运行">
+                <telerik:RadMenuItem Header="生成" Click="Make" />
+                <telerik:RadMenuItem Header="重新生成" />
+                <telerik:RadMenuItem Header="运行" />
+            </telerik:RadMenuItem>
             <telerik:RadMenuItem Header="帮助" />
         </telerik:RadMenu>
         <telerik:RadDocking Grid.Row="1">

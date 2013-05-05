@@ -166,6 +166,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Import\Telerik.Windows.Data.dll" />
     <Resource Include="Template\NormalText.txt" />
     <Resource Include="Images\Gear.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -202,7 +203,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ContextHelper\" />
-    <Folder Include="Import\Telerik\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

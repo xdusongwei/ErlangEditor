@@ -136,5 +136,10 @@ namespace ErlangEditor
                 rpContent.Items.Add(rp);
             }
         }
+
+        private void Make(object sender, Telerik.Windows.RadRoutedEventArgs e)
+        {
+
+        }
     }
 }

@@ -38,6 +38,14 @@ namespace ErlangEditor.ViewModel
             set { entity_.Name = value; NotifyPropertyChanged("Name"); }
         }
 
+        public string MakeFolder
+        {
+            get
+            {
+                return entity_.MakeFolder;
+            }
+        }
+
         public Visibility TextBlockVisibility
         {
             get { return (Visibility)GetValue(TextBlockVisibilityProperty); }

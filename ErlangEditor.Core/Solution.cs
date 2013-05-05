@@ -17,7 +17,8 @@ namespace ErlangEditor.Core
             string aCompilerPath, 
             string aShellPath,
             Dictionary<string, string> aMacro,
-            string aTemplatePath
+            string aTemplatePath,
+            string aMakeFolder
             )
         {
             var sln = new SolutionEntity
@@ -26,7 +27,8 @@ namespace ErlangEditor.Core
                 ShellPath = aShellPath,
                 CompilerPath = aCompilerPath,
                 StartupProjectName = string.Empty,
-                SolutionPath = aPath + "\\" + aName + "\\"
+                SolutionPath = aPath + "\\" + aName + "\\",
+                MakeFolder = aMakeFolder
             };
             var prj = new ProjectEntity
             {
@@ -85,6 +87,8 @@ namespace ErlangEditor.Core
         {
             if (!Directory.Exists(aEntity.SolutionPath))
                 Directory.CreateDirectory(aEntity.SolutionPath);
+            if (!Directory.Exists(Path.Combine(aEntity.SolutionPath, aEntity.MakeFolder)))
+                Directory.CreateDirectory(Path.Combine(aEntity.SolutionPath, aEntity.MakeFolder));
             SaveSolutionFile(aEntity);
             foreach (var i in aEntity.Children)
             {
@@ -146,12 +150,12 @@ namespace ErlangEditor.Core
             dictCode_.Remove(aFile);
         }
 
-        public string GetFullPath(object aNode)
+        public static string GetFullPath(object aNode)
         {
             return GetFullPath(string.Empty, aNode);
         }
 
-        private string GetFullPath(string aPath, object aNode)
+        private static string GetFullPath(string aPath, object aNode)
         {
             dynamic node = aNode;
             if (node is SolutionEntity)

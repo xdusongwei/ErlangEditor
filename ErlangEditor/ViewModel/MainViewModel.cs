@@ -38,12 +38,18 @@ namespace ErlangEditor.ViewModel
             string aName,
             string aPath,
             string aCompilerPath,
-            string aShellPath
+            string aShellPath,
+            string aMakeFolder
             )
         {
+            aName = aName.Trim();
+            aPath = aPath.Trim();
+            aCompilerPath = aCompilerPath.Trim();
+            aShellPath = aShellPath.Trim();
+            aMakeFolder = aMakeFolder.Trim();
             var macro = new StdProcessTemplate(aName, true, string.Empty, string.Empty , true).Macro;
             CurrentSolutions.Clear();
-            CurrentSolutions.Add(new SolutionVM(Solution.CreateSolution(aName, aPath, aCompilerPath, aShellPath, macro, TemplateConstant.StdModuleTemplateFilePath)));
+            CurrentSolutions.Add(new SolutionVM(Solution.CreateSolution(aName, aPath, aCompilerPath, aShellPath, macro, TemplateConstant.StdModuleTemplateFilePath, aMakeFolder)));
         }
 
         public void SaveSolution()

@@ -11,6 +11,7 @@ namespace ErlangEditor.Core.Entity
         public SolutionEntity()
         {
             Children = new List<ProjectEntity>();
+            MakeFolder = string.Empty;
         }
 
         public string Name
@@ -38,6 +39,12 @@ namespace ErlangEditor.Core.Entity
         }
 
         public string ShellPath
+        {
+            get;
+            set;
+        }
+
+        public string MakeFolder
         {
             get;
             set;

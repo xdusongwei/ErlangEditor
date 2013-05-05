@@ -71,11 +71,12 @@ namespace ErlangEditor.Windows
             if (string.IsNullOrWhiteSpace(tbSlnName.Text) ||
                 string.IsNullOrWhiteSpace(tbCompiler.Text) ||
                 string.IsNullOrWhiteSpace(tbShell.Text) ||
-                string.IsNullOrWhiteSpace(tbBasePath.Text))
+                string.IsNullOrWhiteSpace(tbBasePath.Text) ||
+                string.IsNullOrWhiteSpace(tbMakeFolder.Text))
             {
                 return;
             }
-            App.ViewModel.CreateSolution(tbSlnName.Text, tbBasePath.Text, tbCompiler.Text, tbShell.Text);
+            App.ViewModel.CreateSolution(tbSlnName.Text, tbBasePath.Text, tbCompiler.Text, tbShell.Text , tbMakeFolder.Text);
             App.ViewModel.SaveSolution();
         }
     }
