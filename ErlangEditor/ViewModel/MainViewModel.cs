@@ -123,6 +123,12 @@ namespace ErlangEditor.ViewModel
             get { return exportLog_; }
         }
 
+        private ObservableCollection<string> errorLog_ = new ObservableCollection<string>();
+        public ObservableCollection<string> ErrorLog
+        {
+            get { return errorLog_; }
+        }
+
         public bool IsModified
         {
             get;
@@ -215,7 +221,7 @@ namespace ErlangEditor.ViewModel
             {
                 var entity = CurrentSolution.Entity;
                 var slnCompiler = new SolutionCompiler();
-                var result = slnCompiler.Start(entity, entity.RecompilableCode, Path.Combine(entity.SolutionPath, entity.MakeFolder), ExportLog);
+                slnCompiler.Start(entity, entity.RecompilableCode, Path.Combine(entity.SolutionPath, entity.MakeFolder), ExportLog, ErrorLog);
             }
         }
         #endregion

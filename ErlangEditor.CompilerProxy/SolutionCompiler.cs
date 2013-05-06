@@ -16,7 +16,13 @@ namespace ErlangEditor.CompilerProxy
     {
         private static object locker_ = new object();
         private static volatile Thread thCompiler = null;
-        public IEnumerable<string> Start(SolutionEntity aEntity, IEnumerable<CodeEntity> aEntities, string aExportPath, Collection<string> aExportReport)
+        public void Start(
+            SolutionEntity aEntity, 
+            IEnumerable<CodeEntity> aEntities, 
+            string aExportPath, 
+            Collection<string> aExportReport,
+            Collection<string> aErrorReport
+            )
         {
             if (thCompiler != null)
             {
@@ -24,8 +30,8 @@ namespace ErlangEditor.CompilerProxy
                 thCompiler = null;
             }
             aExportReport.Clear();
+            aErrorReport.Clear();
             PrintBegin(aExportReport);
-            LinkedList<string> lst = new LinkedList<string>();
             int success=0;
             int failed = 0;
             thCompiler = new Thread(() =>
@@ -33,7 +39,6 @@ namespace ErlangEditor.CompilerProxy
                 foreach (var i in aEntities)
                 {
                     Dispatcher.Invoke(new Action<string, Collection<string>>(PrintLine), new object[] { string.Format("编译{0}", Solution.GetFullPath(i.Entity)), aExportReport });
-                    //PrintLine(string.Format("编译{0}", Solution.GetFullPath(i.Entity)), aExportReport);
                     using (var prc = new Process())
                     {
                         prc.StartInfo = new ProcessStartInfo();
@@ -47,21 +52,22 @@ namespace ErlangEditor.CompilerProxy
                         prc.Start();
                         prc.WaitForExit();
                         var result = prc.StandardOutput.ReadToEnd();
-                        if (!string.IsNullOrEmpty(result))
+                        if (string.IsNullOrEmpty(result))
                         {
                             success++;
-                            lst.AddLast(new LinkedListNode<string>(result));
                         }
                         else
                         {
                             failed++;
+                            var results = result.Split(new char[] { '\n' });
+                            foreach(var j in results)
+                                Dispatcher.Invoke(new Action<string, Collection<string>>(PrintLine), new object[] { j.Trim(), aErrorReport });
                         }
                     }
                 }
                 PrintEnd(aExportReport, success, failed);
             });
             thCompiler.Start();
-            return lst;
         }
 
         private void PrintBegin(Collection<string> aExportReport)
