@@ -102,8 +102,10 @@ namespace ErlangEditor.Core
                 if (i.Key.Modified)
                 {
                     SaveFile(i.Key);
+                    aEntity.RecompilableCode.Add(i.Value);
                 }
             }
+            aEntity.RecompilableCode = aEntity.RecompilableCode.Distinct().ToList();
         }
 
         public void SaveSolutionFile(SolutionEntity aEntity)
@@ -137,7 +139,7 @@ namespace ErlangEditor.Core
                     if (dictCode_.ContainsKey(aFile))
                         dictCode_.Remove(aFile);
                     aFile.Modified = false;
-                    dictCode_.Add(aFile, new CodeEntity { Content = code });
+                    dictCode_.Add(aFile, new CodeEntity { Content = code, Entity = aFile });
                 }
             }
             return dictCode_[aFile];

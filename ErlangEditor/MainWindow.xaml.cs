@@ -61,7 +61,7 @@ namespace ErlangEditor
 
         private void ExitApplication(object sender, Telerik.Windows.RadRoutedEventArgs e)
         {
-
+            App.Current.Shutdown();
         }
 
         private void RadContextMenu_Opened(object sender, RoutedEventArgs e)
@@ -131,15 +131,31 @@ namespace ErlangEditor
                 var rp = new RadPane() { Tag = openFileVM };
                 rp.SetBinding(RadPane.TitleProperty, new Binding("BarText") { Source = openFileVM ,Mode= BindingMode.OneWay});
                 var editor = new TextEditor();
+                editor.Tag = openFileVM;
+                editor.TextChanged += new EventHandler(editor_TextChanged);
                 editor.Text = openFileVM.Code;
                 rp.Content = editor;
                 rpContent.Items.Add(rp);
             }
         }
 
+        private void editor_TextChanged(object sender, EventArgs e)
+        {
+            var vm = (sender as TextEditor).Tag as OpenedFileVM;
+            vm.Modified = (sender as TextEditor).IsModified;
+        }
+
         private void Make(object sender, Telerik.Windows.RadRoutedEventArgs e)
         {
-
+            foreach (var i in App.ViewModel.OpenedFiles)
+                if (i.Modified)
+                    foreach (dynamic j in rpContent.Items)
+                        if (j.Content.Tag == i)
+                        {
+                            i.Code = j.Content.Text;
+                            break;
+                        }
+            App.ViewModel.MakeSolution();
         }
     }
 }

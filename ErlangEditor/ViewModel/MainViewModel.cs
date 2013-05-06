@@ -10,9 +10,11 @@ using ErlangEditor.Core.Entity;
 using ErlangEditor.Template;
 using ErlangEditor.ViewModel.ContextMenu;
 using ErlangEditor.ViewModel.ContextMenuMaker;
+using ErlangEditor.CompilerProxy;
 using Telerik.Windows.Controls;
 using Telerik.Windows.Controls.Navigation;
 using System.Windows;
+using System.IO;
 
 namespace ErlangEditor.ViewModel
 {
@@ -197,6 +199,22 @@ namespace ErlangEditor.ViewModel
         {
             Solution.SaveFile(aItemVM.Entity);
             aItemVM.Modified = aItemVM.Modified;
+        }
+        #endregion
+
+        #region 生成操作
+        public void MakeSolution()
+        {
+            if (CurrentSolutions.Count > 0)
+            {
+                var entity = CurrentSolution.Entity;
+                var slnCompiler = new SolutionCompiler();
+                var result = slnCompiler.Start(entity, entity.RecompilableCode, Path.Combine(entity.SolutionPath, entity.MakeFolder));
+                foreach (var i in result)
+                {
+                    Debug.WriteLine(string.Format("---------\n{0}\n",i));
+                }
+            }
         }
         #endregion
         public void CommitItemAddOrUpdate(object aVM , string aNewItemName)

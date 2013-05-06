@@ -22,7 +22,7 @@ namespace ErlangEditor.CompilerProxy
                     prc.StartInfo.CreateNoWindow = true;
                     prc.StartInfo.FileName = aEntity.CompilerPath;
                     prc.StartInfo.WorkingDirectory = Path.Combine(aEntity.SolutionPath, aEntity.MakeFolder);
-                    prc.StartInfo.Arguments = Solution.GetFullPath(i);
+                    prc.StartInfo.Arguments = Solution.GetFullPath(i.Entity);
                     prc.StartInfo.UseShellExecute = false;
                     prc.StartInfo.RedirectStandardInput = prc.StartInfo.RedirectStandardOutput = true;
                     prc.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;

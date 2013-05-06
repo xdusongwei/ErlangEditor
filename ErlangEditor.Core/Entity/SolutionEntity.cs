@@ -12,6 +12,7 @@ namespace ErlangEditor.Core.Entity
         {
             Children = new List<ProjectEntity>();
             MakeFolder = string.Empty;
+            RecompilableCode = new List<CodeEntity>();
         }
 
         public string Name
@@ -52,6 +53,13 @@ namespace ErlangEditor.Core.Entity
 
         [JsonIgnore]
         public string SolutionPath
+        {
+            get;
+            set;
+        }
+
+        [JsonIgnore]
+        public List<CodeEntity> RecompilableCode
         {
             get;
             set;
