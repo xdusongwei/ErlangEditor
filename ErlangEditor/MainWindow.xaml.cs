@@ -34,13 +34,13 @@ namespace ErlangEditor
             DataContext = App.ViewModel;
         }
 
-        private void CreateNewSolution(object sender, Telerik.Windows.RadRoutedEventArgs e)
+        private void CreateNewSolution(object sender, RoutedEventArgs e)
         {
             NewSolution ns = new NewSolution();
             ns.ShowDialog();
         }
 
-        private void OpenSolution(object sender, Telerik.Windows.RadRoutedEventArgs e)
+        private void OpenSolution(object sender, RoutedEventArgs e)
         {
             OpenFileDialog fileDialog = new OpenFileDialog();
             fileDialog.Title = "选择解决方案";
@@ -52,11 +52,12 @@ namespace ErlangEditor
             }
         }
 
-        private void SaveSolution(object sender, Telerik.Windows.RadRoutedEventArgs e)
+        private void SaveSolution(object sender, RoutedEventArgs e)
         {
+            UpdateModifiedCode();
             App.ViewModel.SaveSolution();
             foreach (dynamic i in rpContent.Items)
-                i.Tag.Entity.Modified = i.Tag.Entity.Modified;
+                i.Content.Tag.Modified = false;
         }
 
         private void ExitApplication(object sender, Telerik.Windows.RadRoutedEventArgs e)
@@ -145,7 +146,14 @@ namespace ErlangEditor
             vm.Modified = (sender as TextEditor).IsModified;
         }
 
-        private void Make(object sender, Telerik.Windows.RadRoutedEventArgs e)
+        private void Make(object sender, RoutedEventArgs e)
+        {
+            UpdateModifiedCode();
+            SaveSolution(this, new RoutedEventArgs());
+            App.ViewModel.MakeSolution();
+        }
+
+        private void UpdateModifiedCode()
         {
             foreach (var i in App.ViewModel.OpenedFiles)
                 if (i.Modified)
@@ -155,7 +163,6 @@ namespace ErlangEditor
                             i.Code = j.Content.Text;
                             break;
                         }
-            App.ViewModel.MakeSolution();
         }
     }
 }

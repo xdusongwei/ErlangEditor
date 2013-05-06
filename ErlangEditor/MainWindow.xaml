@@ -4,6 +4,7 @@
         xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
         xmlns:ae ="http://icsharpcode.net/sharpdevelop/avalonedit"
         xmlns:vm="clr-namespace:ErlangEditor.ViewModel"
+        xmlns:local="clr-namespace:ErlangEditor"
         Title="ErlangEditor" Height="400" Width="891" WindowStartupLocation="CenterScreen" WindowState="Maximized">
     <Window.Resources>
         
@@ -13,7 +14,40 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <telerik:RadMenu Grid.Row="0">
+        <telerik:RadRibbonView  Grid.Row="0" ApplicationButtonImageSource="/ErlangEditor;component/Images/erlang-logo.png" TitleBarVisibility="Collapsed">
+            <telerik:RadRibbonTab Header="方案" Margin="0,0,12,0" Width="48">
+                <telerik:RadRibbonGroup Header="解决方案">
+                    <telerik:RadRibbonButton Text="新建" LargeImage="/ErlangEditor;component/Images/042b_AddCategory_64x64_72.png" Size="Large"
+                    telerik:ScreenTip.Description="创建新的Erlang解决方案" Click="CreateNewSolution">
+                    </telerik:RadRibbonButton>
+                    <telerik:RadRibbonButton Text="打开" LargeImage="/ErlangEditor;component/Images/075b_UpFolder_64x64_72.png" Size="Large"
+                    telerik:ScreenTip.Description="打开已有的Erlang解决方案" Click="OpenSolution">
+                    </telerik:RadRibbonButton>
+                    <telerik:RadRibbonButton Text="关闭" LargeImage="/ErlangEditor;component/Images/305_Close_48x48_72.png" Size="Large"
+                    telerik:ScreenTip.Description="关闭打开的Erlang解决方案" >
+                    </telerik:RadRibbonButton>
+                    <telerik:RadRibbonButton Text="保存" LargeImage="/ErlangEditor;component/Images/FloppyDisk.png" Size="Large"
+                    telerik:ScreenTip.Description="保存打开的Erlang解决方案" Click="SaveSolution" >
+                    </telerik:RadRibbonButton>
+                </telerik:RadRibbonGroup>
+            </telerik:RadRibbonTab>
+            <telerik:RadRibbonTab Header="生成" Margin="0,0,12,0" Width="48">
+                <telerik:RadRibbonGroup Header="生成">
+                    <telerik:RadRibbonButton Text="生成" LargeImage="/ErlangEditor;component/Images/112_Tick_Green_64x64_72.png" Size="Large"
+                    telerik:ScreenTip.Description="创建新的Erlang解决方案" Click="Make">
+                    </telerik:RadRibbonButton>
+                    <telerik:RadRibbonButton Text="重新生成" LargeImage="/ErlangEditor;component/Images/112_RefreshArrow_Green_48x48_72.png" Size="Large"
+                    telerik:ScreenTip.Description="创建新的Erlang解决方案" Click="CreateNewSolution">
+                    </telerik:RadRibbonButton>
+                </telerik:RadRibbonGroup>
+                <telerik:RadRibbonGroup Header="执行">
+                    <telerik:RadRibbonButton Text="执行" LargeImage="/ErlangEditor;component/Images/009_HighPriority_128x128_72.png" Size="Large"
+                    telerik:ScreenTip.Description="创建新的Erlang解决方案" Click="Make">
+                    </telerik:RadRibbonButton>
+                </telerik:RadRibbonGroup>
+            </telerik:RadRibbonTab>
+        </telerik:RadRibbonView>
+        <!--<telerik:RadMenu Grid.Row="0">
             <telerik:RadMenuItem Header="文件">
                 <telerik:RadMenuItem Header="新建" Click="CreateNewSolution" />
                 <telerik:RadMenuItem Header="打开" Click="OpenSolution"/>
@@ -25,16 +59,12 @@
                 <telerik:RadMenuItem IsSeparator="True" />
                 <telerik:RadMenuItem Header="退出" Click="ExitApplication"/>
             </telerik:RadMenuItem>
-            <telerik:RadMenuItem Header="视图" />
-            <telerik:RadMenuItem Header="编辑" />
-            <telerik:RadMenuItem Header="项目" />
             <telerik:RadMenuItem Header="运行">
                 <telerik:RadMenuItem Header="生成" Click="Make" />
                 <telerik:RadMenuItem Header="重新生成" />
                 <telerik:RadMenuItem Header="运行" />
             </telerik:RadMenuItem>
-            <telerik:RadMenuItem Header="帮助" />
-        </telerik:RadMenu>
+        </telerik:RadMenu>-->
         <telerik:RadDocking Grid.Row="1">
             <telerik:RadDocking.DocumentHost>
                 <telerik:RadSplitContainer>
@@ -80,7 +110,17 @@
 
             <telerik:RadSplitContainer InitialPosition="DockedBottom">
                 <telerik:RadPaneGroup>
-                    <telerik:RadPane Header="输出" CanUserClose="False"/>
+                    <telerik:RadPane Header="输出" CanUserClose="False">
+                        <ListBox ItemsSource="{Binding ExportLog}" local:ListScroll.IsEnabled="True">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" Height="26">
+                                        <TextBlock Margin="6,0,0,0" Text="{Binding}" VerticalAlignment="Center" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </telerik:RadPane>
                     <telerik:RadPane Header="错误列表" CanUserClose="False"/>
                 </telerik:RadPaneGroup>
             </telerik:RadSplitContainer>

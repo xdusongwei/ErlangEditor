@@ -83,7 +83,6 @@ namespace ErlangEditor.ViewModel
         {
             CurrentSolutions.Clear();
         }
-
         #endregion
 
         #region Property
@@ -115,6 +114,13 @@ namespace ErlangEditor.ViewModel
         public SolutionVM CurrentSolution
         {
             get {  return currentSolutions_.DefaultIfEmpty(new SolutionVM()).First(); }
+        }
+
+
+        private ObservableCollection<string> exportLog_ = new ObservableCollection<string>();
+        public ObservableCollection<string> ExportLog
+        {
+            get { return exportLog_; }
         }
 
         public bool IsModified
@@ -209,11 +215,7 @@ namespace ErlangEditor.ViewModel
             {
                 var entity = CurrentSolution.Entity;
                 var slnCompiler = new SolutionCompiler();
-                var result = slnCompiler.Start(entity, entity.RecompilableCode, Path.Combine(entity.SolutionPath, entity.MakeFolder));
-                foreach (var i in result)
-                {
-                    Debug.WriteLine(string.Format("---------\n{0}\n",i));
-                }
+                var result = slnCompiler.Start(entity, entity.RecompilableCode, Path.Combine(entity.SolutionPath, entity.MakeFolder), ExportLog);
             }
         }
         #endregion

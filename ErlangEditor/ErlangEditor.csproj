@@ -70,6 +70,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Import\Telerik.Windows.Controls.Navigation.dll</HintPath>
     </Reference>
+    <Reference Include="Telerik.Windows.Controls.RibbonView, Version=2012.3.1017.40, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Import\Telerik.Windows.Controls.RibbonView.dll</HintPath>
+    </Reference>
     <Reference Include="UIAutomationProvider" />
     <Reference Include="UIAutomationTypes" />
     <Reference Include="WindowsBase" />
@@ -81,6 +85,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ListScroll.cs" />
     <Compile Include="Template\TemplateConstant.cs" />
     <Compile Include="ViewModel\ContextMenuMaker\ItemContextMenu.cs" />
     <Compile Include="ViewModel\ContextMenuMaker\ProjectContextMenu.cs" />
@@ -113,6 +118,7 @@
     <Compile Include="Windows\NewSolution.xaml.cs">
       <DependentUpon>NewSolution.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WpfTreeHelper.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -166,6 +172,14 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Images\042b_AddCategory_64x64_72.png" />
+    <Resource Include="Images\075b_UpFolder_64x64_72.png" />
+    <Resource Include="Images\305_Close_48x48_72.png" />
+    <Resource Include="Images\009_HighPriority_128x128_72.png" />
+    <Resource Include="Images\112_RefreshArrow_Green_48x48_72.png" />
+    <Resource Include="Images\112_Tick_Green_64x64_72.png" />
+    <Resource Include="Images\FloppyDisk.png" />
+    <Content Include="Import\Telerik.Windows.Controls.RibbonView.dll" />
     <Content Include="Import\Telerik.Windows.Data.dll" />
     <Resource Include="Template\NormalText.txt" />
     <Resource Include="Images\Gear.png">

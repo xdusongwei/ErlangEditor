@@ -78,6 +78,7 @@ namespace ErlangEditor.Windows
             }
             App.ViewModel.CreateSolution(tbSlnName.Text, tbBasePath.Text, tbCompiler.Text, tbShell.Text , tbMakeFolder.Text);
             App.ViewModel.SaveSolution();
+            Close();
         }
     }
 }
