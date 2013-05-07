@@ -123,8 +123,8 @@ namespace ErlangEditor.ViewModel
             get { return exportLog_; }
         }
 
-        private ObservableCollection<string> errorLog_ = new ObservableCollection<string>();
-        public ObservableCollection<string> ErrorLog
+        private ObservableCollection<ErrorInfoVM> errorLog_ = new ObservableCollection<ErrorInfoVM>();
+        public ObservableCollection<ErrorInfoVM> ErrorLog
         {
             get { return errorLog_; }
         }
@@ -219,9 +219,22 @@ namespace ErlangEditor.ViewModel
         {
             if (CurrentSolutions.Count > 0)
             {
+                ErrorLog.Clear();
                 var entity = CurrentSolution.Entity;
                 var slnCompiler = new SolutionCompiler();
-                slnCompiler.Start(entity, entity.RecompilableCode, Path.Combine(entity.SolutionPath, entity.MakeFolder), ExportLog, ErrorLog);
+                slnCompiler.CodeFileError += (a, b) =>
+                    {
+                        var item = new ErrorInfoVM();
+                        var spIndex = b.Log.IndexOf(": ");
+                        var front = b.Log.Substring(0, spIndex);
+                        var line = Convert.ToInt32(front.Substring(front.LastIndexOf(':') + 1, front.Length - front.LastIndexOf(':') - 1));
+                        var back = b.Log.Substring(spIndex + 1, b.Log.Length - spIndex - 1);
+                        item.Entity = b.Entity;
+                        item.Log = back;
+                        item.Line = line;
+                        ErrorLog.Add(item);
+                    };
+                slnCompiler.Start(entity, entity.RecompilableCode, Path.Combine(entity.SolutionPath, entity.MakeFolder), ExportLog);
             }
         }
         #endregion

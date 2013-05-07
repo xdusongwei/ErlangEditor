@@ -104,6 +104,7 @@
     <Compile Include="ViewModel\ContextMenu\RenameFile.cs" />
     <Compile Include="ViewModel\ContextMenu\RenameFolder.cs" />
     <Compile Include="ViewModel\ContextOperationVM.cs" />
+    <Compile Include="ViewModel\ErrorInfoVM.cs" />
     <Compile Include="ViewModel\ItemVM.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\OpenedFileVM.cs" />

@@ -107,8 +107,10 @@
                         <ListBox ItemsSource="{Binding ErrorLog}" local:ListScroll.IsEnabled="True">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <StackPanel Orientation="Horizontal" Height="24">
-                                        <TextBlock Margin="6,0,0,0" Text="{Binding}" VerticalAlignment="Center" />
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Margin="4" Text="{Binding Entity.Name}" VerticalAlignment="Center" />
+                                        <TextBlock Margin="4" Text="{Binding Line}" VerticalAlignment="Center" />
+                                        <TextBlock Margin="4" Text="{Binding Log}" VerticalAlignment="Center" />
                                     </StackPanel>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>

@@ -16,12 +16,22 @@ namespace ErlangEditor.CompilerProxy
     {
         private static object locker_ = new object();
         private static volatile Thread thCompiler = null;
+
+        public void Start(
+            SolutionEntity aEntity,
+            Collection<string> aExportReport,
+            Collection<string> aErrorReport
+            )
+        {
+
+        }
+
+
         public void Start(
             SolutionEntity aEntity, 
             IEnumerable<CodeEntity> aEntities, 
             string aExportPath, 
-            Collection<string> aExportReport,
-            Collection<string> aErrorReport
+            Collection<string> aExportReport
             )
         {
             if (thCompiler != null)
@@ -30,7 +40,6 @@ namespace ErlangEditor.CompilerProxy
                 thCompiler = null;
             }
             aExportReport.Clear();
-            aErrorReport.Clear();
             PrintBegin(aExportReport);
             int success=0;
             int failed = 0;
@@ -59,9 +68,13 @@ namespace ErlangEditor.CompilerProxy
                         else
                         {
                             failed++;
-                            var results = result.Split(new char[] { '\n' });
-                            foreach(var j in results)
-                                Dispatcher.Invoke(new Action<string, Collection<string>>(PrintLine), new object[] { j.Trim(), aErrorReport });
+                            var results = result.Replace(prc.StartInfo.Arguments,string.Empty).Split(new char[] { '\n' }).Where(a => !string.IsNullOrEmpty(a));
+                            foreach (var j in results)
+                            {
+                                var evt = CodeFileError;
+                                if (evt != null)
+                                    Dispatcher.Invoke(new Action<object, CodeFileErrorEventArgs>(evt), new object[] { this, new CodeFileErrorEventArgs(j, i.Entity) });
+                            }
                         }
                     }
                 }
@@ -69,6 +82,8 @@ namespace ErlangEditor.CompilerProxy
             });
             thCompiler.Start();
         }
+
+        public event EventHandler<CodeFileErrorEventArgs> CodeFileError;
 
         private void PrintBegin(Collection<string> aExportReport)
         {
