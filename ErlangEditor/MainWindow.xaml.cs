@@ -135,6 +135,7 @@ namespace ErlangEditor
                 editor.Tag = openFileVM;
                 editor.TextChanged += new EventHandler(editor_TextChanged);
                 editor.Text = openFileVM.Code;
+                editor.SyntaxHighlighting = ICSharpCode.AvalonEdit.Highlighting.HighlightingManager.Instance.GetDefinition("Erl");
                 rp.Content = editor;
                 rpContent.Items.Add(rp);
             }
@@ -163,6 +164,13 @@ namespace ErlangEditor
                             i.Code = j.Content.Text;
                             break;
                         }
+        }
+
+        private void MakeAll(object sender, RoutedEventArgs e)
+        {
+            UpdateModifiedCode();
+            SaveSolution(this, new RoutedEventArgs());
+            App.ViewModel.MakeAll();
         }
     }
 }

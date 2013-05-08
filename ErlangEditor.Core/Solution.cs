@@ -37,8 +37,8 @@ namespace ErlangEditor.Core
             };
             var file = new FileEntity
             {
-                Name = aName + EditorConstant.ErlangCodeFileExtentFileType,
-                Path = aName + EditorConstant.ErlangCodeFileExtentFileType,
+                Name = "m" + aName + EditorConstant.ErlangCodeFileExtentFileType,
+                Path = "m" + aName + EditorConstant.ErlangCodeFileExtentFileType,
                 Compilable = true
             };
             CreateCodeFile(file, aMacro, aTemplatePath);

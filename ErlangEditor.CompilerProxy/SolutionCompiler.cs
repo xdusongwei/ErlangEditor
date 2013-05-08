@@ -19,11 +19,76 @@ namespace ErlangEditor.CompilerProxy
 
         public void Start(
             SolutionEntity aEntity,
-            Collection<string> aExportReport,
-            Collection<string> aErrorReport
+            Collection<string> aExportReport
             )
         {
+            if (thCompiler != null)
+            {
+                thCompiler.Abort();
+                thCompiler = null;
+            }
+            int success = 0;
+            int failed = 0;
+            aExportReport.Clear();
+            PrintBegin(aExportReport);
+            thCompiler = new Thread(() =>
+            {
+                foreach (var j in aEntity.Children)
+                {
+                    Dig(j, new Action<object>(x =>
+                        {
+                            Dispatcher.Invoke(new Action<string, Collection<string>>(PrintLine), new object[] { string.Format("编译{0}", Solution.GetFullPath(x)), aExportReport });
+                            using (var prc = new Process())
+                            {
+                                prc.StartInfo = new ProcessStartInfo();
+                                prc.StartInfo.CreateNoWindow = true;
+                                prc.StartInfo.FileName = aEntity.CompilerPath;
+                                prc.StartInfo.WorkingDirectory = Path.Combine(aEntity.SolutionPath, aEntity.MakeFolder);
+                                var fullPath = Solution.GetFullPath(x);
+                                prc.StartInfo.Arguments = string.Format("-I \"{0}\" {1}", fullPath, fullPath);
+                                prc.StartInfo.UseShellExecute = false;
+                                prc.StartInfo.RedirectStandardInput = prc.StartInfo.RedirectStandardOutput = true;
+                                prc.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                                prc.Start();
+                                prc.WaitForExit();
+                                var result = prc.StandardOutput.ReadToEnd();
+                                if (string.IsNullOrEmpty(result))
+                                {
+                                    success++;
+                                }
+                                else
+                                {
+                                    failed++;
+                                    var results = result.Replace(prc.StartInfo.Arguments, string.Empty).Split(new char[] { '\n' }).Where(a => !string.IsNullOrEmpty(a));
+                                    foreach (var k in results)
+                                    {
+                                        var evt = CodeFileError;
+                                        if (evt != null)
+                                            Dispatcher.Invoke(new Action<object, CodeFileErrorEventArgs>(evt), new object[] { this, new CodeFileErrorEventArgs(k, x as FileEntity) });
+                                    }
+                                }
+                            }
+                        }
+                    ));
+                }
+                PrintEnd(aExportReport, success, failed);
+            });
+            thCompiler.Start();
+        }
 
+        private static void Dig(object aEntity, Action<object> aAction)
+        {
+            foreach (dynamic i in (aEntity as dynamic).Children)
+            {
+                if (i.Compilable && i.Name.IndexOf("m") == 0)
+                {
+                    aAction(i);
+                }
+                else if (i.IsFolder)
+                {
+                    Dig(i, aAction);
+                }
+            }
         }
 
 
@@ -85,18 +150,18 @@ namespace ErlangEditor.CompilerProxy
 
         public event EventHandler<CodeFileErrorEventArgs> CodeFileError;
 
-        private void PrintBegin(Collection<string> aExportReport)
+        private static void PrintBegin(Collection<string> aExportReport)
         {
             PrintLine("解决方案保存完毕", aExportReport);
         }
 
-        private void PrintEnd(Collection<string> aExportReport, int aSuccess , int aFailed)
+        private void PrintEnd(Collection<string> aExportReport, int aSuccess, int aFailed)
         {
             Dispatcher.Invoke(new Action<string, Collection<string>>(PrintLine), new object[] { string.Format("编译完毕，成功{0}，失败{1}。", aSuccess, aFailed), aExportReport });
             //PrintLine();
         }
 
-        private void PrintLine(string aLog, Collection<string> aExportReport)
+        private static void PrintLine(string aLog, Collection<string> aExportReport)
         {
             var line = string.Format("{0} - {1}", DateTime.Now.ToShortTimeString(), aLog);
             aExportReport.Add(line);

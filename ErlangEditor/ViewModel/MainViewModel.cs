@@ -234,7 +234,39 @@ namespace ErlangEditor.ViewModel
                         item.Line = line;
                         ErrorLog.Add(item);
                     };
-                slnCompiler.Start(entity, entity.RecompilableCode, Path.Combine(entity.SolutionPath, entity.MakeFolder), ExportLog);
+                slnCompiler.Start(entity, ExportLog);
+                //slnCompiler.Start(entity, entity.RecompilableCode, Path.Combine(entity.SolutionPath, entity.MakeFolder), ExportLog);
+            }
+        }
+
+        public void MakeAll()
+        {
+            if (CurrentSolutions.Count > 0)
+            {
+                ErrorLog.Clear();
+                var entity = CurrentSolution.Entity;
+                var slnCompiler = new SolutionCompiler();
+                slnCompiler.CodeFileError += (a, b) =>
+                    {
+                        var item = new ErrorInfoVM();
+                        var spIndex = b.Log.IndexOf(": ");
+                        var front = b.Log.Substring(0, spIndex);
+                        var line = 0;
+                        try
+                        {
+                            line = Convert.ToInt32(front.Substring(front.LastIndexOf(':') + 1, front.Length - front.LastIndexOf(':') - 1));
+                        }
+                        catch
+                        {
+
+                        }
+                        var back = b.Log.Substring(spIndex + 1, b.Log.Length - spIndex - 1);
+                        item.Entity = b.Entity;
+                        item.Log = back;
+                        item.Line = line;
+                        ErrorLog.Add(item);
+                    };
+                slnCompiler.Start(entity, ExportLog);
             }
         }
         #endregion
@@ -274,7 +306,8 @@ namespace ErlangEditor.ViewModel
         public string GetVMFilePath(object aVM)
         {
             dynamic dyVM = aVM;
-            return Solution.GetFullPath(dyVM.Entity);
+            var arg = dyVM.Entity as object;
+            return Solution.GetFullPath(arg);
         }
 
         public ProjectEntity GetProjectEntityByVM(object aVM)

@@ -37,7 +37,7 @@
                     telerik:ScreenTip.Description="创建新的Erlang解决方案" Click="Make">
                     </telerik:RadRibbonButton>
                     <telerik:RadRibbonButton Text="重新生成" LargeImage="/ErlangEditor;component/Images/112_RefreshArrow_Green_48x48_72.png" Size="Large"
-                    telerik:ScreenTip.Description="创建新的Erlang解决方案" Click="CreateNewSolution">
+                    telerik:ScreenTip.Description="创建新的Erlang解决方案" Click="MakeAll">
                     </telerik:RadRibbonButton>
                 </telerik:RadRibbonGroup>
                 <telerik:RadRibbonGroup Header="执行">

@@ -21,13 +21,14 @@ namespace ErlangEditor.ViewModel.ContextMenu
                 if (dlg.ShowDialog() == true)
                 {
                     dynamic result = dlg.DataContext;
+                    var name = string.Format("{0}{1}.erl", result.IsModule ? "m" : "x", result.Name);
                     var entity = new FileEntity
                     {
-                        Name = result.Name + ".erl",
+                        Name = name,
                         Compilable = true,
                         IsFolder = false,
                         Modified = true,
-                        Path = result.Name + ".erl",
+                        Path = name,
                         Parent = (App.ViewModel.SelectVMItem as dynamic).Entity
                     };
                     if (!IsValidFileName(result.Name))
