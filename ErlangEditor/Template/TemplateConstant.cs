@@ -9,5 +9,6 @@ namespace ErlangEditor.Template
     {
         public static readonly string StdModuleTemplateFilePath = "Template\\module.erl";
         public static readonly string NormalTextFileTemplateFilePath = "Template\\NormalText.txt";
+        public static readonly string StdCodeTemplateFilePath = "Template\\code.erl";
     }
 }

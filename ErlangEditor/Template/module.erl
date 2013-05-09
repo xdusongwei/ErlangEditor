@@ -3,8 +3,7 @@
 %_EXPORT_%
 %_IMPORT_%
 
-
 start()->
-
+ok
 .
 

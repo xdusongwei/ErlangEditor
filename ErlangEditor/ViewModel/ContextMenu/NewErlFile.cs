@@ -21,7 +21,7 @@ namespace ErlangEditor.ViewModel.ContextMenu
                 if (dlg.ShowDialog() == true)
                 {
                     dynamic result = dlg.DataContext;
-                    var name = string.Format("{0}{1}.erl", result.IsModule ? "m" : "x", result.Name);
+                    var name = string.Format("{0}{1}.erl", result.IsModule ? "m" : "s", result.Name);
                     var entity = new FileEntity
                     {
                         Name = name,
@@ -46,8 +46,10 @@ namespace ErlangEditor.ViewModel.ContextMenu
                     }
                     var vm = new ItemVM(entity);
                     var path = App.ViewModel.GetVMFilePath(vm);
-                    var macro = new StdProcessTemplate(result.Name, result.ExportAll, string.Format("-import({0}).", result.Import), "-export([start/0]).", result.IsModule).Macro;
-                    App.ViewModel.Solution.CreateCodeFile(entity, macro, TemplateConstant.StdModuleTemplateFilePath);
+                    var macro = result.IsModule ?
+                        new StdProcessTemplate(result.Name, result.ExportAll, string.Format("-import({0}).", result.Import), "-export([start/0]).", result.IsModule).Macro :
+                        new StdCodeTemplate(result.Name.ToLower()).Macro;
+                    App.ViewModel.Solution.CreateCodeFile(entity, macro, result.IsModule ? TemplateConstant.StdModuleTemplateFilePath : TemplateConstant.StdCodeTemplateFilePath);
                     (App.ViewModel.SelectVMItem as dynamic).Entity.Children.Add(entity);
                     (App.ViewModel.SelectVMItem as dynamic).Children.Add(vm);
                     SortChildItem();

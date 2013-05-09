@@ -90,7 +90,7 @@ namespace ErlangEditor.ViewModel.ContextMenu
                     var dirPath = App.ViewModel.GetVMFilePath(itm);
                     using (var sw = File.CreateText(dirPath))
                     {
-                        var macro = new NormalTextFileTemplate().Macro;
+                        var macro = new StdCodeTemplate(aNewFileName.ToLower().Replace(".hrl" , string.Empty)).Macro;
                         App.ViewModel.Solution.CreateCodeFile(itm.Entity, macro, TemplateConstant.NormalTextFileTemplateFilePath);
                     }
                     App.ViewModel.SaveSolutionFile();
