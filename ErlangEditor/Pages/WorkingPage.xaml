@@ -24,9 +24,6 @@
             <telerik:RadDocking.DocumentHost>
                 <telerik:RadSplitContainer>
                     <telerik:RadPaneGroup Name="rpContent">
-                        <telerik:RadPane Unloaded="RadPane_Unloaded">
-                            <ae:TextEditor Background="AliceBlue"/>
-                        </telerik:RadPane>
                     </telerik:RadPaneGroup>
                 </telerik:RadSplitContainer>
             </telerik:RadDocking.DocumentHost>

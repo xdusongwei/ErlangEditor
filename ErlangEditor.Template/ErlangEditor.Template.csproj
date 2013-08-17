@@ -40,9 +40,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="NormalTextFileTemplate.cs" />
-    <Compile Include="StdCodeTemplate.cs" />
-    <Compile Include="StdProcessTemplate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Templates\AppFile1.cs">
       <AutoGen>True</AutoGen>

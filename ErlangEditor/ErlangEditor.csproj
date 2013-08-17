@@ -126,6 +126,7 @@
       <DependentUpon>ToolBoxButton.xaml</DependentUpon>
     </Compile>
     <Compile Include="Tools\AppInfo.cs" />
+    <Compile Include="ValueConverter\FileTabTextVC.cs" />
     <Compile Include="ViewModel\FileVM.cs" />
     <Compile Include="ViewModel\MainVM.cs" />
     <Compile Include="ViewModel\PrjTreeItemVM.cs" />
@@ -344,6 +345,7 @@
     <Resource Include="Images\appbar.add.rest.png" />
     <Resource Include="Images\appbar.close.rest.png" />
     <Resource Include="Images\appbar.delete.rest.png" />
+    <Resource Include="Images\MB_0008_save.png" />
     <Content Include="Import\ICSharpCode.AvalonEdit.dll" />
     <Resource Include="Import\ICSharpCode.AvalonEdit.xml" />
     <Content Include="Import\Telerik.Windows.Controls.Data.dll" />

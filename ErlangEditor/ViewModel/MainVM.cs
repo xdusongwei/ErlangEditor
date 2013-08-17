@@ -57,6 +57,7 @@ namespace ErlangEditor.ViewModel
                 ClickedAction = new Action(() => { App.ToolBox.HideButtomBar(); })
             });
             WorkingPage = new WorkingPage_NoLoaded();
+            OpenedFiles = new List<FileVM>();
             //ContextButtonsLeft.Add(new ToolBoxButtonVM
             //{
             //    Text = "是否对话框",
@@ -110,6 +111,12 @@ namespace ErlangEditor.ViewModel
         }
 
         public ObservableCollection<PrjTreeItemVM> TreeRoot
+        {
+            get;
+            set;
+        }
+
+        public List<FileVM> OpenedFiles
         {
             get;
             set;

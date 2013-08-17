@@ -51,6 +51,27 @@ namespace ErlangEditor.Pages
         private void LoadTreeItemToolBar()
         {
             App.MainViewModel.ContextButtonsLeft.Clear();
+            App.MainViewModel.ContextButtonsLeft.Add(new ToolBoxButtonVM
+            {
+                Text = "保存",
+                ImageSource = new BitmapImage(new Uri("/Images/MB_0008_save.png", UriKind.RelativeOrAbsolute)),
+                ClickedAction = new Action(() =>
+                {
+                    try
+                    {
+                        ErlangEditor.Core.SolutionUtil.SaveSolution();
+                        foreach (var i in App.MainViewModel.OpenedFiles.Where(i => i.Changed))
+                        {
+                            ErlangEditor.Core.FileUtil.SaveFile(i.FileEntity, i.Content);
+                            i.Changed = false;
+                        }
+                    }
+                    catch (Exception ecp)
+                    {
+                        App.Navigation.ShowMessageBox(ecp.Message, "出错");
+                    }
+                })
+            });
             var item = rtvSolution.SelectedItem as ViewModel.PrjTreeItemVM;
             if (item == null || item.Entity == null) return;
             if (item.Entity is ErlangEditor.Core.Entity.SolutionEntity)
@@ -188,16 +209,29 @@ namespace ErlangEditor.Pages
                 try
                 {
                     var entity = vm.Entity as ErlangEditor.Core.Entity.FileEntity;
+                    if (App.MainViewModel.OpenedFiles.Any(i => i.FileName == entity.Name))
+                    {
+                        rpContent.SelectedItem = App.MainViewModel.OpenedFiles.First(i => i.FileName == entity.Name).Pane;
+                        return;
+                    }
                     var editor = new TextEditor();
-                    //editor.Tag = openFileVM;
-                    //editor.TextChanged += new EventHandler(editor_TextChanged);
-                    var rp = new RadPane() { Title = entity.Name, Background = new SolidColorBrush(Colors.White) };
+                    var rp = new RadPane();
+                    var fileVM = new ViewModel.FileVM() { FileName = entity.Name, Pane = rp, Editor = editor, FileEntity = entity };
                     editor.Text = ErlangEditor.Core.FileUtil.LoadFile(entity);
+                    editor.TextChanged += (a, b) => { fileVM.Changed = true; };
                     editor.BorderBrush = new SolidColorBrush(Colors.White);
                     editor.SyntaxHighlighting = ICSharpCode.AvalonEdit.Highlighting.HighlightingManager.Instance.GetDefinition("Erl");
-                    
                     rp.Content = editor;
+                    rp.Unloaded += (a, b) => { App.MainViewModel.OpenedFiles.Remove(fileVM); };  
                     rpContent.Items.Add(rp);
+                    var b1 = new Binding("FileName") { Source = fileVM, Mode = BindingMode.OneWay };
+                    var b2 = new Binding("Changed") { Source = fileVM, Mode = BindingMode.OneWay };
+                    var mb = new MultiBinding() { Mode = BindingMode.OneWay };
+                    mb.Bindings.Add(b1);
+                    mb.Bindings.Add(b2);
+                    mb.Converter = new ValueConverter.FileTabTextVC();
+                    rp.SetBinding(RadPane.TitleProperty, mb);
+                    App.MainViewModel.OpenedFiles.Add(fileVM);
                 }
                 catch (Exception ecp)
                 {
