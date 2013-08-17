@@ -43,24 +43,15 @@ namespace ErlangEditor.Pages
         private void ErlClicked(object sender, RoutedEventArgs e)
         {
             var name = tbName.Text.Trim();
-            if (string.IsNullOrEmpty(name) || vm_ == null)
+            if (string.IsNullOrEmpty(name) || vm_ == null || vm_.Entity == null)
                 return;
             try
             {
-                var fld = string.Empty;
-                var app = string.Empty;
-                if (vm_.Entity is ErlangEditor.Core.Entity.ApplicationEntity)
-                {
-                    fld = string.Empty;
-                    app = (vm_.Entity as ErlangEditor.Core.Entity.ApplicationEntity).Name;
-                }
-                if (vm_.Entity is ErlangEditor.Core.Entity.FolderEntity)
-                {
-                    fld = (vm_.Entity as ErlangEditor.Core.Entity.FolderEntity).Name;
-                    app = ((vm_.Entity as ErlangEditor.Core.Entity.FolderEntity).GetParent() as ErlangEditor.Core.Entity.ApplicationEntity).Name;
-                }
+                var fld = App.Entity.FindFolderName(vm_.Entity);
+                var app = App.Entity.FindAppName(vm_.Entity);
                 var entity = new ErlangEditor.Core.Entity.FileEntity { Name = name + ".erl", DisplayName = name };
-                ErlangEditor.Core.FileUtil.AddFile(app, fld, entity, string.Empty);
+                var content = ErlangEditor.Template.TemplateUtil.MakeErlangCode(name);
+                ErlangEditor.Core.FileUtil.AddFile(app, fld, entity, content);
                 ErlangEditor.Core.SolutionUtil.SaveSolution();
                 vm_.Children.Add(new ViewModel.PrjTreeItemVM(entity));
                 App.Navigation.JumpToWithFirstFrame(App.MainViewModel.WorkingPage);
@@ -74,24 +65,15 @@ namespace ErlangEditor.Pages
         private void HrlClicked(object sender, RoutedEventArgs e)
         {
             var name = tbName.Text.Trim();
-            if (string.IsNullOrEmpty(name) || vm_ == null)
+            if (string.IsNullOrEmpty(name) || vm_ == null || vm_.Entity == null)
                 return;
             try
             {
-                var fld = string.Empty;
-                var app = string.Empty;
-                if (vm_.Entity is ErlangEditor.Core.Entity.ApplicationEntity)
-                {
-                    fld = string.Empty;
-                    app = (vm_.Entity as ErlangEditor.Core.Entity.ApplicationEntity).Name;
-                }
-                if (vm_.Entity is ErlangEditor.Core.Entity.FolderEntity)
-                {
-                    fld = (vm_.Entity as ErlangEditor.Core.Entity.FolderEntity).Name;
-                    app = ((vm_.Entity as ErlangEditor.Core.Entity.FolderEntity).GetParent() as ErlangEditor.Core.Entity.ApplicationEntity).Name;
-                }
+                var fld = App.Entity.FindFolderName(vm_.Entity);
+                var app = App.Entity.FindAppName(vm_.Entity);
                 var entity = new ErlangEditor.Core.Entity.FileEntity { Name = name + ".hrl", DisplayName = name };
-                ErlangEditor.Core.FileUtil.AddFile(app, fld, entity, string.Empty);
+                var content = ErlangEditor.Template.TemplateUtil.MakeHeaderCode();
+                ErlangEditor.Core.FileUtil.AddFile(app, fld, entity, content);
                 ErlangEditor.Core.SolutionUtil.SaveSolution();
                 vm_.Children.Add(new ViewModel.PrjTreeItemVM(entity));
                 App.Navigation.JumpToWithFirstFrame(App.MainViewModel.WorkingPage);
@@ -113,27 +95,42 @@ namespace ErlangEditor.Pages
 
         private void AppClicked(object sender, RoutedEventArgs e)
         {
-            App.Navigation.GoFroward(new NewFile_app());
+            var name = tbName.Text.Trim();
+            if (string.IsNullOrEmpty(name) || vm_ == null || vm_.Entity == null)
+                return;
+            App.Navigation.GoFroward(new NewFile_app(name, vm_));
         }
 
         private void Gen_serverClicked(object sender, RoutedEventArgs e)
         {
+            var name = tbName.Text.Trim();
+            if (string.IsNullOrEmpty(name) || vm_ == null || vm_.Entity == null)
+                return;
             App.Navigation.GoFroward(new NewFile_gen_server());
         }
 
         private void Gen_eventClicked(object sender, RoutedEventArgs e)
         {
+            var name = tbName.Text.Trim();
+            if (string.IsNullOrEmpty(name) || vm_ == null || vm_.Entity == null)
+                return;
             App.Navigation.GoFroward(new NewFile_gen_event());
         }
 
         private void Gen_supervisorClicked(object sender, RoutedEventArgs e)
         {
+            var name = tbName.Text.Trim();
+            if (string.IsNullOrEmpty(name) || vm_ == null || vm_.Entity == null)
+                return;
             App.Navigation.GoFroward(new NewFile_gen_supervisor());
         }
 
         private void Gen_appClicked(object sender, RoutedEventArgs e)
         {
-            App.Navigation.GoFroward(new NewFile_app());
+            var name = tbName.Text.Trim();
+            if (string.IsNullOrEmpty(name) || vm_ == null || vm_.Entity == null)
+                return;
+            App.Navigation.GoFroward(new NewFile_application());
         }
     }
 }

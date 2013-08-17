@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{2D065965-6957-4413-9EB8-E11AEA557BB5}</ProjectGuid>
+    <ProjectGuid>{7BFA6D8E-65AD-4D4A-B877-EE4F90E35A5D}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ErlangEditor</RootNamespace>
@@ -95,8 +95,8 @@
     <Compile Include="Pages\CreateProject.xaml.cs">
       <DependentUpon>CreateProject.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\NeewFile_application.xaml.cs">
-      <DependentUpon>NeewFile_application.xaml</DependentUpon>
+    <Compile Include="Pages\NewFile_application.xaml.cs">
+      <DependentUpon>NewFile_application.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\NewApp.xaml.cs">
       <DependentUpon>NewApp.xaml</DependentUpon>
@@ -126,6 +126,7 @@
       <DependentUpon>ToolBoxButton.xaml</DependentUpon>
     </Compile>
     <Compile Include="Tools\AppInfo.cs" />
+    <Compile Include="ViewModel\FileVM.cs" />
     <Compile Include="ViewModel\MainVM.cs" />
     <Compile Include="ViewModel\PrjTreeItemVM.cs" />
     <Compile Include="ViewModel\ToolBoxButtonVM.cs" />
@@ -171,7 +172,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Pages\NeewFile_application.xaml">
+    <Page Include="Pages\NewFile_application.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -297,6 +298,10 @@
     <ProjectReference Include="..\ErlangEditor.Core\ErlangEditor.Core.csproj">
       <Project>{4292b9b3-29c2-4c16-9ae4-0feb951b3a1a}</Project>
       <Name>ErlangEditor.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ErlangEditor.Template\ErlangEditor.Template.csproj">
+      <Project>{0b4363a8-44f5-43af-81de-1661e89bb8ef}</Project>
+      <Name>ErlangEditor.Template</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

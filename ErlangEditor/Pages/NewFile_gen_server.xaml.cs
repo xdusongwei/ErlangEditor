@@ -23,5 +23,18 @@ namespace ErlangEditor.Pages
         {
             InitializeComponent();
         }
+
+        public string Title
+        {
+            get
+            {
+                return "配置模板";
+            }
+        }
+
+        public void UpdateToolBox()
+        {
+            App.MainViewModel.ContextButtonsLeft.Clear();
+        }
     }
 }

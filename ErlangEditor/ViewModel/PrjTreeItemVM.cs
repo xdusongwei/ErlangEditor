@@ -50,6 +50,7 @@ namespace ErlangEditor.ViewModel
                 TypeColor = fle_;
                 DisplayText = (aNode as ErlangEditor.Core.Entity.FileEntity).DisplayName;
             }
+            Entity = aNode;
         }
 
         public string DisplayText

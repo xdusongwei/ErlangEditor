@@ -16,7 +16,34 @@ namespace ErlangEditor
             }
             MakeTreeLoop(null,ErlangEditor.Core.SolutionUtil.Solution);
         }
-        private void MakeTreeLoop(ViewModel.PrjTreeItemVM aParentVM, object aNode)
+
+        public string FindAppName(object aNode)
+        {
+            if (aNode is ErlangEditor.Core.Entity.ApplicationEntity)
+            {
+                return (aNode as ErlangEditor.Core.Entity.ApplicationEntity).Name;
+            }
+            if (aNode is ErlangEditor.Core.Entity.FolderEntity)
+            {
+                return ((aNode as ErlangEditor.Core.Entity.FolderEntity).GetParent() as ErlangEditor.Core.Entity.ApplicationEntity).Name;
+            }
+            return string.Empty;
+        }
+
+        public string FindFolderName(object aNode)
+        {
+            if (aNode is ErlangEditor.Core.Entity.ApplicationEntity)
+            {
+                return string.Empty;
+            }
+            if (aNode is ErlangEditor.Core.Entity.FolderEntity)
+            {
+                return (aNode as ErlangEditor.Core.Entity.FolderEntity).Name;
+            }
+            return string.Empty;
+        }
+
+        public void MakeTreeLoop(ViewModel.PrjTreeItemVM aParentVM, object aNode)
         {
             var node = new ViewModel.PrjTreeItemVM(aNode);
             if (aNode is ErlangEditor.Core.Entity.SolutionEntity)

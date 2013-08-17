@@ -17,11 +17,24 @@ namespace ErlangEditor.Pages
     /// <summary>
     /// NeewFile_application.xaml 的交互逻辑
     /// </summary>
-    public partial class NeewFile_application : UserControl
+    public partial class NewFile_application : UserControl
     {
-        public NeewFile_application()
+        public NewFile_application()
         {
             InitializeComponent();
+        }
+
+        public string Title
+        {
+            get
+            {
+                return "配置模板";
+            }
+        }
+
+        public void UpdateToolBox()
+        {
+            App.MainViewModel.ContextButtonsLeft.Clear();
         }
     }
 }

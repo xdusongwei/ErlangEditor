@@ -26,7 +26,7 @@ namespace ErlangEditor.Core
                         Helper.EntityTreeUtil.UpdateDict();
                         throw new Exception("文件已经存在");
                     }
-                    using(var ws = System.IO.File.CreateText(Helper.EntityTreeUtil.GetPath(aNewFile)))
+                    using (var ws = System.IO.File.CreateText(Helper.EntityTreeUtil.GetPath(aNewFile)))
                         ws.Write(aContent);
                 }
                 else if (app.Folders.Any(x => x.Name == aFolderName))
@@ -40,6 +40,10 @@ namespace ErlangEditor.Core
                             ws.Write(aContent);
                     }
                 }
+            }
+            else
+            {
+                throw new Exception("文件层次结构未知。");
             }
         }
 

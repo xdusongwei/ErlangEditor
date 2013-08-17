@@ -57,14 +57,16 @@ namespace ErlangEditor.Pages
         private void btnOK_Click(object sender, RoutedEventArgs e)
         {
             Hide();
-            if (sender == btnYes) Result = true;
-            Result = false;
+            if (sender == btnYes) 
+                Result = true;
+            else
+                Result = false;
         }
 
-        public bool Result
+        public static bool Result
         {
             get;
-            private set;
+            set;
         }
     }
 }

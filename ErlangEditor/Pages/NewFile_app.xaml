@@ -7,13 +7,61 @@
              xmlns:telerikControls="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls"
              xmlns:local ="clr-namespace:ErlangEditor"
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="1000" Loaded="UserControl_Loaded">
+             d:DesignHeight="600" d:DesignWidth="1000" Loaded="UserControl_Loaded" >
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <TextBlock x:Name="tbTitle" Grid.Row="0" Text="新app文件配置" Foreground="White" Style="{DynamicResource TitleStyle}" />
-            
+        <Grid Grid.Row="1">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical">
+                <StackPanel.Resources>
+                    <Style TargetType="{x:Type StackPanel}">
+                        <Setter Property="Orientation" Value="Horizontal" />
+                    </Style>
+                    <Style TargetType="{x:Type TextBlock}">
+                        <Setter Property="Foreground" Value="White" />
+                        <Setter Property="FontSize" Value="36" />
+                        <Setter Property="HorizontalAlignment" Value="Center" />
+                        <Setter Property="Width" Value="220" />
+                        <Setter Property="TextAlignment" Value="Right" />
+                        <Setter Property="Margin" Value="8" />
+                    </Style>
+                </StackPanel.Resources>
+                <StackPanel>
+                    <TextBlock Text="应用名称" />
+                    <TextBox x:Name="tbAppName" Width="440" FontSize="34" VerticalAlignment="Center"/>
+                </StackPanel>
+                <StackPanel>
+                    <TextBlock Text="版本" />
+                    <TextBox x:Name="tbVsn" Width="440"  FontSize="34" VerticalAlignment="Center" Text="1.0.0"/>
+                </StackPanel>
+                <StackPanel>
+                    <TextBlock Text="描述" />
+                    <TextBox x:Name="tbDesc" Width="440"  FontSize="34" VerticalAlignment="Center" Text="对此应用的描述"/>
+                </StackPanel>
+                <StackPanel>
+                    <TextBlock Text="包含的模块" />
+                    <TextBox x:Name="tbMods" Width="440"  FontSize="34" VerticalAlignment="Center" Text=""/>
+                </StackPanel>
+                <StackPanel>
+                    <TextBlock Text="注册的名称" />
+                    <TextBox x:Name="tbReg" Width="440"  FontSize="34" VerticalAlignment="Center" Text=""/>
+                </StackPanel>
+                <StackPanel>
+                    <TextBlock Text="包含的应用"/>
+                    <TextBox x:Name="tbApps" Width="440"  FontSize="34" VerticalAlignment="Center" Text="kernel,stdlib"/>
+                </StackPanel>
+                <StackPanel>
+                    <TextBlock Text="启动模块" />
+                    <TextBox x:Name="tbMod" Width="440"  FontSize="34" VerticalAlignment="Center"/>
+                </StackPanel>
+                <StackPanel>
+                    <TextBlock Text="启动参数" />
+                    <TextBox x:Name="tbArg" Width="440"  FontSize="34" VerticalAlignment="Center" Text="[]"/>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
     </Grid>
 </UserControl>

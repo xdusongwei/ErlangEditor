@@ -11,6 +11,10 @@ namespace ErlangEditor.Core
         {
             if (SolutionUtil.Solution == null) return;
             var app = aApplication;
+            if (System.IO.Directory.Exists(System.IO.Path.Combine(Helper.EntityTreeUtil.GetBasePath, app.Name)))
+            {
+                throw new Exception("文件目录中已经存在该应用的目录，不能添加。");
+            }
             if (app != null)
             {
                 System.IO.Directory.CreateDirectory(System.IO.Path.Combine(Helper.EntityTreeUtil.GetBasePath , app.Name));

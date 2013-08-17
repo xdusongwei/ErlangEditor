@@ -57,7 +57,7 @@ namespace ErlangEditor.Pages
                             var app = new ErlangEditor.Core.Entity.ApplicationEntity() { Name = name };
                             ErlangEditor.Core.ApplicationUtil.AddApplication(app);
                             ErlangEditor.Core.SolutionUtil.SaveSolution();
-                            sln_.Children.Add(new PrjTreeItemVM(app));
+                            App.Entity.MakeTreeLoop(sln_, app);
                             App.Navigation.JumpToWithFirstFrame(App.MainViewModel.WorkingPage);
                         }
                         catch(Exception e) 

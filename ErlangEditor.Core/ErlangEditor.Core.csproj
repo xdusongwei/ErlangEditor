@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4292B9B3-29C2-4C16-9AE4-0FEB951B3A1A}</ProjectGuid>
+    <ProjectGuid>{2F06B7C0-9CB4-4011-90E2-12303864D037}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ErlangEditor.Core</RootNamespace>

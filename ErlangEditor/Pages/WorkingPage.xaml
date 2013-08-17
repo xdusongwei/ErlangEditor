@@ -8,7 +8,7 @@
       xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
       xmlns:ae ="http://icsharpcode.net/sharpdevelop/avalonedit"
       xmlns:telerikControls="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls"
-      xmlns:local="clr-namespace:ErlangEditor">
+      xmlns:local="clr-namespace:ErlangEditor" Background="AliceBlue">
     <Grid>
         <telerik:RadDocking Background="Transparent" telerikControls:StyleManager.Theme="Windows8" BorderBrush="Transparent">
             <telerik:RadDocking.Resources>
@@ -24,6 +24,9 @@
             <telerik:RadDocking.DocumentHost>
                 <telerik:RadSplitContainer>
                     <telerik:RadPaneGroup Name="rpContent">
+                        <telerik:RadPane Unloaded="RadPane_Unloaded">
+                            <ae:TextEditor Background="AliceBlue"/>
+                        </telerik:RadPane>
                     </telerik:RadPaneGroup>
                 </telerik:RadSplitContainer>
             </telerik:RadDocking.DocumentHost>
@@ -38,7 +41,7 @@
             <telerik:RadSplitContainer InitialPosition="DockedRight" Width="300">
                 <telerik:RadPaneGroup Background="Transparent">
                     <telerik:RadPane Header="项目浏览器" CanUserClose="False">
-                        <telerik:RadTreeView ItemsSource="{Binding TreeRoot}" Name="rtvSolution" GotFocus="TreeCtrl_GotFocus" LostFocus="TreeCtrl_LostFocus" SelectionChanged="TreeCtrl_ItemChanged">
+                        <telerik:RadTreeView ItemsSource="{Binding TreeRoot}" Name="rtvSolution" GotFocus="TreeCtrl_GotFocus" LostFocus="TreeCtrl_LostFocus" SelectionChanged="TreeCtrl_ItemChanged" MouseDoubleClick="rtvSolution_MouseDoubleClick">
                             <telerik:RadTreeView.ItemTemplate>
                                 <HierarchicalDataTemplate ItemsSource="{Binding Path=Children}">
                                     <StackPanel Orientation="Horizontal" Height="22" Margin="2">
@@ -55,7 +58,7 @@
             <telerik:RadSplitContainer InitialPosition="DockedBottom">
                 <telerik:RadPaneGroup Background="Transparent">
                     <telerik:RadPane Header="输出" CanUserClose="False">
-                        <ListBox ItemsSource="{Binding ExportLog}" local:ListScroll.IsEnabled="True" Background="#FF0A837E">
+                        <ListBox ItemsSource="{Binding ExportLog}" local:ListScroll.IsEnabled="True">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal" Height="24">
