@@ -1,0 +1,104 @@
+﻿<UserControl x:Class="ErlangEditor.Pages.NewFile"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             xmlns:telerikControls="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls"
+             xmlns:local ="clr-namespace:ErlangEditor"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="1000" Loaded="UserControl_Loaded">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBlock x:Name="tbTitle" Grid.Row="0" Text="创建新文件" Foreground="White" Style="{DynamicResource TitleStyle}" />
+        <Grid local:EffectHelper.ScrollEffect="400" Grid.Row="1">
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,48">
+                    <StackPanel.Resources>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="Foreground" Value="White" />
+                            <Setter Property="FontSize" Value="36" />
+                            <Setter Property="HorizontalAlignment" Value="Center" />
+                        </Style>
+                    </StackPanel.Resources>
+                    <TextBlock Text="文件/模块名称"/>
+                    <TextBox Width="400" Margin="16,0,0,0" FontSize="34" Name="tbName"/>
+                </StackPanel>
+                <WrapPanel>
+                    <WrapPanel.Resources>
+                        <Style TargetType="{x:Type telerik:RadButton}">
+                            <Setter Property="Margin" Value="8" />
+                            <Setter Property="Background" Value="Transparent" />
+                            <Setter Property="BorderBrush" Value="White" />
+                            <Setter Property="BorderThickness" Value="3" />
+                            <Setter Property="Height" Value="260" />
+                            <Setter Property="Width" Value="220" />
+                            <Setter Property="telerikControls:StyleManager.Theme" Value="Summer" />
+                        </Style>
+                    </WrapPanel.Resources>
+                    <telerik:RadButton Click="ErlClicked">
+                        <Grid>
+                            <TextBlock Text="E"  FontSize="300" Foreground="White" Opacity="0.3" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Lucida Sans"/>
+                            <TextBlock Text=".erl文件" Foreground="White" HorizontalAlignment="Center"  VerticalAlignment="Center" FontSize="48" Margin="0,4,0,0"/>
+                        </Grid>
+                    </telerik:RadButton>
+                    <telerik:RadButton Click="HrlClicked">
+                        <Grid>
+                            <TextBlock Text="H"  FontSize="300" Foreground="White" Opacity="0.3" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Lucida Sans"/>
+                            <TextBlock Text=".hrl文件" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="48" Margin="0,4,0,0"/>
+                        </Grid>
+                    </telerik:RadButton>
+                    <telerik:RadButton Click="AppClicked" >
+                        <Grid>
+                            <TextBlock Text="A"  FontSize="300" Foreground="White" Opacity="0.3" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Lucida Sans"/>
+                            <TextBlock Text=".app文件" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="48" Margin="0,4,0,0"/>
+                        </Grid>
+                    </telerik:RadButton>
+                    <telerik:RadButton Click="Gen_serverClicked">
+                        <Grid>
+                            <TextBlock Text="S"  FontSize="300" Foreground="White" Opacity="0.3" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Lucida Sans"/>
+                            <TextBlock Foreground="White" HorizontalAlignment="Center" TextWrapping="Wrap"  VerticalAlignment="Center" FontSize="36" Margin="0,4,0,0" TextAlignment="Center">
+                                <Run Text="gen_server" />
+                                <LineBreak/>
+                                <Run Text="模板"/>
+                            </TextBlock>
+                        </Grid>
+                    </telerik:RadButton>
+                    <telerik:RadButton Click="Gen_eventClicked">
+                        <Grid>
+                            <TextBlock Text="E"  FontSize="300" Foreground="White" Opacity="0.3" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Lucida Sans"/>
+                            <TextBlock Foreground="White" HorizontalAlignment="Center" TextWrapping="Wrap"  VerticalAlignment="Center" FontSize="36" Margin="0,4,0,0" TextAlignment="Center">
+                                <Run Text="gen_event" />
+                                <LineBreak/>
+                                <Run Text="模板"/>
+                            </TextBlock>
+                        </Grid>
+                    </telerik:RadButton>
+                    <telerik:RadButton Click="Gen_supervisorClicked">
+                        <Grid>
+                            <TextBlock Text="S"  FontSize="300" Foreground="White" Opacity="0.3" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Lucida Sans"/>
+                            <TextBlock Foreground="White" HorizontalAlignment="Center" TextWrapping="Wrap"  VerticalAlignment="Center" FontSize="28" Margin="0,4,0,0" TextAlignment="Center">
+                                <Run Text="gen_supervisor" />
+                                <LineBreak/>
+                                <Run Text="模板"/>
+                            </TextBlock>
+                        </Grid>
+                    </telerik:RadButton>
+                    <telerik:RadButton Click="Gen_appClicked">
+                        <Grid>
+                            <TextBlock Text="A"  FontSize="300" Foreground="White" Opacity="0.3" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Lucida Sans"/>
+                            <TextBlock Foreground="White" HorizontalAlignment="Center" TextWrapping="Wrap"  VerticalAlignment="Center" FontSize="36" Margin="0,4,0,0" TextAlignment="Center">
+                                <Run Text="application" />
+                                <LineBreak/>
+                                <Run Text="模板"/>
+                            </TextBlock>
+                        </Grid>
+                    </telerik:RadButton>
+                </WrapPanel>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

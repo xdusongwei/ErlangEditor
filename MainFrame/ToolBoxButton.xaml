@@ -1,0 +1,42 @@
+﻿<UserControl x:Name="userControl" x:Class="MainFrame.ToolBoxButton"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d"
+			 Padding="8,5"
+             d:DesignHeight="70" d:DesignWidth="58" Background="Transparent" >
+	<UserControl.Resources>
+		<Storyboard x:Key="MouseOverSB">
+			<ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)" Storyboard.TargetName="userControl">
+				<EasingColorKeyFrame KeyTime="0:0:0.2" Value="#FF2DCEC3"/>
+			</ColorAnimationUsingKeyFrames>
+		</Storyboard>
+		<Storyboard x:Key="MouseLeaveSB">
+			<ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)" Storyboard.TargetName="userControl">
+				<EasingColorKeyFrame KeyTime="0:0:0.2" Value="Transparent"/>
+			</ColorAnimationUsingKeyFrames>
+		</Storyboard>
+		<Storyboard x:Key="ClickSB">
+			<ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)" Storyboard.TargetName="userControl">
+				<EasingColorKeyFrame KeyTime="0" Value="#CEFFFFFF"/>
+				<EasingColorKeyFrame KeyTime="0:0:0.4" Value="Transparent"/>
+			</ColorAnimationUsingKeyFrames>
+		</Storyboard>
+	</UserControl.Resources>
+	<UserControl.Triggers>
+		<EventTrigger RoutedEvent="Mouse.MouseEnter">
+			<BeginStoryboard Storyboard="{StaticResource MouseOverSB}"/>
+		</EventTrigger>
+		<EventTrigger RoutedEvent="Mouse.MouseLeave">
+			<BeginStoryboard Storyboard="{StaticResource MouseLeaveSB}"/>
+		</EventTrigger>
+		<EventTrigger RoutedEvent="UIElement.MouseLeftButtonDown">
+			<BeginStoryboard Storyboard="{StaticResource ClickSB}"/>
+		</EventTrigger>
+	</UserControl.Triggers>
+    <DockPanel ClipToBounds="True">
+        <TextBlock Text="{Binding Text}" DockPanel.Dock="Bottom" HorizontalAlignment="Center" Margin="0,0,0,2" Foreground="White"/>
+        <Image x:Name="imIcon" Source="{Binding ImageSource}" DockPanel.Dock="Top" Width="32" Height="32" Stretch="Fill" />
+    </DockPanel>
+</UserControl>

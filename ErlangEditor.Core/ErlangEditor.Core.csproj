@@ -1,12 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{2F06B7C0-9CB4-4011-90E2-12303864D037}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{4292B9B3-29C2-4C16-9AE4-0FEB951B3A1A}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ErlangEditor.Core</RootNamespace>
     <AssemblyName>ErlangEditor.Core</AssemblyName>
@@ -14,6 +13,7 @@
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,6 +23,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -31,8 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Newtonsoft.Json">
-      <HintPath>Import\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -43,17 +45,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EditorConstant.cs" />
-    <Compile Include="Entity\CodeEntity.cs" />
-    <Compile Include="Entity\ConfigEntity.cs" />
+    <Compile Include="ApplicationUtil.cs" />
+    <Compile Include="Entity\ApplicationEntity.cs" />
     <Compile Include="Entity\FileEntity.cs" />
-    <Compile Include="Entity\ProjectEntity.cs" />
+    <Compile Include="Entity\FolderEntity.cs" />
     <Compile Include="Entity\SolutionEntity.cs" />
+    <Compile Include="FileUtil.cs" />
+    <Compile Include="Helper\EntityTreeUtil.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Solution.cs" />
+    <Compile Include="SolutionUtil.cs" />
+    <Compile Include="UnitTest\ApplicationTest.cs" />
+    <Compile Include="UnitTest\FileTest.cs" />
+    <Compile Include="UnitTest\SolutionTest.cs" />
+    <Compile Include="UnitTest\TemplateTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Import\Newtonsoft.Json.dll" />
+    <ProjectReference Include="..\ErlangEditor.Template\ErlangEditor.Template.csproj">
+      <Project>{3bf3bcd9-c487-4cde-af64-4ac8dcb80c2a}</Project>
+      <Name>ErlangEditor.Template</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

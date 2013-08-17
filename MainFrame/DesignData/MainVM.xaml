@@ -1,0 +1,29 @@
+﻿<local:MainVM
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"       
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:MainFrame.ViewModel" 
+    >
+    <local:MainVM.Tasks>
+        <local:TaskVM Title="标题1" />
+    </local:MainVM.Tasks>
+    <local:MainVM.HeaderButtons>
+        <local:ToolBoxButtonVM Text="首页" ImageSource="/Images/MB_0023_home2.png" />
+        <local:ToolBoxButtonVM Text="作业" ImageSource="/Images/MB_0010_tasks.png" />
+        <local:ToolBoxButtonVM Text="设置" ImageSource="/Images/MB_0005_sett_small.png" />
+        <local:ToolBoxButtonVM Text="操作" ImageSource="/Images/MB_0037_Control-Panel2.png" />
+    </local:MainVM.HeaderButtons>
+    <local:MainVM.ContextButtonsLeft>
+        <local:ToolBoxButtonVM Text="选项" ImageSource="/Images/MB_0019_plus.png" />
+        <local:ToolBoxButtonVM Text="选项" ImageSource="/Images/MB_0019_plus.png" />
+        <local:ToolBoxButtonVM Text="选项" ImageSource="/Images/MB_0019_plus.png" />
+        <local:ToolBoxButtonVM Text="选项" ImageSource="/Images/MB_0019_plus.png" />
+        <local:ToolBoxButtonVM Text="选项" ImageSource="/Images/MB_0019_plus.png" />
+        <local:ToolBoxButtonVM Text="选项" ImageSource="/Images/MB_0019_plus.png" />
+    </local:MainVM.ContextButtonsLeft>
+    <local:MainVM.ContextButtonsRight>
+        <local:ToolBoxButtonVM Text="隐藏" ImageSource="/Images/MB_0011_info3.png" />
+    </local:MainVM.ContextButtonsRight>
+    <local:MainVM.AreaVMQueryData>
+        <local:AreaVM OfflineCount="3" OnlineCount="4" ErrorCount="0" AreaName="XX路" />
+    </local:MainVM.AreaVMQueryData>
+</local:MainVM>

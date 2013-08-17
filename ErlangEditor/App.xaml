@@ -3,6 +3,20 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+    	<ResourceDictionary>
+    		<ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources/BackButtonAnim.xaml"/>
+                <ResourceDictionary Source="Resources/Button.xaml"/>
+                <ResourceDictionary Source="Resources/TextBox.xaml"/>
+                <ResourceDictionary Source="Resources/ToolBar.xaml"/>
+                <ResourceDictionary Source="Resources/TextBlock.xaml"/>
+                <ResourceDictionary Source="Resources/Title.xaml"/>
+                <ResourceDictionary Source="Resources/PasswordBox.xaml"/>
+                <ResourceDictionary Source="Resources/CheckBox.xaml"/>
+                <ResourceDictionary Source="Resources/DeviceButton.xaml"/>
+    		</ResourceDictionary.MergedDictionaries>
+            <SolidColorBrush x:Key="AppBorderBackground" Color="#FF2776C5"/>
+
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

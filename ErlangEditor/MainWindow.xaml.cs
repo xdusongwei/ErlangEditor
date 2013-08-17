@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ErlangEditor.EventArg;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,16 +9,10 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using ErlangEditor.Windows;
-using Microsoft.Win32;
-using Telerik.Windows.Controls;
-using System.Diagnostics;
-using ErlangEditor.ViewModel;
-using ICSharpCode.AvalonEdit.Document;
-using ICSharpCode.AvalonEdit;
 
 namespace ErlangEditor
 {
@@ -29,148 +24,97 @@ namespace ErlangEditor
         public MainWindow()
         {
             InitializeComponent();
-            if (!App.ViewModel.Loaded)
-                App.ViewModel.Load();
-            DataContext = App.ViewModel;
+            ((tbxBackward.RenderTransform as TransformGroup).Children[3] as TranslateTransform).X = -64;
+            HeaderEnable = true;
         }
 
-        private void CreateNewSolution(object sender, RoutedEventArgs e)
+        private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            NewSolution ns = new NewSolution();
-            ns.ShowDialog();
-        }
-
-        private void OpenSolution(object sender, RoutedEventArgs e)
-        {
-            OpenFileDialog fileDialog = new OpenFileDialog();
-            fileDialog.Title = "选择解决方案";
-            fileDialog.Filter = "Erlang solution(*.sln)|*sln";
-            if (fileDialog.ShowDialog() == true)
-            {
-                string file = fileDialog.FileName;
-                App.ViewModel.LoadSolution(file);
-            }
-        }
-
-        private void SaveSolution(object sender, RoutedEventArgs e)
-        {
-            UpdateModifiedCode();
-            App.ViewModel.SaveSolution();
-            foreach (dynamic i in rpContent.Items)
-                i.Content.Tag.Modified = false;
-        }
-
-        private void ExitApplication(object sender, Telerik.Windows.RadRoutedEventArgs e)
-        {
-            App.Current.Shutdown();
-        }
-
-        private void RadContextMenu_Opened(object sender, RoutedEventArgs e)
-        {
-            RadTreeViewItem clickedItemContainer = radContextMenu.GetClickedElement<RadTreeViewItem>();
-            App.ViewModel.UpdateContextOperationMenu(clickedItemContainer);
-            if (clickedItemContainer == null)
-                radContextMenu.Visibility = System.Windows.Visibility.Collapsed;
-            else
-                radContextMenu.Visibility = System.Windows.Visibility.Visible;
-        }
-
-        private void TextBox_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if((sender as FrameworkElement).Visibility == System.Windows.Visibility.Visible)
-                CommitItemChange(sender);
-        }
-
-        private void CommitItemChange(object sender)
-        {
-            try
-            {
-                App.ViewModel.CommitItemAddOrUpdate((sender as FrameworkElement).Tag, (sender as TextBox).Text);
-            }
-            catch (Exception ep)
-            {
-                MessageBox.Show(ep.Message, "错误", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
-
-        private void TextBox_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                CommitItemChange(sender);
-            }
-        }
-
-        private void TextBox_Loaded(object sender, RoutedEventArgs e)
-        {
-            (sender as TextBox).SelectAll();
-            (sender as TextBox).Focus();
-        }
-
-        private void TextBox_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            if ((sender as TextBox).Visibility == System.Windows.Visibility.Visible)
-            {
-                (sender as TextBox).SelectAll();
-                (sender as TextBox).Focus();
-            }
-        }
-
-        private void RadTreeView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            var vm = (sender as RadTreeView).SelectedItem as ItemVM;
-            if (vm == null) return;
-            if (!vm.IsFolder)
-            {
-                foreach(dynamic i in rpContent.Items)
-                    if (i.Tag.Entity == vm.Entity)
+            DataContext = App.MainViewModel;
+            App.Navigation.PropertyChanged +=
+                (a, b) =>
+                {
+                    if (b.PropertyName == "ActivedFrame")
                     {
-                        rpContent.SelectedItem = i;
-                        return;
-                    }
-                var openFileVM = App.ViewModel.OpenFile(vm);
-                var rp = new RadPane() { Tag = openFileVM };
-                rp.SetBinding(RadPane.TitleProperty, new Binding("BarText") { Source = openFileVM ,Mode= BindingMode.OneWay});
-                var editor = new TextEditor();
-                editor.Tag = openFileVM;
-                editor.TextChanged += new EventHandler(editor_TextChanged);
-                editor.Text = openFileVM.Code;
-                editor.SyntaxHighlighting = ICSharpCode.AvalonEdit.Highlighting.HighlightingManager.Instance.GetDefinition("Erl");
-                rp.Content = editor;
-                rpContent.Items.Add(rp);
-            }
-        }
-
-        private void editor_TextChanged(object sender, EventArgs e)
-        {
-            var vm = (sender as TextEditor).Tag as OpenedFileVM;
-            vm.Modified = (sender as TextEditor).IsModified;
-        }
-
-        private void Make(object sender, RoutedEventArgs e)
-        {
-            UpdateModifiedCode();
-            SaveSolution(this, new RoutedEventArgs());
-            App.ViewModel.MakeSolution();
-        }
-
-        private void UpdateModifiedCode()
-        {
-            foreach (var i in App.ViewModel.OpenedFiles)
-                if (i.Modified)
-                    foreach (dynamic j in rpContent.Items)
-                        if (j.Content.Tag == i)
+                        frameContent.Children.Clear();
+                        frameContent.Children.Add(App.Navigation.ActivedFrame);
+                        if (App.Navigation.ActivedFrame.GetType().GetCustomAttributes(typeof(DialogFrameAttribute), true).Length != 0)
                         {
-                            i.Code = j.Content.Text;
-                            break;
+                            if (HeaderEnable)
+                            {
+                                var da = new DoubleAnimation();
+                                da.EasingFunction = new CircleEase();
+                                da.To = 0D;
+                                da.Duration = TimeSpan.FromMilliseconds(300D);
+                                navRoot.BeginAnimation(Grid.HeightProperty, da);
+                                App.ToolBox.HideButtomBar();
+                            }
+                            HeaderEnable = false;
                         }
+                        else
+                        {
+                            if (!HeaderEnable)
+                            {
+                                var da = new DoubleAnimation();
+                                da.EasingFunction = new CircleEase();
+                                da.From = 0D;
+                                da.Duration = TimeSpan.FromMilliseconds(300D);
+                                navRoot.BeginAnimation(Grid.HeightProperty, da);
+                                App.ToolBox.ShowButtomBar();
+                            }
+                            HeaderEnable = true;
+                        }
+                    }
+                };
+            App.Navigation.EnableBackward +=
+                (a, b) => { (Resources["BackInSB"] as Storyboard).Begin(); };
+            App.Navigation.DisableBackward +=
+                (a, b) => { (Resources["BackOutSB"] as Storyboard).Begin(); };
+            App.Navigation.ShowingMessage +=
+                (a, b) => { ucMsgPanel.Show(b.Title, b.Message); };
+            App.Navigation.ShowingYesNoMessage +=
+                (a, b) => { ucYNPanel.Show(b.Title, b.Message); };
+            App.Navigation.ShowingErrorMessage +=
+                (a, b) => { ucMsgPanel.ShowError(b.Title, b.Message); };
+            App.ToolBox.ShowButtomButtons += (a, b) => { rootLayout_ShowToolBox(a, b); };
+            App.ToolBox.HideButtomButtons += (a, b) => { rootLayout_HideToolBox(a, b); };
+            frameContent.Children.Clear();
+            frameContent.Children.Add(App.Navigation.ActivedFrame);
         }
 
-        private void MakeAll(object sender, RoutedEventArgs e)
+        void rootLayout_HideToolBox(object sender, EventArgs e)
         {
-            UpdateModifiedCode();
-            SaveSolution(this, new RoutedEventArgs());
-            App.ViewModel.MakeAll();
+            var da = new DoubleAnimation();
+            da.EasingFunction = new CircleEase();
+            da.To = 0D;
+            da.Duration = TimeSpan.FromMilliseconds(300D);
+            toolboxRoot.BeginAnimation(Grid.HeightProperty, da);
+        }
+
+        void rootLayout_ShowToolBox(object sender, EventArgs e)
+        {
+            var da = new DoubleAnimation();
+            da.EasingFunction = new BackEase { Amplitude = 1 };
+            da.From = 0D;
+            da.Duration = TimeSpan.FromMilliseconds(300D);
+            toolboxRoot.BeginAnimation(Grid.HeightProperty, da);
+        }
+
+        private void ToolBoxButton_MouseLeftButtonDown_5(object sender, MouseButtonEventArgs e)
+        {
+            App.Navigation.GoBackward();
+        }
+
+        public void InvokeCustomAction(object sender, ToolBoxButtonClickEventArgs e)
+        {
+            e.Handled = true;
+            if (e.ViewModel != null && e.ViewModel.ClickedAction != null) e.ViewModel.ClickedAction();
+        }
+
+        private bool HeaderEnable
+        {
+            get;
+            set;
         }
     }
 }

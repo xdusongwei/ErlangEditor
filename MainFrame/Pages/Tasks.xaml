@@ -1,0 +1,33 @@
+﻿<UserControl x:Class="MainFrame.Pages.Tasks"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local ="clr-namespace:MainFrame"
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             mc:Ignorable="d" Height="366.667" Width="597.701"
+             >
+    <UserControl.Resources>
+        
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Text="所有作业" Style="{StaticResource TitleStyle}"/>
+        <Grid Grid.Row="1" local:EffectHelper.ScrollEffect="400">
+            <telerik:RadTileView MaximizeMode="ZeroOrOne" IsVirtualizing="True" IsAutoScrollingEnabled="True" MinimizedItemsPosition="Right">
+                <telerik:RadTileViewItem Header="Item1" TileState="Minimized" >
+                    <TextBlock Text="Item1 Content" Foreground="Black"/>
+                </telerik:RadTileViewItem>
+                <telerik:RadTileViewItem Header="Item2" TileState="Minimized">
+                    <TextBlock Text="Item2 Content"/>
+                </telerik:RadTileViewItem>
+                <telerik:RadTileViewItem Header="Item3" >
+                    <TextBlock Text="Item3 Content"/>
+                </telerik:RadTileViewItem>
+            </telerik:RadTileView>
+        </Grid>
+    </Grid>
+</UserControl>

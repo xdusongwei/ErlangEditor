@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Newtonsoft.Json;
 
 namespace ErlangEditor.Core.Entity
 {
@@ -10,9 +9,8 @@ namespace ErlangEditor.Core.Entity
     {
         public SolutionEntity()
         {
-            Children = new List<ProjectEntity>();
-            MakeFolder = string.Empty;
-            RecompilableCode = new List<CodeEntity>();
+            Name = BasePath = StartupApp = string.Empty;
+            Apps = new List<ApplicationEntity>();
         }
 
         public string Name
@@ -21,45 +19,19 @@ namespace ErlangEditor.Core.Entity
             set;
         }
 
-        public List<ProjectEntity> Children
+        public string BasePath
         {
             get;
             set;
         }
 
-        public string StartupProjectName
+        public List<ApplicationEntity> Apps
         {
             get;
             set;
         }
 
-        public string CompilerPath
-        {
-            get;
-            set;
-        }
-
-        public string ShellPath
-        {
-            get;
-            set;
-        }
-
-        public string MakeFolder
-        {
-            get;
-            set;
-        }
-
-        [JsonIgnore]
-        public string SolutionPath
-        {
-            get;
-            set;
-        }
-
-        [JsonIgnore]
-        public List<CodeEntity> RecompilableCode
+        public string StartupApp
         {
             get;
             set;

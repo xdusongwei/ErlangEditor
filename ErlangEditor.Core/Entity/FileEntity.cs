@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Newtonsoft.Json;
 
 namespace ErlangEditor.Core.Entity
 {
@@ -10,8 +9,8 @@ namespace ErlangEditor.Core.Entity
     {
         public FileEntity()
         {
-            Children = new List<FileEntity>();
-            ID = Guid.NewGuid();
+            Name = string.Empty;
+            DisplayName = string.Empty;
         }
 
         public string Name
@@ -19,49 +18,16 @@ namespace ErlangEditor.Core.Entity
             get;
             set;
         }
-        
-        public string Path
+
+        public string DisplayName
         {
             get;
             set;
         }
 
-        public Guid ID
+        public object GetParent()
         {
-            get;
-            set;
-        }
-
-        public bool Compilable
-        {
-            get;
-            set;
-        }
-
-        [JsonIgnore]
-        public bool Modified
-        {
-            get;
-            set;
-        }
-
-        public bool IsFolder
-        {
-            get;
-            set;
-        }
-
-        public List<FileEntity> Children
-        {
-            get;
-            set;
-        }
-
-        [JsonIgnore]
-        public object Parent
-        {
-            get;
-            set;
+            return Helper.EntityTreeUtil.GetParent(this);
         }
     }
 }

@@ -1,0 +1,44 @@
+﻿<UserControl x:Class="ErlangEditor.Pages.About"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local ="clr-namespace:ErlangEditor" 
+             mc:Ignorable="d" 
+             d:DesignHeight="400" d:DesignWidth="1000">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Text="此软件的信息" Foreground="White" Style="{DynamicResource TitleStyle}" />
+        <Grid local:EffectHelper.ScrollEffect="400" Grid.Row="1">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <StackPanel.Resources>
+                    <Style TargetType="{x:Type TextBlock}">
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="FontSize" Value="26" />
+                        <Setter Property="LineHeight" Value="48" />
+                    </Style>
+                </StackPanel.Resources>
+                <TextBlock Text="ErlangEditor是作者提供的Windows用户OTP开发环境。" />
+                <TextBlock Text="以提供简单Erlang编程环境为设计主导。"/>
+                <TextBlock >
+                    <Run Text="你可以从" />
+                    <Hyperlink NavigateUri="http://github.com/xdusongwei/ErlangEditor" RequestNavigate="Hyperlink_RequestNavigate">
+                        http://github.com/xdusongwei/ErlangEditor
+                    </Hyperlink>
+                    <Run Text="这里获得此项目的源代码。"/>
+                    <LineBreak/>
+                    <Run Text="Email:" />
+                    <Hyperlink NavigateUri="mailto:songwei@xdu.mstechclub.cn" RequestNavigate="Hyperlink_RequestNavigate">
+                        songwei@xdu.mstechclub.cn
+                    </Hyperlink>
+                    <LineBreak/>
+                    <LineBreak/>
+                    <Run Text="宋伟于西安电子科技大学 2013" />
+                </TextBlock>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -1,0 +1,39 @@
+﻿<UserControl x:Class="MainFrame.Pages.Home"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             xmlns:local ="clr-namespace:MainFrame" mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Image Source="/MainFrame;component/Images/Start_BK.jpg" Grid.RowSpan="2" Stretch="UniformToFill" Margin="-2"/>
+        <TextBlock Grid.Row="0" Text="城市移动控制系统" Foreground="White" Style="{DynamicResource TitleStyle}" />
+        <telerik:RadTileList 
+            VerticalAlignment="Center"
+            HorizontalAlignment="Center"
+            x:Name="TileList1" Grid.Row="1" IsManipulationEnabled="True"  
+            ScrollViewer.HorizontalScrollBarVisibility="Auto" 
+            local:EffectHelper.ScrollEffect="400" Width="800" Height="400">
+            
+            <telerik:Tile Background="Aqua" MouseLeftButtonUp="Tile_MouseLeftButtonUp_1">
+                <TextBlock Text="告警" FontSize="26" Foreground="White" VerticalAlignment="Bottom" Margin="12,0,0,12"/>
+            </telerik:Tile>
+            <telerik:Tile Background="#FF079E22" TileType="Double" MouseLeftButtonUp="DeviceManagerAction">
+                <TextBlock Text="状态监测" FontSize="26" Foreground="White" VerticalAlignment="Bottom" Margin="12,0,0,12"/>
+            </telerik:Tile>
+            <telerik:Tile Background="#FFC72A71" MouseLeftButtonUp="Tile_MouseLeftButtonUp_1" TileType="Single">
+                <TextBlock Text="远程控制" FontSize="26" Foreground="White" VerticalAlignment="Bottom" Margin="12,0,0,12"/>
+            </telerik:Tile>
+            <telerik:Tile Background="BlueViolet" MouseLeftButtonUp="DeviceManagerAction" TileType="Single">
+                <TextBlock Text="场景管理" FontSize="26" Foreground="White" VerticalAlignment="Bottom" Margin="12,0,0,12"/>
+            </telerik:Tile>
+            <telerik:Tile Background="#FF079E22" TileType="Single" MouseLeftButtonUp="Tile_MouseLeftButtonUp_1">
+                <TextBlock Text="系统设置" FontSize="26" Foreground="White" VerticalAlignment="Bottom" Margin="12,0,0,12"/>
+            </telerik:Tile>
+        </telerik:RadTileList>
+    </Grid>
+</UserControl>

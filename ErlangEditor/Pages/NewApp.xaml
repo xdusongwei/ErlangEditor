@@ -1,0 +1,42 @@
+﻿<UserControl x:Class="ErlangEditor.Pages.NewApp"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             xmlns:telerikControls="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls"
+             xmlns:local="clr-namespace:ErlangEditor"
+             mc:Ignorable="d" 
+             d:DesignHeight="500" d:DesignWidth="900" Loaded="UserControl_Loaded">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Text="填写新应用的信息" Foreground="White" Style="{DynamicResource TitleStyle}" />
+        <Grid Grid.Row="1" local:EffectHelper.ScrollEffect="400">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <StackPanel.Resources>
+                    <Style TargetType="{x:Type TextBlock}">
+                        <Setter Property="Foreground" Value="White" />
+                        <Setter Property="FontSize" Value="36" />
+                        <Setter Property="HorizontalAlignment" Value="Center" />
+                    </Style>
+                </StackPanel.Resources>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="应用名称"/>
+                    <TextBox  Width="440" Margin="16,0,0,0" FontSize="34" Name="tbName"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,36,0,0">
+                    <TextBlock Text="创建方式"/>
+                    <telerik:RadRadioButton  Margin="16,0,0,0" IsChecked="True" telerikControls:StyleManager.Theme="Metro">
+                        <TextBlock Text="一般Erlang代码" Style="{x:Null}" FontSize="24"/>
+                    </telerik:RadRadioButton>
+                    <telerik:RadRadioButton  Margin="48,0,0,0" IsChecked="False" telerikControls:StyleManager.Theme="Metro">
+                        <TextBlock Text="Erlang应用配置" Style="{x:Null}" FontSize="24"/>
+                    </telerik:RadRadioButton>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -1,23 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{7BFA6D8E-65AD-4D4A-B877-EE4F90E35A5D}</ProjectGuid>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{2D065965-6957-4413-9EB8-E11AEA557BB5}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ErlangEditor</RootNamespace>
     <AssemblyName>ErlangEditor</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -26,8 +25,8 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -40,9 +39,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Import\ICSharpCode.AvalonEdit.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
@@ -77,8 +74,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Import\Telerik.Windows.Controls.RibbonView.dll</HintPath>
     </Reference>
-    <Reference Include="UIAutomationProvider" />
-    <Reference Include="UIAutomationTypes" />
+    <Reference Include="Telerik.Windows.Data, Version=2012.3.1017.40, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Import\Telerik.Windows.Data.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -88,41 +87,54 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Helper\EntityHelper.cs" />
     <Compile Include="ListScroll.cs" />
-    <Compile Include="Template\TemplateConstant.cs" />
-    <Compile Include="ViewModel\ContextMenuMaker\ItemContextMenu.cs" />
-    <Compile Include="ViewModel\ContextMenuMaker\ProjectContextMenu.cs" />
-    <Compile Include="ViewModel\ContextMenuMaker\SolutionContextMenu.cs" />
-    <Compile Include="ViewModel\ContextMenu\DeleteFile.cs" />
-    <Compile Include="ViewModel\ContextMenu\DeleteFolder.cs" />
-    <Compile Include="ViewModel\ContextMenu\ExistsErlFile.cs" />
-    <Compile Include="ViewModel\ContextMenu\ExistsFile.cs" />
-    <Compile Include="ViewModel\ContextMenu\ExistsHrlFile.cs" />
-    <Compile Include="ViewModel\ContextMenu\NewErlFile.cs" />
-    <Compile Include="ViewModel\ContextMenu\NewFile.cs" />
-    <Compile Include="ViewModel\ContextMenu\NewFolder.cs" />
-    <Compile Include="ViewModel\ContextMenu\NewHrlFile.cs" />
-    <Compile Include="ViewModel\ContextMenu\RemoveFile.cs" />
-    <Compile Include="ViewModel\ContextMenu\RemoveFolder.cs" />
-    <Compile Include="ViewModel\ContextMenu\RenameFile.cs" />
-    <Compile Include="ViewModel\ContextMenu\RenameFolder.cs" />
-    <Compile Include="ViewModel\ContextOperationVM.cs" />
-    <Compile Include="ViewModel\ErrorInfoVM.cs" />
-    <Compile Include="ViewModel\ItemVM.cs" />
-    <Compile Include="ViewModel\MainViewModel.cs" />
-    <Compile Include="ViewModel\OpenedFileVM.cs" />
-    <Compile Include="ViewModel\ProjectVM.cs" />
-    <Compile Include="ViewModel\SolutionVM.cs" />
-    <Compile Include="Windows\NewCodeFile.xaml.cs">
-      <DependentUpon>NewCodeFile.xaml</DependentUpon>
+    <Compile Include="Pages\About.xaml.cs">
+      <DependentUpon>About.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\NewProject.xaml.cs">
-      <DependentUpon>NewProject.xaml</DependentUpon>
+    <Compile Include="Pages\CreateProject.xaml.cs">
+      <DependentUpon>CreateProject.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\NewSolution.xaml.cs">
-      <DependentUpon>NewSolution.xaml</DependentUpon>
+    <Compile Include="Pages\NeewFile_application.xaml.cs">
+      <DependentUpon>NeewFile_application.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\NewApp.xaml.cs">
+      <DependentUpon>NewApp.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\NewFile.xaml.cs">
+      <DependentUpon>NewFile.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\NewFile_app.xaml.cs">
+      <DependentUpon>NewFile_app.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\NewFile_gen_event.xaml.cs">
+      <DependentUpon>NewFile_gen_event.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\NewFile_gen_server.xaml.cs">
+      <DependentUpon>NewFile_gen_server.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\NewFile_gen_supervisor.xaml.cs">
+      <DependentUpon>NewFile_gen_supervisor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\WorkingPage.xaml.cs">
+      <DependentUpon>WorkingPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\WorkingPage_NoLoaded.xaml.cs">
+      <DependentUpon>WorkingPage_NoLoaded.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ToolBoxButton.xaml.cs">
+      <DependentUpon>ToolBoxButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tools\AppInfo.cs" />
+    <Compile Include="ViewModel\MainVM.cs" />
+    <Compile Include="ViewModel\PrjTreeItemVM.cs" />
+    <Compile Include="ViewModel\ToolBoxButtonVM.cs" />
+    <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="WpfTreeHelper.cs" />
+    <Page Include="DesignData\MainVM.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -131,24 +143,132 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Attribute\DialogFrameAttribute.cs" />
+    <Compile Include="Attribute\TaskFrameAttribute.cs" />
+    <Compile Include="EventArg\MessageArgs.cs" />
+    <Compile Include="EventArg\NavigationArgs.cs" />
+    <Compile Include="EventArg\ToolBoxButtonClickEventArgs.cs" />
+    <Compile Include="Helper\EffectHelper.cs" />
+    <Compile Include="Helper\NavigationHelper.cs" />
+    <Compile Include="Helper\ToolBoxHelper.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Windows\NewCodeFile.xaml">
+    <Page Include="Pages\About.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\NewProject.xaml">
+    <Page Include="Pages\CreateProject.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\NewSolution.xaml">
+    <Page Include="Pages\Home.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\MessageFrame.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\NeewFile_application.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\NewApp.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\NewFile.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\NewFile_app.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\NewFile_gen_event.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\NewFile_gen_server.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\NewFile_gen_supervisor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Setting.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\WorkingPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\WorkingPage_NoLoaded.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\YesNoFrame.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\BackButtonAnim.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Button.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\CheckBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\DeviceButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\PasswordBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\TextBlock.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\TextBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Title.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\ToolBar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ToolBoxButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Pages\Home.xaml.cs">
+      <DependentUpon>Home.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\MessageFrame.xaml.cs">
+      <DependentUpon>MessageFrame.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Setting.xaml.cs">
+      <DependentUpon>Setting.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\YesNoFrame.xaml.cs">
+      <DependentUpon>YesNoFrame.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -166,64 +286,71 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-    <None Include="Template\code.erl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Template\module.erl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\042b_AddCategory_64x64_72.png" />
-    <Resource Include="Images\075b_UpFolder_64x64_72.png" />
-    <Resource Include="Images\305_Close_48x48_72.png" />
-    <Resource Include="Images\009_HighPriority_128x128_72.png" />
-    <Resource Include="Images\112_RefreshArrow_Green_48x48_72.png" />
-    <Resource Include="Images\112_Tick_Green_64x64_72.png" />
-    <Resource Include="Images\FloppyDisk.png" />
-    <Content Include="Import\Telerik.Windows.Controls.RibbonView.dll" />
-    <Content Include="Import\Telerik.Windows.Data.dll" />
-    <Resource Include="Template\NormalText.txt" />
-    <Resource Include="Images\Gear.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\Generic_Document.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\Settings.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\Stuffed_Folder.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\erlang-logo.png" />
+    <ProjectReference Include="..\ErlangEditor.Core\ErlangEditor.Core.csproj">
+      <Project>{4292b9b3-29c2-4c16-9ae4-0feb951b3a1a}</Project>
+      <Name>ErlangEditor.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\MB_0005_sett_small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\MB_0006_back.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\MB_0010_tasks.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\MB_0011_info3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\MB_0019_plus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\MB_0022_range.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\MB_0023_home2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\MB_0037_Control-Panel2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\MB_0037_Control-Panel2_Dark.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\MS_0000s_0031_net3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\MS_0000s_0036_search.png" />
+    <Resource Include="Images\MB_0017_folder.png" />
+    <Resource Include="Images\MB_0019_plus_H.png" />
+    <Resource Include="Images\appbar.check.rest.png" />
+    <Resource Include="Images\appbar.feature.search.rest.png" />
+    <Resource Include="Images\MB_0018_help.png" />
+    <Resource Include="Images\appbar.add.rest.png" />
+    <Resource Include="Images\appbar.close.rest.png" />
+    <Resource Include="Images\appbar.delete.rest.png" />
     <Content Include="Import\ICSharpCode.AvalonEdit.dll" />
+    <Resource Include="Import\ICSharpCode.AvalonEdit.xml" />
     <Content Include="Import\Telerik.Windows.Controls.Data.dll" />
+    <Content Include="Import\Telerik.Windows.Controls.dll" />
     <Content Include="Import\Telerik.Windows.Controls.Docking.dll" />
     <Content Include="Import\Telerik.Windows.Controls.GridView.dll" />
     <Content Include="Import\Telerik.Windows.Controls.Navigation.dll" />
+    <Content Include="Import\Telerik.Windows.Controls.RibbonView.dll" />
+    <Content Include="Import\Telerik.Windows.Data.dll" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ErlangEditor.CompilerProxy\ErlangEditor.CompilerProxy.csproj">
-      <Project>{9C5BFE5C-3854-4BAC-98D9-301B2A747D04}</Project>
-      <Name>ErlangEditor.CompilerProxy</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ErlangEditor.Core\ErlangEditor.Core.csproj">
-      <Project>{2F06B7C0-9CB4-4011-90E2-12303864D037}</Project>
-      <Name>ErlangEditor.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ErlangEditor.Template\ErlangEditor.Template.csproj">
-      <Project>{0B4363A8-44F5-43AF-81DE-1661E89BB8EF}</Project>
-      <Name>ErlangEditor.Template</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ContextHelper\" />
+    <Folder Include="Controls\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

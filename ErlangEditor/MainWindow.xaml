@@ -1,123 +1,74 @@
-﻿<Window x:Class="ErlangEditor.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+﻿<Window xmlns:MainFrame="clr-namespace:ErlangEditor"  xmlns:Pages="clr-namespace:ErlangEditor.Pages"  x:Class="ErlangEditor.MainWindow"
+xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
-        xmlns:ae ="http://icsharpcode.net/sharpdevelop/avalonedit"
         xmlns:vm="clr-namespace:ErlangEditor.ViewModel"
-        xmlns:local="clr-namespace:ErlangEditor"
-        Title="ErlangEditor" Height="400" Width="891" WindowStartupLocation="CenterScreen" WindowState="Maximized">
+        xmlns:pg="clr-namespace:ErlangEditor.Pages"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        mc:Ignorable="d" 
+        d:DataContext="{d:DesignData /DesignData/MainVM.xaml}"
+        Title="ErlangEditor" Height="500" Width="756.343" Loaded="Window_Loaded" WindowState="Maximized">
     <Window.Resources>
-        
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Resources/BackButtonAnim.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Window.Resources>
+    <Window.Background>
+        <LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
+            <GradientStop Color="#FF0A837E" Offset="0"/>
+            <GradientStop Color="#FF40A2C7" Offset="0.991"/>
+        </LinearGradientBrush>
+    </Window.Background>
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <telerik:RadRibbonView  Grid.Row="0" ApplicationButtonImageSource="/ErlangEditor;component/Images/erlang-logo.png" TitleBarVisibility="Collapsed">
-            <telerik:RadRibbonTab Header="方案" Margin="0,0,12,0" Width="48">
-                <telerik:RadRibbonGroup Header="解决方案">
-                    <telerik:RadRibbonButton Text="新建" LargeImage="/ErlangEditor;component/Images/042b_AddCategory_64x64_72.png" Size="Large"
-                    telerik:ScreenTip.Description="创建新的Erlang解决方案" Click="CreateNewSolution">
-                    </telerik:RadRibbonButton>
-                    <telerik:RadRibbonButton Text="打开" LargeImage="/ErlangEditor;component/Images/075b_UpFolder_64x64_72.png" Size="Large"
-                    telerik:ScreenTip.Description="打开已有的Erlang解决方案" Click="OpenSolution">
-                    </telerik:RadRibbonButton>
-                    <telerik:RadRibbonButton Text="关闭" LargeImage="/ErlangEditor;component/Images/305_Close_48x48_72.png" Size="Large"
-                    telerik:ScreenTip.Description="关闭打开的Erlang解决方案" >
-                    </telerik:RadRibbonButton>
-                    <telerik:RadRibbonButton Text="保存" LargeImage="/ErlangEditor;component/Images/FloppyDisk.png" Size="Large"
-                    telerik:ScreenTip.Description="保存打开的Erlang解决方案" Click="SaveSolution" >
-                    </telerik:RadRibbonButton>
-                </telerik:RadRibbonGroup>
-            </telerik:RadRibbonTab>
-            <telerik:RadRibbonTab Header="生成" Margin="0,0,12,0" Width="48">
-                <telerik:RadRibbonGroup Header="生成">
-                    <telerik:RadRibbonButton Text="生成" LargeImage="/ErlangEditor;component/Images/112_Tick_Green_64x64_72.png" Size="Large"
-                    telerik:ScreenTip.Description="创建新的Erlang解决方案" Click="Make">
-                    </telerik:RadRibbonButton>
-                    <telerik:RadRibbonButton Text="重新生成" LargeImage="/ErlangEditor;component/Images/112_RefreshArrow_Green_48x48_72.png" Size="Large"
-                    telerik:ScreenTip.Description="创建新的Erlang解决方案" Click="MakeAll">
-                    </telerik:RadRibbonButton>
-                </telerik:RadRibbonGroup>
-                <telerik:RadRibbonGroup Header="执行">
-                    <telerik:RadRibbonButton Text="执行" LargeImage="/ErlangEditor;component/Images/009_HighPriority_128x128_72.png" Size="Large"
-                    telerik:ScreenTip.Description="创建新的Erlang解决方案" Click="Make">
-                    </telerik:RadRibbonButton>
-                </telerik:RadRibbonGroup>
-            </telerik:RadRibbonTab>
-        </telerik:RadRibbonView>
-        <telerik:RadDocking Grid.Row="1">
-            <telerik:RadDocking.DocumentHost>
-                <telerik:RadSplitContainer>
-                    <telerik:RadPaneGroup Name="rpContent">
-                    </telerik:RadPaneGroup>
-                </telerik:RadSplitContainer>
-            </telerik:RadDocking.DocumentHost>
-            <telerik:RadSplitContainer InitialPosition="DockedLeft">
-                <telerik:RadPaneGroup>
-                    <telerik:RadPane Header="节点管理器" CanUserClose="False"/>
-                </telerik:RadPaneGroup>
-            </telerik:RadSplitContainer>
 
-            <telerik:RadSplitContainer InitialPosition="DockedRight">
-                <telerik:RadPaneGroup>
-                    <telerik:RadPane Header="解决方案浏览器" CanUserClose="False">
-                        <telerik:RadTreeView ItemsSource="{Binding CurrentSolutions}" MouseDoubleClick="RadTreeView_MouseDoubleClick" Name="rtvSolution">
-                            <telerik:RadTreeView.ItemTemplate>
-                                <HierarchicalDataTemplate ItemsSource="{Binding Path=Children}">
-                                    <StackPanel Orientation="Horizontal" Height="22" Margin="2">
-                                        <Image Stretch="Uniform" Source="{Binding Icon}" />
-                                        <TextBox Text="{Binding Path=Name,Mode=TwoWay}" 
-                                                 Visibility="{Binding TextBoxVisibility}" 
-                                                 LostFocus="TextBox_LostFocus" 
-                                                 KeyDown="TextBox_KeyDown" 
-                                                 Tag="{Binding}" BorderBrush="#FF070707" 
-                                                 Loaded="TextBox_Loaded"
-                                                 IsVisibleChanged="TextBox_IsVisibleChanged"  />
-                                        <TextBlock Text="{Binding Path=Name}" VerticalAlignment="Center" Visibility="{Binding TextBlockVisibility}"/>
-                                    </StackPanel>
-                                </HierarchicalDataTemplate>
-                            </telerik:RadTreeView.ItemTemplate>
-                            <telerik:RadContextMenu.ContextMenu>
-                                <telerik:RadContextMenu x:Name="radContextMenu"
-						            Opened="RadContextMenu_Opened"
-						            ItemsSource="{Binding ContextOperations}">
-                                </telerik:RadContextMenu>
-                            </telerik:RadContextMenu.ContextMenu>
-                        </telerik:RadTreeView>
-                    </telerik:RadPane>
-                </telerik:RadPaneGroup>
-            </telerik:RadSplitContainer>
-
-            <telerik:RadSplitContainer InitialPosition="DockedBottom">
-                <telerik:RadPaneGroup>
-                    <telerik:RadPane Header="输出" CanUserClose="False">
-                        <ListBox ItemsSource="{Binding ExportLog}" local:ListScroll.IsEnabled="True">
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal" Height="24">
-                                        <TextBlock Margin="6,0,0,0" Text="{Binding}" VerticalAlignment="Center" />
-                                    </StackPanel>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
-                    </telerik:RadPane>
-                    <telerik:RadPane Header="错误列表" CanUserClose="False">
-                        <ListBox ItemsSource="{Binding ErrorLog}" local:ListScroll.IsEnabled="True">
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Margin="4" Text="{Binding Entity.Name}" VerticalAlignment="Center" />
-                                        <TextBlock Margin="4" Text="{Binding Line}" VerticalAlignment="Center" />
-                                        <TextBlock Margin="4" Text="{Binding Log}" VerticalAlignment="Center" />
-                                    </StackPanel>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
-                    </telerik:RadPane>
-                </telerik:RadPaneGroup>
-            </telerik:RadSplitContainer>
-        </telerik:RadDocking>
+        <DockPanel LastChildFill="True">
+            <Grid x:Name="navRoot" DockPanel.Dock="Top" Background="{DynamicResource AppBorderBackground}" VerticalAlignment="Top" Height="60">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <ListBox Grid.Column="1" 
+                         ItemsSource="{Binding HeaderButtons}" 
+                         Style="{DynamicResource toolBoxStyle}"
+                         MainFrame:ToolBoxButton.Click="InvokeCustomAction"
+                         Margin="0,0,12,0" />
+                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                    <MainFrame:ToolBoxButton x:Name="tbxBackward" MouseLeftButtonDown="ToolBoxButton_MouseLeftButtonDown_5">
+                        <UserControl.DataContext>
+                            <vm:ToolBoxButtonVM Text="后退" ImageSource="Images/MB_0006_back.png" />
+                        </UserControl.DataContext>
+                        <UserControl.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform />
+                                <SkewTransform />
+                                <RotateTransform />
+                                <TranslateTransform />
+                            </TransformGroup>
+                        </UserControl.RenderTransform>
+                    </MainFrame:ToolBoxButton>
+                    <TextBlock Text="{Binding FrameTitle}"  Foreground="White" FontSize="32" VerticalAlignment="Center" Margin="16,0,0,0" />
+                </StackPanel>
+                
+            </Grid>
+            <Grid x:Name="toolboxRoot" DockPanel.Dock="Bottom" Height="60" Background="{DynamicResource AppBorderBackground}" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <ListBox Grid.Column="0" Margin="12,0,0,0" Style="{DynamicResource toolBoxStyle}" 
+                         HorizontalAlignment="Center"
+                         ItemsSource="{Binding ContextButtonsLeft}" 
+                         MainFrame:ToolBoxButton.Click="InvokeCustomAction"/>
+                <ListBox Style="{DynamicResource toolBoxStyle}" ItemsSource="{Binding ContextButtonsRight}" 
+                         Grid.Column="1" Margin="0,0,12,0" 
+                         MainFrame:ToolBoxButton.Click="InvokeCustomAction"/>
+            </Grid>
+            <Grid Name="frameContent" />
+        </DockPanel>
+        
+        <pg:MessageFrame x:Name="ucMsgPanel" Visibility="Collapsed" />
+        <pg:YesNoFrame x:Name="ucYNPanel" Visibility="Collapsed" />
     </Grid>
 </Window>
