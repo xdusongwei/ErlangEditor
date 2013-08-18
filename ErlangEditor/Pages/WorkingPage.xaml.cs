@@ -117,7 +117,8 @@ namespace ErlangEditor.Pages
                     ImageSource = new BitmapImage(new Uri("/Images/MB_0013_APP-info.png", UriKind.RelativeOrAbsolute)),
                     ClickedAction = new Action(() =>
                     {
-
+                        UpdateTabCollection();
+                        App.Compile.MakeApp(item);
                     })
                 });
                 App.MainViewModel.ContextButtonsLeft.Add(new ToolBoxButtonVM
@@ -187,7 +188,9 @@ namespace ErlangEditor.Pages
                     ImageSource = new BitmapImage(new Uri("/Images/MB_0013_APP-info.png", UriKind.RelativeOrAbsolute)),
                     ClickedAction = new Action(() =>
                     {
-
+                        var vm = rtvSolution.SelectedContainer.ParentItem.Item as ViewModel.PrjTreeItemVM;
+                        UpdateTabCollection();
+                        App.Compile.MakeApp(vm);
                     })
                 });
                 App.MainViewModel.ContextButtonsLeft.Add(new ToolBoxButtonVM
@@ -215,7 +218,13 @@ namespace ErlangEditor.Pages
                     ImageSource = new BitmapImage(new Uri("/Images/MB_0013_APP-info.png", UriKind.RelativeOrAbsolute)),
                     ClickedAction = new Action(() =>
                     {
-
+                        var h = rtvSolution.SelectedContainer.ParentItem;
+                        while (!((h.Item as ViewModel.PrjTreeItemVM).Entity is ErlangEditor.Core.Entity.ApplicationEntity))
+                        {
+                            h = h.ParentItem;
+                        }
+                        UpdateTabCollection();
+                        App.Compile.MakeApp(h.Item as ViewModel.PrjTreeItemVM);
                     })
                 });
                 App.MainViewModel.ContextButtonsLeft.Add(new ToolBoxButtonVM

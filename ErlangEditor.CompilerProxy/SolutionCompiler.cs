@@ -18,7 +18,7 @@ namespace ErlangEditor.CompilerProxy
         private static volatile Thread thCompiler = null;
 
         public void Start(
-            SolutionEntity aEntity,
+            IEnumerable<ApplicationEntity> aApps,
             Collection<string> aExportReport
             )
         {
@@ -33,7 +33,7 @@ namespace ErlangEditor.CompilerProxy
             PrintBegin(aExportReport);
             thCompiler = new Thread(() =>
             {
-                foreach(var i in aEntity.Apps)
+                foreach(var i in aApps)
                     foreach(var k in i.Folders.Where(x=>x.Name=="src"))
                         foreach (var j in k.Files)
                         {
