@@ -89,7 +89,7 @@
     </ApplicationDefinition>
     <Compile Include="Helper\CompileHelper.cs" />
     <Compile Include="Helper\EntityHelper.cs" />
-    <Compile Include="ListScroll.cs" />
+    <Compile Include="Helper\ListScroll.cs" />
     <Compile Include="Pages\About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
     </Compile>
@@ -123,10 +123,9 @@
     <Compile Include="Pages\WorkingPage_NoLoaded.xaml.cs">
       <DependentUpon>WorkingPage_NoLoaded.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ToolBoxButton.xaml.cs">
+    <Compile Include="Controls\ToolBoxButton.xaml.cs">
       <DependentUpon>ToolBoxButton.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Tools\AppInfo.cs" />
     <Compile Include="ValueConverter\FileTabTextVC.cs" />
     <Compile Include="ViewModel\ErrorInfoVM.cs" />
     <Compile Include="ViewModel\FileVM.cs" />
@@ -134,7 +133,7 @@
     <Compile Include="ViewModel\PrjTreeItemVM.cs" />
     <Compile Include="ViewModel\ToolBoxButtonVM.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
-    <Compile Include="WpfTreeHelper.cs" />
+    <Compile Include="Helper\WpfTreeHelper.cs" />
     <Page Include="DesignData\MainVM.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -255,7 +254,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="ToolBoxButton.xaml">
+    <Page Include="Controls\ToolBoxButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -354,6 +353,7 @@
     <Resource Include="Images\MB_0008_save.png" />
     <Resource Include="Images\MB_0013_APP-info.png" />
     <Resource Include="Images\MB_0015_reload.png" />
+    <Resource Include="Images\MB_0000_WMP.png" />
     <Content Include="Import\ICSharpCode.AvalonEdit.dll" />
     <Resource Include="Import\ICSharpCode.AvalonEdit.xml" />
     <Content Include="Import\Telerik.Windows.Controls.Data.dll" />
@@ -365,7 +365,7 @@
     <Content Include="Import\Telerik.Windows.Data.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Controls\" />
+    <Folder Include="Tools\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
