@@ -28,5 +28,15 @@ namespace ErlangEditor.Template
         {
             return new Templates.HeaderCode().TransformText();
         }
+
+        public static string Make_gen_server(string aModuleName)
+        {
+            return new Templates.gen_server(aModuleName).TransformText();
+        }
+
+        public static string Make_application(string aModuleName, string aMFA)
+        {
+            return new Templates.application(aModuleName, aMFA).TransformText();
+        }
     }
 }

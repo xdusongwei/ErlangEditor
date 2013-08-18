@@ -43,8 +43,9 @@ namespace ErlangEditor.Pages
                             try
                             {
                                 ErlangEditor.Core.SolutionUtil.CreateSolution(name, fld);
-                                App.Navigation.GoBackward();
                                 App.Entity.UpdateProjectTree();
+                                App.MainViewModel.WorkingPage = new WorkingPage();
+                                App.Navigation.JumpToWithFirstFrame(App.MainViewModel.WorkingPage);
                             }
                             catch(Exception e)
                             {

@@ -11,7 +11,7 @@
 
 start(_Type, _StartArgs)->
 	case <#= StartupMFA #> of
-		{ ok, Pid } = M ->
+		{ ok, _Pid } = M ->
 			M;
 		Other ->
 			{ error , Other }

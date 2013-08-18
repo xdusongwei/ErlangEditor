@@ -80,6 +80,14 @@ namespace ErlangEditor
             App.ToolBox.HideButtomButtons += (a, b) => { rootLayout_HideToolBox(a, b); };
             frameContent.Children.Clear();
             frameContent.Children.Add(App.Navigation.ActivedFrame);
+            try
+            {
+                ErlangEditor.Core.ConfigUtil.LoadConfig();
+            }
+            catch (Exception ecp)
+            {
+                //App.Navigation.ShowMessageBox(ecp.Message, "出错");
+            }
         }
 
         void rootLayout_HideToolBox(object sender, EventArgs e)

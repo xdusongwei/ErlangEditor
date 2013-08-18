@@ -18,9 +18,9 @@ namespace ErlangEditor.Template.Templates
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "D:\文档\GitHub\ErlangEditor\ErlangEditor.Template\Templates\application.tt"
+    #line 1 "D:\文档\GitHub\ErlangEditor\ErlangEditor.Template\Templates\gen_server.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "11.0.0.0")]
-    public partial class application : applicationBase
+    public partial class gen_server : gen_serverBase
     {
 #line hidden
         /// <summary>
@@ -30,21 +30,46 @@ namespace ErlangEditor.Template.Templates
         {
             this.Write("-module(");
             
-            #line 7 "D:\文档\GitHub\ErlangEditor\ErlangEditor.Template\Templates\application.tt"
+            #line 7 "D:\文档\GitHub\ErlangEditor\ErlangEditor.Template\Templates\gen_server.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModuleName));
             
             #line default
             #line hidden
-            this.Write(").\r\n\r\n-behaviour(application).\r\n-export([start/2,stop/1]).\r\n\r\nstart(_Type, _Start" +
-                    "Args)->\r\n\tcase ");
-            
-            #line 13 "D:\文档\GitHub\ErlangEditor\ErlangEditor.Template\Templates\application.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(StartupMFA));
-            
-            #line default
-            #line hidden
-            this.Write(" of\r\n\t\t{ ok, _Pid } = M ->\r\n\t\t\tM;\r\n\t\tOther ->\r\n\t\t\t{ error , Other }\r\n\tend.\r\n\r\nsto" +
-                    "p(_State)->\r\n\tok.\r\n ");
+            this.Write(@").
+-behaviour(gen_server).
+
+-export([start_link/0,stop/0]).
+
+-export([init/1,handle_call/3,handle_cast/2,handle_info/2,terminate/2,code_change/3]). 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% APIs
+start_link()->
+	ok.
+
+stop()->
+	ok.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Callbacks
+
+init(ArgList)->
+	{ ok , state }.
+
+handle_call(_Request , _From , State)->
+	{reply , ok , State}.
+
+handle_cast(_Msg , State)->
+	{noreply , State}.
+
+handle_info(_Msg, State)->
+	{noreply , State}.
+
+terminate(_Reason , _State)->
+	ok.
+
+code_change(_OldVsn , State , _Extra)->
+	{ ok , State }.");
             return this.GenerationEnvironment.ToString();
         }
     }
@@ -56,7 +81,7 @@ namespace ErlangEditor.Template.Templates
     /// Base class for this transformation
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "11.0.0.0")]
-    public class applicationBase
+    public class gen_serverBase
     {
         #region Fields
         private global::System.Text.StringBuilder generationEnvironmentField;

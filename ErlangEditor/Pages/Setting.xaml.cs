@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -31,5 +32,65 @@ namespace ErlangEditor.Pages
                 return "设置";
             }
         }
+
+        public void UpdateToolBox()
+        {
+            App.MainViewModel.ContextButtonsLeft.Clear();
+            App.MainViewModel.ContextButtonsLeft.Add(new ViewModel.ToolBoxButtonVM("保存", new BitmapImage(new Uri("/Images/appbar.check.rest.png", UriKind.RelativeOrAbsolute)))
+            {
+                ClickedAction = new Action(() =>
+                {
+                    var compilerpath = tbCompiler.Text;
+                    var shellpath = tbShell.Text;
+                    if (!string.IsNullOrEmpty(compilerpath) && !string.IsNullOrEmpty(shellpath))
+                    {
+                        try
+                        {
+                            ErlangEditor.Core.ConfigUtil.Config.CompilerPath = compilerpath;
+                            ErlangEditor.Core.ConfigUtil.Config.ShellPath = shellpath;
+                            ErlangEditor.Core.ConfigUtil.SaveConfig();
+                            App.Navigation.GoBackward();
+                        }
+                        catch (Exception e)
+                        {
+                            App.Navigation.ShowMessageBox(e.Message, "保存设置");
+                        }
+                    }
+                })
+            });
+            App.ToolBox.ShowButtomBar();
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            tbCompiler.Text = ErlangEditor.Core.ConfigUtil.Config.CompilerPath;
+            tbShell.Text = ErlangEditor.Core.ConfigUtil.Config.ShellPath;
+        }
+
+        private void SreachCompilerClick(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog fileDialog = new OpenFileDialog();
+            fileDialog.Title = "选择编译器";
+            fileDialog.Filter = "Erlang compiler(erlc.exe)|erlc.exe";
+            if (fileDialog.ShowDialog() == true)
+            {
+                string file = fileDialog.FileName;
+                tbCompiler.Text = file;
+            }
+        }
+
+        private void SearchShellClick(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog fileDialog = new OpenFileDialog();
+            fileDialog.Title = "选择shell";
+            fileDialog.Filter = "Erlang shell(erl.exe)|erl.exe";
+            if (fileDialog.ShowDialog() == true)
+            {
+                string file = fileDialog.FileName;
+                tbShell.Text = file;
+            }
+        }
+
+
     }
 }

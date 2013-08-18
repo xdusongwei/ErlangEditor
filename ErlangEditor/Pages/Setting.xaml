@@ -3,13 +3,39 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             xmlns:telerikControls="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls"
+             xmlns:local="clr-namespace:ErlangEditor"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="600" d:DesignWidth="900" Loaded="UserControl_Loaded">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0" Text="设置" Style="{StaticResource TitleStyle}" />
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1">
+            <StackPanel.Resources>
+                <Style TargetType="{x:Type TextBlock}">
+                    <Setter Property="Foreground" Value="White" />
+                    <Setter Property="FontSize" Value="36" />
+                    <Setter Property="HorizontalAlignment" Value="Center" />
+                </Style>
+            </StackPanel.Resources>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="编译器位置" Width="200"/>
+                <TextBox x:Name="tbCompiler" Width="386" Margin="16,0,0,0" IsReadOnly="True" ToolTip="{Binding Text,ElementName=tbFolder,Mode=OneWay}" FontSize="34"/>
+                <telerik:RadButton Background="Transparent" BorderBrush="White" BorderThickness="2" telerikControls:StyleManager.Theme="Summer" Margin="4,0,0,0" Click="SreachCompilerClick">
+                    <Image Height="41" Width="41" Source="/ErlangEditor;component/Images/appbar.feature.search.rest.png" />
+                </telerik:RadButton>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,48,0,0">
+                <TextBlock Text="Shell位置"  Width="200"/>
+                <TextBox x:Name="tbShell" Width="386" Margin="16,0,0,0" IsReadOnly="True" ToolTip="{Binding Text,ElementName=tbFolder,Mode=OneWay}"  FontSize="34"/>
+                <telerik:RadButton Background="Transparent" BorderBrush="White" BorderThickness="2" telerikControls:StyleManager.Theme="Summer" Margin="4,0,0,0" Click="SearchShellClick">
+                    <Image Height="41" Width="41" Source="/ErlangEditor;component/Images/appbar.feature.search.rest.png" />
+                </telerik:RadButton>
+            </StackPanel>
+        </StackPanel>
     </Grid>
 </UserControl>

@@ -15,7 +15,7 @@ namespace ErlangEditor.ViewModel
             set;
         }
 
-        public int Line
+        public string Line
         {
             get;
             set;
