@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Media;
 
 namespace ErlangEditor.ValueConverter
 {
@@ -13,7 +15,9 @@ namespace ErlangEditor.ValueConverter
         {
             var name = values[0] as string;
             var state = (bool)values[1];
-            return string.Format("{0}{1}", name, state ? "*" : string.Empty);
+            var tb = new TextBlock{ Foreground = new SolidColorBrush(Colors.Black) , FontSize= 16 ,Margin = new System.Windows.Thickness(2,0,2,0)};
+            tb.Text = string.Format("{0}{1}", name, state ? "*" : string.Empty);
+            return tb;
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)

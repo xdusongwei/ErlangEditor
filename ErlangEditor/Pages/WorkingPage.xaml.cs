@@ -2,6 +2,7 @@
 using ICSharpCode.AvalonEdit;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -72,10 +73,22 @@ namespace ErlangEditor.Pages
                     }
                 })
             });
+            
+
             var item = rtvSolution.SelectedItem as ViewModel.PrjTreeItemVM;
             if (item == null || item.Entity == null) return;
             if (item.Entity is ErlangEditor.Core.Entity.SolutionEntity)
             {
+                App.MainViewModel.ContextButtonsLeft.Add(new ToolBoxButtonVM
+                {
+                    Text = "全部编译",
+                    ImageSource = new BitmapImage(new Uri("/Images/MB_0015_reload.png", UriKind.RelativeOrAbsolute)),
+                    ClickedAction = new Action(() =>
+                    {
+                        UpdateTabCollection();
+                        App.Compile.MakeSolution();
+                    })
+                });
                 App.MainViewModel.ContextButtonsLeft.Add(new ToolBoxButtonVM
                 {
                     Text = "应用",
@@ -88,6 +101,25 @@ namespace ErlangEditor.Pages
             }
             if (item.Entity is ErlangEditor.Core.Entity.ApplicationEntity)
             {
+                App.MainViewModel.ContextButtonsLeft.Add(new ToolBoxButtonVM
+                {
+                    Text = "全部编译",
+                    ImageSource = new BitmapImage(new Uri("/Images/MB_0015_reload.png", UriKind.RelativeOrAbsolute)),
+                    ClickedAction = new Action(() =>
+                    {
+                        UpdateTabCollection();
+                        App.Compile.MakeSolution();
+                    })
+                });
+                App.MainViewModel.ContextButtonsLeft.Add(new ToolBoxButtonVM
+                {
+                    Text = "编译应用",
+                    ImageSource = new BitmapImage(new Uri("/Images/MB_0013_APP-info.png", UriKind.RelativeOrAbsolute)),
+                    ClickedAction = new Action(() =>
+                    {
+
+                    })
+                });
                 App.MainViewModel.ContextButtonsLeft.Add(new ToolBoxButtonVM
                 {
                     Text = "文件",
@@ -141,6 +173,25 @@ namespace ErlangEditor.Pages
             {
                 App.MainViewModel.ContextButtonsLeft.Add(new ToolBoxButtonVM
                 {
+                    Text = "全部编译",
+                    ImageSource = new BitmapImage(new Uri("/Images/MB_0015_reload.png", UriKind.RelativeOrAbsolute)),
+                    ClickedAction = new Action(() =>
+                    {
+                        UpdateTabCollection();
+                        App.Compile.MakeSolution();
+                    })
+                });
+                App.MainViewModel.ContextButtonsLeft.Add(new ToolBoxButtonVM
+                {
+                    Text = "编译应用",
+                    ImageSource = new BitmapImage(new Uri("/Images/MB_0013_APP-info.png", UriKind.RelativeOrAbsolute)),
+                    ClickedAction = new Action(() =>
+                    {
+
+                    })
+                });
+                App.MainViewModel.ContextButtonsLeft.Add(new ToolBoxButtonVM
+                {
                     Text = "文件",
                     ImageSource = new BitmapImage(new Uri("/Images/appbar.add.rest.png", UriKind.RelativeOrAbsolute)),
                     ClickedAction = new Action(() => { App.Navigation.GoFroward(new NewFile(rtvSolution.SelectedItem as ViewModel.PrjTreeItemVM)); })
@@ -148,6 +199,25 @@ namespace ErlangEditor.Pages
             }
             if (item.Entity is ErlangEditor.Core.Entity.FileEntity)
             {
+                App.MainViewModel.ContextButtonsLeft.Add(new ToolBoxButtonVM
+                {
+                    Text = "全部编译",
+                    ImageSource = new BitmapImage(new Uri("/Images/MB_0015_reload.png", UriKind.RelativeOrAbsolute)),
+                    ClickedAction = new Action(() =>
+                    {
+                        UpdateTabCollection();
+                        App.Compile.MakeSolution();
+                    })
+                });
+                App.MainViewModel.ContextButtonsLeft.Add(new ToolBoxButtonVM
+                {
+                    Text = "编译应用",
+                    ImageSource = new BitmapImage(new Uri("/Images/MB_0013_APP-info.png", UriKind.RelativeOrAbsolute)),
+                    ClickedAction = new Action(() =>
+                    {
+
+                    })
+                });
                 App.MainViewModel.ContextButtonsLeft.Add(new ToolBoxButtonVM
                 {
                     Text = "分离",
@@ -220,9 +290,11 @@ namespace ErlangEditor.Pages
                     editor.Text = ErlangEditor.Core.FileUtil.LoadFile(entity);
                     editor.TextChanged += (a, b) => { fileVM.Changed = true; };
                     editor.BorderBrush = new SolidColorBrush(Colors.White);
+                    editor.FontSize = 16;
+                    editor.ShowLineNumbers = true;
                     editor.SyntaxHighlighting = ICSharpCode.AvalonEdit.Highlighting.HighlightingManager.Instance.GetDefinition("Erl");
                     rp.Content = editor;
-                    rp.Unloaded += (a, b) => { App.MainViewModel.OpenedFiles.Remove(fileVM); };  
+                    rp.Tag = fileVM;
                     rpContent.Items.Add(rp);
                     var b1 = new Binding("FileName") { Source = fileVM, Mode = BindingMode.OneWay };
                     var b2 = new Binding("Changed") { Source = fileVM, Mode = BindingMode.OneWay };
@@ -230,7 +302,7 @@ namespace ErlangEditor.Pages
                     mb.Bindings.Add(b1);
                     mb.Bindings.Add(b2);
                     mb.Converter = new ValueConverter.FileTabTextVC();
-                    rp.SetBinding(RadPane.TitleProperty, mb);
+                    rp.SetBinding(RadPane.HeaderProperty, mb);
                     App.MainViewModel.OpenedFiles.Add(fileVM);
                 }
                 catch (Exception ecp)
@@ -240,9 +312,15 @@ namespace ErlangEditor.Pages
             }
         }
 
-        private void RadPane_Unloaded(object sender, RoutedEventArgs e)
+        private void UpdateTabCollection()
         {
-            
+            App.MainViewModel.OpenedFiles.Clear();
+            foreach (var i in rpContent.Items)
+            {
+                var pane = i as RadPane;
+                var fileVM = pane.Tag as ViewModel.FileVM;
+                App.MainViewModel.OpenedFiles.Add(fileVM);
+            }
         }
     }
 }

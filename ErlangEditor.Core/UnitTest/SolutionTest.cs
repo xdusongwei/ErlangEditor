@@ -10,7 +10,8 @@ namespace ErlangEditor.Core.UnitTest
     {
         public static void Test()
         {
-            System.IO.File.Delete(System.Environment.CurrentDirectory + "\\testSln\\testSln.sln"); 
+            System.IO.Directory.Delete(System.Environment.CurrentDirectory + "\\testSln", true);
+            //System.IO.File.Delete(System.Environment.CurrentDirectory + "\\testSln\\testSln.sln"); 
             //create sln
             SolutionUtil.CreateSolution("testSln", System.Environment.CurrentDirectory);
             Debug.Assert(SolutionUtil.Solution != null && SolutionUtil.Solution.Name == "testSln");

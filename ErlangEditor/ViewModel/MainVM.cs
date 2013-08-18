@@ -122,6 +122,18 @@ namespace ErlangEditor.ViewModel
             set;
         }
 
+        private ObservableCollection<string> exportLog_ = new ObservableCollection<string>();
+        public ObservableCollection<string> ExportLog
+        {
+            get { return exportLog_; }
+        }
+
+        private ObservableCollection<ErrorInfoVM> errorLog_ = new ObservableCollection<ErrorInfoVM>();
+        public ObservableCollection<ErrorInfoVM> ErrorLog
+        {
+            get { return errorLog_; }
+        }
+
         public string FrameTitle
         {
             get { return (string)GetValue(FrameTitleProperty); }

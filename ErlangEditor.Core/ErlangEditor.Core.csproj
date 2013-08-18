@@ -46,7 +46,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationUtil.cs" />
+    <Compile Include="ConfigUtil.cs" />
     <Compile Include="Entity\ApplicationEntity.cs" />
+    <Compile Include="Entity\ConfigEntity.cs" />
     <Compile Include="Entity\FileEntity.cs" />
     <Compile Include="Entity\FolderEntity.cs" />
     <Compile Include="Entity\SolutionEntity.cs" />

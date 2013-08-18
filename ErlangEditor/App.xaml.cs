@@ -36,5 +36,11 @@ namespace ErlangEditor
         {
             get { return entity_; }
         }
+
+        private static Helper.CompileHelper compile_ = new Helper.CompileHelper();
+        public static Helper.CompileHelper Compile
+        {
+            get { return compile_; }
+        }
     }
 }

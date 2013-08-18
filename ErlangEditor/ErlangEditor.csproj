@@ -87,6 +87,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Helper\CompileHelper.cs" />
     <Compile Include="Helper\EntityHelper.cs" />
     <Compile Include="ListScroll.cs" />
     <Compile Include="Pages\About.xaml.cs">
@@ -127,6 +128,7 @@
     </Compile>
     <Compile Include="Tools\AppInfo.cs" />
     <Compile Include="ValueConverter\FileTabTextVC.cs" />
+    <Compile Include="ViewModel\ErrorInfoVM.cs" />
     <Compile Include="ViewModel\FileVM.cs" />
     <Compile Include="ViewModel\MainVM.cs" />
     <Compile Include="ViewModel\PrjTreeItemVM.cs" />
@@ -296,6 +298,10 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ErlangEditor.CompilerProxy\ErlangEditor.CompilerProxy.csproj">
+      <Project>{9c5bfe5c-3854-4bac-98d9-301b2a747d04}</Project>
+      <Name>ErlangEditor.CompilerProxy</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ErlangEditor.Core\ErlangEditor.Core.csproj">
       <Project>{4292b9b3-29c2-4c16-9ae4-0feb951b3a1a}</Project>
       <Name>ErlangEditor.Core</Name>
@@ -346,6 +352,8 @@
     <Resource Include="Images\appbar.close.rest.png" />
     <Resource Include="Images\appbar.delete.rest.png" />
     <Resource Include="Images\MB_0008_save.png" />
+    <Resource Include="Images\MB_0013_APP-info.png" />
+    <Resource Include="Images\MB_0015_reload.png" />
     <Content Include="Import\ICSharpCode.AvalonEdit.dll" />
     <Resource Include="Import\ICSharpCode.AvalonEdit.xml" />
     <Content Include="Import\Telerik.Windows.Controls.Data.dll" />

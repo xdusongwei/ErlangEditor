@@ -18,6 +18,7 @@ namespace ErlangEditor.Core.UnitTest
             ApplicationUtil.SeparateApplication("hello");
             Debug.Assert(SolutionUtil.Solution != null && !SolutionUtil.Solution.Apps.Any(x => x.Name == "hello"));
             //re add app
+            System.IO.Directory.Delete(System.Environment.CurrentDirectory + "\\testSln\\hello", true);
             ApplicationUtil.AddApplication(new Entity.ApplicationEntity { Name = "hello" });
             //remove app
             ApplicationUtil.DeleteApplication("hello");
