@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,7 +13,8 @@ namespace ErlangEditor.Core.Entity
             Name = string.Empty;
             Folders = new List<FolderEntity>();
             Files = new List<FileEntity>();
-            StartupMoudle = StartupFunction = StartupArgs = string.Empty;
+            NodeNames = new List<string>();
+            StartupMFA = string.Empty;
         }
 
         public string Name
@@ -33,19 +35,26 @@ namespace ErlangEditor.Core.Entity
             set;
         }
 
-        public string StartupMoudle
+        public bool DefaultStartupMFA
         {
             get;
             set;
         }
 
-        public string StartupFunction
+        public string StartupMFA
         {
             get;
             set;
         }
 
-        public string StartupArgs
+        public List<string> NodeNames
+        {
+            get;
+            set;
+        }
+
+        [JsonIgnore]
+        public bool IsRunning
         {
             get;
             set;

@@ -50,7 +50,7 @@ namespace ErlangEditor.CompilerProxy
                                 prc.StartInfo.RedirectStandardInput = prc.StartInfo.RedirectStandardOutput = true;
                                 prc.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
                                 prc.Start();
-                                prc.WaitForExit();
+                                prc.WaitForExit(10000);
                                 var result = prc.StandardOutput.ReadToEnd();
                                 if (string.IsNullOrEmpty(result))
                                 {
@@ -150,7 +150,7 @@ namespace ErlangEditor.CompilerProxy
 
         private static void PrintBegin(Collection<string> aExportReport)
         {
-            PrintLine("解决方案保存完毕", aExportReport);
+            PrintLine("开始编译", aExportReport);
         }
 
         private void PrintEnd(Collection<string> aExportReport, int aSuccess, int aFailed)
