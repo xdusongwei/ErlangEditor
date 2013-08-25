@@ -54,14 +54,17 @@
     <Compile Include="Entity\ConfigEntity.cs" />
     <Compile Include="Entity\FileEntity.cs" />
     <Compile Include="Entity\FolderEntity.cs" />
+    <Compile Include="Entity\NodeEntity.cs" />
     <Compile Include="Entity\SolutionEntity.cs" />
     <Compile Include="FileUtil.cs" />
     <Compile Include="Helper\EntityTreeUtil.cs" />
+    <Compile Include="NodeUtil.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SolutionUtil.cs" />
     <Compile Include="UnitTest\ApplicationTest.cs" />
     <Compile Include="UnitTest\FileTest.cs" />
+    <Compile Include="UnitTest\NodeTest.cs" />
     <Compile Include="UnitTest\SolutionTest.cs" />
     <Compile Include="UnitTest\TemplateTest.cs" />
   </ItemGroup>

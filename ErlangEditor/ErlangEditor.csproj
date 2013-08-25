@@ -136,6 +136,9 @@
     <Compile Include="Pages\NewFile_gen_supervisor.xaml.cs">
       <DependentUpon>NewFile_gen_supervisor.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\NodeProp.xaml.cs">
+      <DependentUpon>NodeProp.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\WorkingPage.xaml.cs">
       <DependentUpon>WorkingPage.xaml</DependentUpon>
     </Compile>
@@ -222,6 +225,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\NewFile_gen_supervisor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\NodeProp.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

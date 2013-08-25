@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ErlangEditor.RunProxy.Entity
+namespace ErlangEditor.Core.Entity
 {
     public class NodeEntity
     {
-        public bool IsRunning
+        public string NodeName
         {
             get;
             set;
         }
 
-        public string NodeName
+        public bool IsRunning
         {
             get;
             set;

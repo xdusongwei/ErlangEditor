@@ -9,8 +9,9 @@ namespace ErlangEditor.Core.Entity
     {
         public SolutionEntity()
         {
-            Name = BasePath = StartupApp = string.Empty;
+            Name = BasePath = string.Empty;
             Apps = new List<ApplicationEntity>();
+            Nodes = new List<NodeEntity>();
         }
 
         public string Name
@@ -31,7 +32,7 @@ namespace ErlangEditor.Core.Entity
             set;
         }
 
-        public string StartupApp
+        public List<NodeEntity> Nodes
         {
             get;
             set;

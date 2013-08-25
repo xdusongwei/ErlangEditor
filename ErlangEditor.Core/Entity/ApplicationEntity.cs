@@ -53,13 +53,6 @@ namespace ErlangEditor.Core.Entity
             set;
         }
 
-        [JsonIgnore]
-        public bool IsRunning
-        {
-            get;
-            set;
-        }
-
         public bool AutoConfigAppFile
         {
             get;

@@ -13,6 +13,7 @@ namespace ErlangEditor.Core
             UnitTest.ApplicationTest.Test();
             UnitTest.FileTest.Test();
             UnitTest.TemplateTest.Test();
+            UnitTest.NodeTest.Test();
         }
     }
 }
