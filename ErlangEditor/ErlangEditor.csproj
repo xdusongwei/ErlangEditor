@@ -149,9 +149,11 @@
       <DependentUpon>ToolBoxButton.xaml</DependentUpon>
     </Compile>
     <Compile Include="ValueConverter\FileTabTextVC.cs" />
+    <Compile Include="ValueConverter\NodeStateVC.cs" />
     <Compile Include="ViewModel\ErrorInfoVM.cs" />
     <Compile Include="ViewModel\FileVM.cs" />
     <Compile Include="ViewModel\MainVM.cs" />
+    <Compile Include="ViewModel\NodeVM.cs" />
     <Compile Include="ViewModel\PrjTreeItemVM.cs" />
     <Compile Include="ViewModel\ToolBoxButtonVM.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
@@ -384,6 +386,10 @@
     <Resource Include="Images\MB_0013_APP-info.png" />
     <Resource Include="Images\MB_0015_reload.png" />
     <Resource Include="Images\MB_0000_WMP.png" />
+    <Resource Include="Images\appbar.transport.play.rest.png" />
+    <Resource Include="Images\appbar.delete.rest2.png" />
+    <Resource Include="Images\appbar.feature.settings.rest.png" />
+    <Resource Include="Images\appbar.transport.play.rest2.png" />
     <Content Include="Import\ICSharpCode.AvalonEdit.dll" />
     <Resource Include="Import\ICSharpCode.AvalonEdit.xml" />
     <Content Include="Import\Telerik.Windows.Controls.Data.dll" />

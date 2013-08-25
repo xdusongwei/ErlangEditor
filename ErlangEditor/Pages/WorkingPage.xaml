@@ -4,11 +4,16 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       mc:Ignorable="d" 
+      d:DataContext="{d:DesignData /DesignData/MainVM.xaml}"
       d:DesignHeight="600" d:DesignWidth="1000"
       xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
       xmlns:ae ="http://icsharpcode.net/sharpdevelop/avalonedit"
       xmlns:telerikControls="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls"
+      xmlns:vc="clr-namespace:ErlangEditor.ValueConverter"
       xmlns:local="clr-namespace:ErlangEditor" Background="AliceBlue">
+    <UserControl.Resources>
+        <vc:NodeStateVC x:Key="NodeStateVC" />  
+    </UserControl.Resources>
     <Grid>
         <telerik:RadDocking Background="Transparent" telerikControls:StyleManager.Theme="Windows8" BorderBrush="Transparent">
             <telerik:RadDocking.Resources>
@@ -27,10 +32,81 @@
                     </telerik:RadPaneGroup>
                 </telerik:RadSplitContainer>
             </telerik:RadDocking.DocumentHost>
-            <telerik:RadSplitContainer InitialPosition="DockedLeft" Width="240">
+            <telerik:RadSplitContainer InitialPosition="DockedLeft" Width="300">
                 <telerik:RadPaneGroup BorderBrush="{DynamicResource AppBorderBackground}">
-                    <telerik:RadPane Header="节点管理器" CanUserClose="False" Background="{DynamicResource AppBorderBackground}" IsPinned="False" >
-                        
+                    <telerik:RadPane Header="节点管理器" CanUserClose="False" Background="{DynamicResource AppBorderBackground}" >
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <ListBox Grid.Row="0" ItemsSource="{Binding Nodes}" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid ToolTip="{Binding Name}">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <StackPanel Orientation="Horizontal" Margin="8,0" Grid.Column="0">
+                                                <Border Background="{Binding State, Converter={StaticResource NodeStateVC}}" Width="18" Height="18"/>
+                                                <TextBlock Text="{Binding Name}" Margin="8,0,0,0" VerticalAlignment="Center"/>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right">
+                                                <Image Source="/ErlangEditor;component/Images/appbar.transport.play.rest2.png" Width="28" Height="28"/>
+                                                <Border Width="28" Height="28">
+                                                    <Border HorizontalAlignment="Center" VerticalAlignment="Center" Height="10" Width="10" Background="Black" />
+                                                </Border>
+                                                <Image Source="/ErlangEditor;component/Images/appbar.feature.settings.rest.png"  Width="28" Height="28"/>
+                                                <Image Source="/ErlangEditor;component/Images/appbar.delete.rest2.png"  Width="28" Height="28"/>
+                                            </StackPanel>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                            <Border Grid.Row="1"  Background="{DynamicResource AppBorderBackground}">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Height="36">
+                                    <Button Click="AddNode">
+                                        <Button.Template>
+                                            <ControlTemplate>
+                                            	<ControlTemplate.Resources>
+                                            		<Storyboard x:Key="OnMouseEnter1">
+                                            			<ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)" Storyboard.TargetName="border">
+                                            				<EasingColorKeyFrame KeyTime="0" Value="#FF5187C2"/>
+                                            			</ColorAnimationUsingKeyFrames>
+                                            		</Storyboard>
+                                            		<Storyboard x:Key="OnMouseLeave1">
+                                            			<ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)" Storyboard.TargetName="border">
+                                            				<EasingColorKeyFrame KeyTime="0" Value="Transparent"/>
+                                            			</ColorAnimationUsingKeyFrames>
+                                            		</Storyboard>
+                                            		<Storyboard x:Key="OnMouseLeftButtonDown1">
+                                            			<ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)" Storyboard.TargetName="border">
+                                            				<EasingColorKeyFrame KeyTime="0" Value="White"/>
+                                            				<EasingColorKeyFrame KeyTime="0:0:0.1" Value="Transparent"/>
+                                            			</ColorAnimationUsingKeyFrames>
+                                            		</Storyboard>
+                                            	</ControlTemplate.Resources>
+                                                <Border x:Name="border" Background="Transparent">
+                                                    <Image Source="/ErlangEditor;component/Images/appbar.add.rest.png" Height="28"/>
+                                                </Border>
+                                            	<ControlTemplate.Triggers>
+                                            		<EventTrigger RoutedEvent="Mouse.MouseEnter">
+                                            			<BeginStoryboard Storyboard="{StaticResource OnMouseEnter1}"/>
+                                            		</EventTrigger>
+                                            		<EventTrigger RoutedEvent="Mouse.MouseLeave">
+                                            			<BeginStoryboard x:Name="OnMouseLeave1_BeginStoryboard" Storyboard="{StaticResource OnMouseLeave1}"/>
+                                            		</EventTrigger>
+                                            		<EventTrigger RoutedEvent="UIElement.MouseLeftButtonDown">
+                                            			<BeginStoryboard x:Name="OnMouseLeftButtonDown1_BeginStoryboard" Storyboard="{StaticResource OnMouseLeftButtonDown1}"/>
+                                            		</EventTrigger>
+                                            	</ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Button.Template>
+                                    </Button>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
                     </telerik:RadPane>
                 </telerik:RadPaneGroup>
             </telerik:RadSplitContainer>

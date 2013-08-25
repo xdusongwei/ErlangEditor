@@ -31,14 +31,14 @@
                 </StackPanel.Resources>
                 <StackPanel>
                     <TextBlock Text="节点名称" />
-                    <TextBox  Width="440" FontSize="34" VerticalAlignment="Center"/>
+                    <TextBox  Width="440" FontSize="34" VerticalAlignment="Center" Name="tbName"/>
                 </StackPanel>
                 <StackPanel>
                     <TextBlock Text="Shell可见性" />
-                    <telerik:RadRadioButton  IsChecked="True" telerikControls:StyleManager.Theme="Metro" Width="120" >
+                    <telerik:RadRadioButton  IsChecked="True" telerikControls:StyleManager.Theme="Metro" Width="120" VerticalAlignment="Center" Name="rbShow">
                         <TextBlock Text="可见" Style="{x:Null}" FontSize="24"/>
                     </telerik:RadRadioButton>
-                    <telerik:RadRadioButton  IsChecked="False" telerikControls:StyleManager.Theme="Metro" Width="120">
+                    <telerik:RadRadioButton  IsChecked="False" telerikControls:StyleManager.Theme="Metro" Width="120" VerticalAlignment="Center" Name="rbHide">
                         <TextBlock Text="不可见" Style="{x:Null}" FontSize="24"/>
                     </telerik:RadRadioButton>
                 </StackPanel>

@@ -58,6 +58,7 @@ namespace ErlangEditor.ViewModel
             });
             WorkingPage = new WorkingPage_NoLoaded();
             OpenedFiles = new List<FileVM>();
+            Nodes = new ObservableCollection<NodeVM>();
             //ContextButtonsLeft.Add(new ToolBoxButtonVM
             //{
             //    Text = "是否对话框",
@@ -111,6 +112,12 @@ namespace ErlangEditor.ViewModel
         }
 
         public ObservableCollection<PrjTreeItemVM> TreeRoot
+        {
+            get;
+            set;
+        }
+
+        public ObservableCollection<NodeVM> Nodes
         {
             get;
             set;

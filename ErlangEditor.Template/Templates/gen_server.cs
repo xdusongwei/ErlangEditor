@@ -53,7 +53,7 @@ stop()->
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Callbacks
 
-init(ArgList)->
+init(_ArgList)->
 	{ ok , state }.
 
 handle_call(_Request , _From , State)->

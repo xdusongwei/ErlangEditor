@@ -24,4 +24,8 @@
     <local:MainVM.ContextButtonsRight>
         <local:ToolBoxButtonVM Text="隐藏" ImageSource="/Images/MB_0011_info3.png" />
     </local:MainVM.ContextButtonsRight>
+    <local:MainVM.Nodes>
+        <local:NodeVM Name="nodeA@localhost" />
+        <local:NodeVM Name="nodeA@localhost.com.cn" State="True"/>
+    </local:MainVM.Nodes>
 </local:MainVM>

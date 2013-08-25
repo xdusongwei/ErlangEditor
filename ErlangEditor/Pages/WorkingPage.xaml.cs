@@ -331,5 +331,10 @@ namespace ErlangEditor.Pages
                 App.MainViewModel.OpenedFiles.Add(fileVM);
             }
         }
+
+        private void AddNode(object sender, RoutedEventArgs e)
+        {
+            App.Navigation.GoFroward(new NodeProp());
+        }
     }
 }

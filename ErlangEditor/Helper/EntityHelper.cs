@@ -15,6 +15,11 @@ namespace ErlangEditor
                 return;
             }
             MakeTreeLoop(null,ErlangEditor.Core.SolutionUtil.Solution);
+            App.MainViewModel.Nodes.Clear();
+            foreach (var i in ErlangEditor.Core.SolutionUtil.Solution.Nodes)
+            {
+                App.MainViewModel.Nodes.Add(new ViewModel.NodeVM(i));
+            }
         }
 
         public string FindAppName(object aNode)
