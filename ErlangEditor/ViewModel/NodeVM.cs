@@ -11,6 +11,8 @@ namespace ErlangEditor.ViewModel
         {
             Entity = new Core.Entity.NodeEntity();
             Name = "NoName";
+            Proxy = new RunProxy.SolutionRunner();
+            Proxy.Closed += (a, b) => { State = false; };
         }
 
         public NodeVM(ErlangEditor.Core.Entity.NodeEntity aEntity)
@@ -20,6 +22,8 @@ namespace ErlangEditor.ViewModel
             {
                 Name = aEntity.NodeName;
             }
+            Proxy = new RunProxy.SolutionRunner();
+            Proxy.Closed += (a, b) => { State = false; };
         }
 
         public string Name
@@ -28,13 +32,25 @@ namespace ErlangEditor.ViewModel
             set;
         }
 
+        private bool state_;
         public bool State
+        {
+            get
+            { return state_; }
+            set
+            {
+                state_ = value;
+                OnPropertyChanged("State");
+            }
+        }
+
+        public ErlangEditor.Core.Entity.NodeEntity Entity
         {
             get;
             set;
         }
 
-        private ErlangEditor.Core.Entity.NodeEntity Entity
+        public ErlangEditor.RunProxy.SolutionRunner Proxy
         {
             get;
             set;

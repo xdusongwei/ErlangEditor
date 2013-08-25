@@ -337,6 +337,10 @@
       <Project>{4292b9b3-29c2-4c16-9ae4-0feb951b3a1a}</Project>
       <Name>ErlangEditor.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ErlangEditor.RunProxy\ErlangEditor.RunProxy.csproj">
+      <Project>{a48e9394-75b7-495c-b8e9-9b9477fde27a}</Project>
+      <Name>ErlangEditor.RunProxy</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ErlangEditor.Template\ErlangEditor.Template.csproj">
       <Project>{0b4363a8-44f5-43af-81de-1661e89bb8ef}</Project>
       <Name>ErlangEditor.Template</Name>

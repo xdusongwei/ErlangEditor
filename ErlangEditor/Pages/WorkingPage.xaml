@@ -53,8 +53,8 @@
                                                 <TextBlock Text="{Binding Name}" Margin="8,0,0,0" VerticalAlignment="Center"/>
                                             </StackPanel>
                                             <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right">
-                                                <Image Source="/ErlangEditor;component/Images/appbar.transport.play.rest2.png" Width="28" Height="28"/>
-                                                <Border Width="28" Height="28">
+                                                <Image Source="/ErlangEditor;component/Images/appbar.transport.play.rest2.png" Width="28" Height="28" MouseLeftButtonDown="Image_MouseLeftButtonDown" Tag="{Binding}"/>
+                                                <Border Width="28" Height="28" Tag="{Binding}" MouseLeftButtonDown="Border_MouseLeftButtonDown">
                                                     <Border HorizontalAlignment="Center" VerticalAlignment="Center" Height="10" Width="10" Background="Black" />
                                                 </Border>
                                                 <Image Source="/ErlangEditor;component/Images/appbar.feature.settings.rest.png"  Width="28" Height="28"/>

@@ -336,5 +336,18 @@ namespace ErlangEditor.Pages
         {
             App.Navigation.GoFroward(new NodeProp());
         }
+
+        private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            var vm = (sender as FrameworkElement).Tag as ViewModel.NodeVM;
+            vm.Proxy.Run(vm.Entity);
+            vm.State = true;
+        }
+
+        private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            var vm = (sender as FrameworkElement).Tag as ViewModel.NodeVM;
+            vm.Proxy.Stop();
+        }
     }
 }

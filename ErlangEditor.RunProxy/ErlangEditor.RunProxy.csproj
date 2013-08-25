@@ -42,8 +42,15 @@
   <ItemGroup>
     <Compile Include="Entity\NodeEntity.cs" />
     <Compile Include="PrerunArguments.cs" />
+    <Compile Include="ShellClosedEventArgs.cs" />
     <Compile Include="SolutionRunner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ErlangEditor.Core\ErlangEditor.Core.csproj">
+      <Project>{2f06b7c0-9cb4-4011-90e2-12303864d037}</Project>
+      <Name>ErlangEditor.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
