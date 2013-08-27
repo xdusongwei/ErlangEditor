@@ -13,6 +13,7 @@
       xmlns:local="clr-namespace:ErlangEditor" Background="AliceBlue">
     <UserControl.Resources>
         <vc:NodeStateVC x:Key="NodeStateVC" />  
+        <vc:NodeAppsVC x:Key="NodeAppsVC" />
     </UserControl.Resources>
     <Grid>
         <telerik:RadDocking Background="Transparent" telerikControls:StyleManager.Theme="Windows8" BorderBrush="Transparent">
@@ -43,24 +44,27 @@
                             <ListBox Grid.Row="0" ItemsSource="{Binding Nodes}" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
-                                        <Grid ToolTip="{Binding Name}">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*" />
-                                                <ColumnDefinition Width="Auto" />
-                                            </Grid.ColumnDefinitions>
-                                            <StackPanel Orientation="Horizontal" Margin="8,0" Grid.Column="0">
-                                                <Border Background="{Binding State, Converter={StaticResource NodeStateVC}}" Width="18" Height="18"/>
-                                                <TextBlock Text="{Binding Name}" Margin="8,0,0,0" VerticalAlignment="Center"/>
-                                            </StackPanel>
-                                            <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right">
-                                                <Image Source="/ErlangEditor;component/Images/appbar.transport.play.rest2.png" Width="28" Height="28" MouseLeftButtonDown="Image_MouseLeftButtonDown" Tag="{Binding}"/>
-                                                <Border Width="28" Height="28" Tag="{Binding}" MouseLeftButtonDown="Border_MouseLeftButtonDown">
-                                                    <Border HorizontalAlignment="Center" VerticalAlignment="Center" Height="10" Width="10" Background="Black" />
-                                                </Border>
-                                                <Image Source="/ErlangEditor;component/Images/appbar.feature.settings.rest.png"  Width="28" Height="28"/>
-                                                <Image Source="/ErlangEditor;component/Images/appbar.delete.rest2.png"  Width="28" Height="28"/>
-                                            </StackPanel>
-                                        </Grid>
+                                        <StackPanel Margin="0,0,0,8" DragEnter="NodeDragEnter" DragLeave="NodeDragLeave" Drop="NodeDrop" AllowDrop="True" Tag="{Binding}">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <StackPanel Orientation="Horizontal" Margin="8,0" Grid.Column="0">
+                                                    <Border Background="{Binding State, Converter={StaticResource NodeStateVC}}" Width="18" Height="18"/>
+                                                    <TextBlock Text="{Binding Name}" Margin="8,0,0,0" VerticalAlignment="Center" ToolTip="{Binding Name}"/>
+                                                </StackPanel>
+                                                <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right">
+                                                    <Image Source="/ErlangEditor;component/Images/appbar.transport.play.rest2.png" Width="28" Height="28" MouseLeftButtonDown="Image_MouseLeftButtonDown" Tag="{Binding}"/>
+                                                    <Border Width="28" Height="28" Tag="{Binding}" MouseLeftButtonDown="Border_MouseLeftButtonDown">
+                                                        <Border HorizontalAlignment="Center" VerticalAlignment="Center" Height="10" Width="10" Background="Black" />
+                                                    </Border>
+                                                    <Image Source="/ErlangEditor;component/Images/appbar.feature.settings.rest.png"  Width="28" Height="28"/>
+                                                    <Image Source="/ErlangEditor;component/Images/appbar.delete.rest2.png"  Width="28" Height="28"/>
+                                                </StackPanel>
+                                            </Grid>
+                                            <TextBlock Text="{Binding AppNames,Converter={StaticResource NodeAppsVC}}" TextWrapping="WrapWithOverflow" Margin="8,0" FontFamily="Microsoft YaHei"/>
+                                        </StackPanel>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
                             </ListBox>
@@ -117,7 +121,7 @@
                         <telerik:RadTreeView ItemsSource="{Binding TreeRoot}" Name="rtvSolution" GotFocus="TreeCtrl_GotFocus" LostFocus="TreeCtrl_LostFocus" SelectionChanged="TreeCtrl_ItemChanged" MouseDoubleClick="rtvSolution_MouseDoubleClick">
                             <telerik:RadTreeView.ItemTemplate>
                                 <HierarchicalDataTemplate ItemsSource="{Binding Path=Children}">
-                                    <StackPanel Orientation="Horizontal" Height="22" Margin="2">
+                                    <StackPanel Orientation="Horizontal" Height="22" Margin="2" MouseMove="ItemMouseMove" Tag="{Binding}">
                                         <Border Background="{Binding TypeColor}" BorderBrush="{Binding StateColor}" HorizontalAlignment="Center" Height="16" Width="16" BorderThickness="2"/>
                                         <TextBlock Text="{Binding Path=DisplayText}" VerticalAlignment="Center" Margin="4,0,0,0"/>
                                     </StackPanel>

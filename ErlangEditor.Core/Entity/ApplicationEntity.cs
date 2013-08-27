@@ -35,7 +35,19 @@ namespace ErlangEditor.Core.Entity
             set;
         }
 
-        public bool DefaultStartupMFA
+        public bool AppMode
+        {
+            get;
+            set;
+        }
+
+        public bool CodeMode
+        {
+            get;
+            set;
+        }
+
+        public bool StartupAsMFA
         {
             get;
             set;
@@ -47,13 +59,13 @@ namespace ErlangEditor.Core.Entity
             set;
         }
 
-        public List<string> NodeNames
+        public bool NoStartup
         {
             get;
             set;
         }
 
-        public bool AutoConfigAppFile
+        public List<string> NodeNames
         {
             get;
             set;

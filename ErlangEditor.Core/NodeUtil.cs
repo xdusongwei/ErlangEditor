@@ -71,6 +71,12 @@ namespace ErlangEditor.Core
                     if (!app.NodeNames.Contains(aNode))
                         app.NodeNames.Add(aNode);
                 }
+                if(sln.Nodes.Any(i=>i.NodeName== aNode))
+                {
+                    var node = sln.Nodes.First(i=>i.NodeName == aNode);
+                    if(!node.Apps.Contains(aApp))
+                        node.Apps.Add(aApp);
+                }
             }
         }
 
@@ -88,6 +94,12 @@ namespace ErlangEditor.Core
                     var app = sln.Apps.First(i => i.Name == aApp);
                     if (app.NodeNames.Contains(aNode))
                         app.NodeNames.Remove(aNode);
+                }
+                if (sln.Nodes.Any(i => i.NodeName == aNode))
+                {
+                    var node = sln.Nodes.First(i => i.NodeName == aNode);
+                    if (node.Apps.Contains(aApp))
+                        node.Apps.Remove(aApp);
                 }
             }
         }

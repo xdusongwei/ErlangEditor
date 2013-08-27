@@ -16,9 +16,11 @@ namespace ErlangEditor.Core.UnitTest
             //inject app
             NodeUtil.InjectionApp("anode@localhost", "hello");
             Debug.Assert(SolutionUtil.Solution.Apps.First(i => i.Name == "hello").NodeNames.Contains("anode@localhost"));
+            Debug.Assert(SolutionUtil.Solution.Nodes.First(i => i.NodeName == "anode@localhost").Apps.Contains("hello"));
             //sep app
             NodeUtil.SeparateApp("anode@localhost", "hello");
             Debug.Assert(!SolutionUtil.Solution.Apps.First(i => i.Name == "hello").NodeNames.Contains("anode@localhost"));
+            Debug.Assert(!SolutionUtil.Solution.Nodes.First(i => i.NodeName == "anode@localhost").Apps.Contains("hello"));
             //startup node
             NodeUtil.StartupNode("anode@localhost");
             //shutdown node

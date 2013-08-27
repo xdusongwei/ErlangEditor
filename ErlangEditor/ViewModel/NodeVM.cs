@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Collections.ObjectModel;
+using System.Windows;
 
 namespace ErlangEditor.ViewModel
 {
@@ -13,6 +15,7 @@ namespace ErlangEditor.ViewModel
             Name = "NoName";
             Proxy = new RunProxy.SolutionRunner();
             Proxy.Closed += (a, b) => { State = false; };
+            AppNames = new ObservableCollection<string>();
         }
 
         public NodeVM(ErlangEditor.Core.Entity.NodeEntity aEntity)
@@ -23,7 +26,10 @@ namespace ErlangEditor.ViewModel
                 Name = aEntity.NodeName;
             }
             Proxy = new RunProxy.SolutionRunner();
-            Proxy.Closed += (a, b) => { State = false; };
+            Proxy.Closed += (a, b) => { State = false; ErlangEditor.Core.NodeUtil.StopNode(aEntity.NodeName); };
+            AppNames = new ObservableCollection<string>();
+            foreach (var i in aEntity.Apps)
+                AppNames.Add(i);
         }
 
         public string Name
@@ -55,5 +61,24 @@ namespace ErlangEditor.ViewModel
             get;
             set;
         }
+
+
+
+        public ObservableCollection<string> AppNames
+        {
+            get { return (ObservableCollection<string>)GetValue(AppNamesProperty); }
+            set { SetValue(AppNamesProperty, value); OnPropertyChanged("AppNames"); }
+        }
+
+        // Using a DependencyProperty as the backing store for AppNames.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty AppNamesProperty =
+            DependencyProperty.Register("AppNames", typeof(ObservableCollection<string>), typeof(NodeVM), new PropertyMetadata(new ObservableCollection<string>()));
+
+        
+        //public ObservableCollection<string> AppNames
+        //{
+        //    get;
+        //    set;
+        //}
     }
 }

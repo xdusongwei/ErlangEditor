@@ -54,7 +54,15 @@ namespace ErlangEditor.Pages
                         }
                         try
                         {
-                            var app = new ErlangEditor.Core.Entity.ApplicationEntity() { Name = name };
+                            var app = new ErlangEditor.Core.Entity.ApplicationEntity() 
+                            { 
+                                Name = name, 
+                                AppMode = rbAppConfig.IsChecked??false , 
+                                CodeMode = rbNormal.IsChecked?? false,
+                                NoStartup = rbNostartup.IsChecked??false,
+                                StartupAsMFA =rbMFA.IsChecked ?? false,
+                                StartupMFA = tbMFA.Text.Trim()
+                            };
                             ErlangEditor.Core.ApplicationUtil.AddApplication(app);
                             ErlangEditor.Core.SolutionUtil.SaveSolution();
                             App.Entity.MakeTreeLoop(sln_, app);

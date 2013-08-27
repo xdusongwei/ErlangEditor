@@ -11,6 +11,7 @@ namespace ErlangEditor.Core.Entity
         {
             CompilerPath = @"E:\erl5.10.1\bin\erlc.exe";
             ShellPath = @"E:\erl5.10.1\bin\werl.exe";
+            ConsolePath = @"E:\erl5.10.1\bin\erl.exe";
         }
 
         public string CompilerPath
@@ -20,6 +21,12 @@ namespace ErlangEditor.Core.Entity
         }
 
         public string ShellPath
+        {
+            get;
+            set;
+        }
+
+        public string ConsolePath
         {
             get;
             set;

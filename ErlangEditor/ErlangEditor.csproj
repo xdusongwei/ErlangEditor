@@ -149,6 +149,7 @@
       <DependentUpon>ToolBoxButton.xaml</DependentUpon>
     </Compile>
     <Compile Include="ValueConverter\FileTabTextVC.cs" />
+    <Compile Include="ValueConverter\NodeAppsVC.cs" />
     <Compile Include="ValueConverter\NodeStateVC.cs" />
     <Compile Include="ViewModel\ErrorInfoVM.cs" />
     <Compile Include="ViewModel\FileVM.cs" />

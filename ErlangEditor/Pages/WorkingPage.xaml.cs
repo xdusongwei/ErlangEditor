@@ -339,15 +339,86 @@ namespace ErlangEditor.Pages
 
         private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            var vm = (sender as FrameworkElement).Tag as ViewModel.NodeVM;
-            vm.Proxy.Run(vm.Entity);
-            vm.State = true;
+            try
+            {
+                var vm = (sender as FrameworkElement).Tag as ViewModel.NodeVM;
+                ErlangEditor.Core.NodeUtil.StartupNode(vm.Name);
+                vm.Proxy.Run(vm.Entity);
+                vm.State = true;
+            }
+            catch (Exception ecp)
+            {
+                App.Navigation.ShowMessageBox(ecp.Message, "出错");
+                try
+                {
+                    var vm = (sender as FrameworkElement).Tag as ViewModel.NodeVM;
+                    ErlangEditor.Core.NodeUtil.StopNode(vm.Name);
+                }
+                catch { }
+            }
         }
 
         private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            var vm = (sender as FrameworkElement).Tag as ViewModel.NodeVM;
-            vm.Proxy.Stop();
+            try
+            {
+                var vm = (sender as FrameworkElement).Tag as ViewModel.NodeVM;
+                vm.Proxy.Stop();
+            }
+            catch (Exception ecp)
+            {
+                App.Navigation.ShowMessageBox(ecp.Message, "出错");
+            }
+        }
+
+        private void ItemMouseMove(object sender, MouseEventArgs e)
+        {
+            var panel = sender as StackPanel;
+            var vm = panel.Tag as ViewModel.PrjTreeItemVM;
+            if (vm != null && e.LeftButton == MouseButtonState.Pressed && vm.Entity is ErlangEditor.Core.Entity.ApplicationEntity)
+            {
+                dragVM_ = vm;
+                DragDrop.DoDragDrop(panel, vm, DragDropEffects.Copy);
+            }
+        }
+
+        private ViewModel.PrjTreeItemVM dragVM_;
+        private void NodeDragEnter(object sender, DragEventArgs e)
+        {
+            var panel = sender as StackPanel;
+            panel.Background = new SolidColorBrush(Colors.Yellow);
+        }
+
+        private void NodeDragLeave(object sender, DragEventArgs e)
+        {
+            var panel = sender as StackPanel;
+            panel.Background = new SolidColorBrush(Colors.Transparent);
+        }
+
+        private void NodeDrop(object sender, DragEventArgs e)
+        {
+            var panel = sender as StackPanel;
+            panel.Background = new SolidColorBrush(Colors.Transparent);
+            var vm = dragVM_;
+            if (vm != null)
+            {
+                var entity = vm.Entity as ErlangEditor.Core.Entity.ApplicationEntity;
+                if (entity != null)
+                {
+                    try
+                    {
+                        var dest = panel.Tag as ViewModel.NodeVM;
+                        ErlangEditor.Core.NodeUtil.InjectionApp(dest.Name, (vm.Entity as ErlangEditor.Core.Entity.ApplicationEntity).Name);
+                        var apps = new System.Collections.ObjectModel.ObservableCollection<string>(dest.Entity.Apps);
+                        dest.AppNames = apps;
+                        ErlangEditor.Core.SolutionUtil.SaveSolution();
+                    }
+                    catch(Exception ecp)
+                    {
+                        App.Navigation.ShowMessageBox(ecp.Message, "出错");
+                    }
+                }
+            }
         }
     }
 }

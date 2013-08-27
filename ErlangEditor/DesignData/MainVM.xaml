@@ -26,6 +26,11 @@
     </local:MainVM.ContextButtonsRight>
     <local:MainVM.Nodes>
         <local:NodeVM Name="nodeA@localhost" />
-        <local:NodeVM Name="nodeA@localhost.com.cn" State="True"/>
+        <local:NodeVM Name="nodeA@localhost.com.cn" State="True">
+            <local:NodeVM.AppNames>
+                <sys:String>xyz</sys:String>
+                <sys:String>dm_supervisor</sys:String>
+            </local:NodeVM.AppNames>
+        </local:NodeVM>
     </local:MainVM.Nodes>
 </local:MainVM>
