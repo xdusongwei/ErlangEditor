@@ -100,37 +100,53 @@ namespace ErlangEditor.ViewModel
         public static readonly DependencyProperty MyPropertyProperty =
             DependencyProperty.Register("Children", typeof(ObservableCollection<PrjTreeItemVM>), typeof(PrjTreeItemVM), new PropertyMetadata(null));
 
-        //public override bool Equals(object obj)
-        //{
-        //    if (obj == null || GetType() != obj.GetType())
-        //    {
-        //        return false;
-        //    }
 
-        //    PrjTreeItemVM other = obj as PrjTreeItemVM;
+        public Visibility RemoveToolbarVisibility
+        {
+            get { return (Visibility)GetValue(RemoveToolbarVisibilityProperty); }
+            set { SetValue(RemoveToolbarVisibilityProperty, value); }
+        }
 
-        //    if (DisplayText != other.DisplayText)
-        //        return false;
-        //    return true;
-        //}
+        // Using a DependencyProperty as the backing store for RemoveToolbarVisility.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty RemoveToolbarVisibilityProperty =
+            DependencyProperty.Register("RemoveToolbarVisibility", typeof(Visibility), typeof(PrjTreeItemVM), new PropertyMetadata(Visibility.Collapsed));
 
-        //public override int GetHashCode()
-        //{
-        //    return DisplayText.GetHashCode();
-        //}
 
-        //public static bool operator ==(PrjTreeItemVM a, PrjTreeItemVM b)
-        //{
-        //    if (Object.Equals(a, null) && Object.Equals(b, null))
-        //    {
-        //        return true;
-        //    }
-        //    return a.Equals(b);
-        //}
 
-        //public static bool operator !=(PrjTreeItemVM a, PrjTreeItemVM b)
-        //{
-        //    return !(a == b);
-        //}
+        public Visibility AddToolbarVisibility
+        {
+            get { return (Visibility)GetValue(AddToolbarVisibilityProperty); }
+            set { SetValue(AddToolbarVisibilityProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for AddToolbarVisility.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty AddToolbarVisibilityProperty =
+            DependencyProperty.Register("AddToolbarVisibility", typeof(Visibility), typeof(PrjTreeItemVM), new PropertyMetadata(Visibility.Collapsed));
+
+
+
+        public Visibility PropToolbarVisibility
+        {
+            get { return (Visibility)GetValue(PropToolbarVisibilityProperty); }
+            set { SetValue(PropToolbarVisibilityProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for PropToolbarVisility.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty PropToolbarVisibilityProperty =
+            DependencyProperty.Register("PropToolbarVisibility", typeof(Visibility), typeof(PrjTreeItemVM), new PropertyMetadata(Visibility.Collapsed));
+
+
+
+        public Visibility CompileToolbarVisibility
+        {
+            get { return (Visibility)GetValue(CompileToolbarVisibilityProperty); }
+            set { SetValue(CompileToolbarVisibilityProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for CompileToolbarVisibility.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CompileToolbarVisibilityProperty =
+            DependencyProperty.Register("CompileToolbarVisibility", typeof(Visibility), typeof(PrjTreeItemVM), new PropertyMetadata(Visibility.Collapsed));
+
+        
     }
 }

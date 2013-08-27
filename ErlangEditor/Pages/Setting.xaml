@@ -36,6 +36,13 @@
                     <Image Height="41" Width="41" Source="/ErlangEditor;component/Images/appbar.feature.search.rest.png" />
                 </telerik:RadButton>
             </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,48,0,0">
+                <TextBlock Text="控制台位置"  Width="200"/>
+                <TextBox x:Name="tbConsole" Width="386" Margin="16,0,0,0" IsReadOnly="True" ToolTip="{Binding Text,ElementName=tbFolder,Mode=OneWay}"  FontSize="34"/>
+                <telerik:RadButton Background="Transparent" BorderBrush="White" BorderThickness="2" telerikControls:StyleManager.Theme="Summer" Margin="4,0,0,0" Click="SearchConsoleClick">
+                    <Image Height="41" Width="41" Source="/ErlangEditor;component/Images/appbar.feature.search.rest.png" />
+                </telerik:RadButton>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </UserControl>

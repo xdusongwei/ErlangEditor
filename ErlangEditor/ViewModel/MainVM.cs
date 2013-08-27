@@ -59,19 +59,7 @@ namespace ErlangEditor.ViewModel
             WorkingPage = new WorkingPage_NoLoaded();
             OpenedFiles = new List<FileVM>();
             Nodes = new ObservableCollection<NodeVM>();
-            //ContextButtonsLeft.Add(new ToolBoxButtonVM
-            //{
-            //    Text = "是否对话框",
-            //    ImageSource = new BitmapImage(new Uri("/Images/MB_0011_info3.png", UriKind.RelativeOrAbsolute)),
-            //    ClickedAction = new Action(() => { App.Navigation.ShowYesNoBox("这是是否对话框", "它的标题在这里"); })
-            //});
-
-            //ContextButtonsLeft.Add(new ToolBoxButtonVM
-            //{
-            //    Text = "警告框",
-            //    ImageSource = new BitmapImage(new Uri("/Images/MB_0011_info3.png", UriKind.RelativeOrAbsolute)),
-            //    ClickedAction = new Action(() => { App.Navigation.ShowErrorMessageBox("很严重的警告!", "错误"); })
-            //});
+            Output = new ObservableCollection<OutputVM>();
         }
 
         public ObservableCollection<ToolBoxButtonVM> HeaderButtons
@@ -139,6 +127,12 @@ namespace ErlangEditor.ViewModel
         public ObservableCollection<ErrorInfoVM> ErrorLog
         {
             get { return errorLog_; }
+        }
+
+        public ObservableCollection<OutputVM> Output
+        {
+            get;
+            set;
         }
 
         public string FrameTitle

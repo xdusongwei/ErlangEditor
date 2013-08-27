@@ -42,12 +42,14 @@ namespace ErlangEditor.Pages
                 {
                     var compilerpath = tbCompiler.Text;
                     var shellpath = tbShell.Text;
+                    var consolepath = tbConsole.Text;
                     if (!string.IsNullOrEmpty(compilerpath) && !string.IsNullOrEmpty(shellpath))
                     {
                         try
                         {
                             ErlangEditor.Core.ConfigUtil.Config.CompilerPath = compilerpath;
                             ErlangEditor.Core.ConfigUtil.Config.ShellPath = shellpath;
+                            ErlangEditor.Core.ConfigUtil.Config.ConsolePath = consolepath;
                             ErlangEditor.Core.ConfigUtil.SaveConfig();
                             App.Navigation.GoBackward();
                         }
@@ -65,6 +67,7 @@ namespace ErlangEditor.Pages
         {
             tbCompiler.Text = ErlangEditor.Core.ConfigUtil.Config.CompilerPath;
             tbShell.Text = ErlangEditor.Core.ConfigUtil.Config.ShellPath;
+            tbConsole.Text = ErlangEditor.Core.ConfigUtil.Config.ConsolePath;
         }
 
         private void SreachCompilerClick(object sender, RoutedEventArgs e)
@@ -80,6 +83,18 @@ namespace ErlangEditor.Pages
         }
 
         private void SearchShellClick(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog fileDialog = new OpenFileDialog();
+            fileDialog.Title = "选择shell";
+            fileDialog.Filter = "Erlang shell(werl.exe)|werl.exe";
+            if (fileDialog.ShowDialog() == true)
+            {
+                string file = fileDialog.FileName;
+                tbShell.Text = file;
+            }
+        }
+
+        private void SearchConsoleClick(object sender, RoutedEventArgs e)
         {
             OpenFileDialog fileDialog = new OpenFileDialog();
             fileDialog.Title = "选择shell";

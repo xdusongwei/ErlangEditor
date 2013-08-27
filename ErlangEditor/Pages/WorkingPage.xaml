@@ -60,7 +60,7 @@
                                                         <Border HorizontalAlignment="Center" VerticalAlignment="Center" Height="10" Width="10" Background="Black" />
                                                     </Border>
                                                     <Image Source="/ErlangEditor;component/Images/appbar.feature.settings.rest.png"  Width="28" Height="28"/>
-                                                    <Image Source="/ErlangEditor;component/Images/appbar.delete.rest2.png"  Width="28" Height="28"/>
+                                                    <Image Source="/ErlangEditor;component/Images/appbar.delete.rest2.png"  Width="28" Height="28" Tag="{Binding}" MouseLeftButtonDown="DeleteNode"/>
                                                 </StackPanel>
                                             </Grid>
                                             <TextBlock Text="{Binding AppNames,Converter={StaticResource NodeAppsVC}}" TextWrapping="WrapWithOverflow" Margin="8,0" FontFamily="Microsoft YaHei"/>
@@ -118,13 +118,27 @@
             <telerik:RadSplitContainer InitialPosition="DockedRight" Width="300">
                 <telerik:RadPaneGroup Background="Transparent">
                     <telerik:RadPane Header="项目浏览器" CanUserClose="False">
-                        <telerik:RadTreeView ItemsSource="{Binding TreeRoot}" Name="rtvSolution" GotFocus="TreeCtrl_GotFocus" LostFocus="TreeCtrl_LostFocus" SelectionChanged="TreeCtrl_ItemChanged" MouseDoubleClick="rtvSolution_MouseDoubleClick">
+                        <telerik:RadTreeView ItemsSource="{Binding TreeRoot}" Name="rtvSolution" SelectionChanged="TreeCtrl_ItemChanged" MouseDoubleClick="rtvSolution_MouseDoubleClick"
+                                             HorizontalContentAlignment="Stretch">
                             <telerik:RadTreeView.ItemTemplate>
                                 <HierarchicalDataTemplate ItemsSource="{Binding Path=Children}">
-                                    <StackPanel Orientation="Horizontal" Height="22" Margin="2" MouseMove="ItemMouseMove" Tag="{Binding}">
-                                        <Border Background="{Binding TypeColor}" BorderBrush="{Binding StateColor}" HorizontalAlignment="Center" Height="16" Width="16" BorderThickness="2"/>
-                                        <TextBlock Text="{Binding Path=DisplayText}" VerticalAlignment="Center" Margin="4,0,0,0"/>
-                                    </StackPanel>
+                                    <Grid MouseMove="ItemMouseMove" Tag="{Binding}">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Orientation="Horizontal" Height="22" Margin="2"  Grid.Column="0">
+                                            <Border Background="{Binding TypeColor}" BorderBrush="{Binding StateColor}" HorizontalAlignment="Center" Height="16" Width="16" BorderThickness="2"/>
+                                            <TextBlock Text="{Binding Path=DisplayText}" VerticalAlignment="Center" Margin="4,0,0,0"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="1" Orientation="Horizontal" Height="26" Margin="16,0,0,0" >
+                                            <Image Source="/ErlangEditor;component/Images/appbar.transport.play.rest2.png" Visibility="{Binding CompileToolbarVisibility}" ToolTip="编译" MouseLeftButtonDown="ItemCompile" Tag="{Binding}"/>
+                                            <Image Source="/ErlangEditor;component/Images/appbar.add.rest2.png"  Visibility="{Binding AddToolbarVisibility}" MouseLeftButtonDown="ItemAdd" ToolTip="添加" Tag="{Binding}"/>
+                                            <Image Source="/ErlangEditor;component/Images/appbar.feature.settings.rest.png" MouseLeftButtonDown="ItemSetting" Visibility="{Binding PropToolbarVisibility}" ToolTip="设置" Tag="{Binding}"/>
+                                            <Image Source="/ErlangEditor;component/Images/appbar.cancel.rest.png" Visibility="{Binding RemoveToolbarVisibility}" MouseLeftButtonDown="ItemSep" ToolTip="分离" Tag="{Binding}"/>
+                                            <Image Source="/ErlangEditor;component/Images/appbar.delete.rest2.png" Visibility="{Binding RemoveToolbarVisibility}" MouseLeftButtonDown="ItemRemove" ToolTip="删除" Tag="{Binding}"/>
+                                        </StackPanel>
+                                    </Grid> 
                                 </HierarchicalDataTemplate>
                             </telerik:RadTreeView.ItemTemplate>
                         </telerik:RadTreeView>
@@ -133,8 +147,21 @@
             </telerik:RadSplitContainer>
 
             <telerik:RadSplitContainer InitialPosition="DockedBottom">
+                
                 <telerik:RadPaneGroup Background="Transparent">
-                    <telerik:RadPane Header="输出" CanUserClose="False">
+                    <telerik:RadPane Header="输出" CanUserClose="False" Background="Transparent">
+                        <ListBox Background="Transparent" ItemsSource="{Binding Output}" local:ListScroll.IsEnabled="True">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" Height="22">
+                                        <TextBlock Width="100" Text="{Binding NodeName}" />
+                                        <TextBlock Text="{Binding Info}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </telerik:RadPane>
+                    <telerik:RadPane Header="编译" CanUserClose="False">
                         <ListBox ItemsSource="{Binding ExportLog}" local:ListScroll.IsEnabled="True">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
@@ -158,6 +185,7 @@
                             </ListBox.ItemTemplate>
                         </ListBox>
                     </telerik:RadPane>
+                    
                 </telerik:RadPaneGroup>
             </telerik:RadSplitContainer>
         </telerik:RadDocking>

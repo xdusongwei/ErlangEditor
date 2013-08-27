@@ -41,7 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entity\NodeEntity.cs" />
-    <Compile Include="PrerunArguments.cs" />
+    <Compile Include="NewOutputLineEventArgs.cs" />
     <Compile Include="ShellClosedEventArgs.cs" />
     <Compile Include="SolutionRunner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

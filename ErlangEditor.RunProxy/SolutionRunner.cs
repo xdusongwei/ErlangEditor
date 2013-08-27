@@ -43,14 +43,14 @@ namespace ErlangEditor.RunProxy
                     }
                 }
             }
-            prc.StartInfo.Arguments = pathSB.ToString() + startupSB.ToString();
+            prc.StartInfo.Arguments = string.Format("-sname {0} " , aEntity.NodeName) +  pathSB.ToString() + startupSB.ToString();
             prc.StartInfo.UseShellExecute = false;
             //prc.StartInfo.RedirectStandardInput = 
             prc.StartInfo.RedirectStandardOutput = true;
             prc.StartInfo.WindowStyle = aEntity.ShowShell ? ProcessWindowStyle.Normal : ProcessWindowStyle.Hidden;
             prc.EnableRaisingEvents = true;
-            prc.Exited += (a, b) => { var evt = Closed; if (evt != null)  evt(this, new ShellClosedEventArgs()); };
-            prc.OutputDataReceived += (a, b) => { Debug.WriteLine(b.Data); };
+            prc.Exited += (a, b) => { var evt = Closed; if (evt != null)  evt(this, new ShellClosedEventArgs()); prc_ = null; };
+            prc.OutputDataReceived += (a, b) => { var evt = NewOutput; if (evt != null) evt(this, new NewOutputLineEventArgs { NodeName = aEntity.NodeName, Data = b.Data }); };
             prc_ = prc;
             prc.Start();
             prc.BeginOutputReadLine();
@@ -68,5 +68,7 @@ namespace ErlangEditor.RunProxy
                     evt(this, new ShellClosedEventArgs());
             }
         }
+
+        public event EventHandler<NewOutputLineEventArgs> NewOutput;
     }
 }

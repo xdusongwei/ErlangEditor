@@ -24,6 +24,9 @@
     <local:MainVM.ContextButtonsRight>
         <local:ToolBoxButtonVM Text="隐藏" ImageSource="/Images/MB_0011_info3.png" />
     </local:MainVM.ContextButtonsRight>
+    <local:MainVM.TreeRoot>
+        <local:PrjTreeItemVM  DisplayText="title here" />
+    </local:MainVM.TreeRoot>
     <local:MainVM.Nodes>
         <local:NodeVM Name="nodeA@localhost" />
         <local:NodeVM Name="nodeA@localhost.com.cn" State="True">
@@ -33,4 +36,8 @@
             </local:NodeVM.AppNames>
         </local:NodeVM>
     </local:MainVM.Nodes>
+    <local:MainVM.Output>
+        <local:OutputVM NodeName="123" Info="oh my god" />
+        <local:OutputVM NodeName="1234@localhost" Info="Here is erlang output!" />
+    </local:MainVM.Output>
 </local:MainVM>

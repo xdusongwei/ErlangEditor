@@ -5,22 +5,15 @@ using System.Text;
 
 namespace ErlangEditor.RunProxy
 {
-    public class PrerunArguments
+    public class NewOutputLineEventArgs : EventArgs
     {
-        public enum RunTypeEnum { Auto, MFA, Shell };
-        public RunTypeEnum RunType
-        {
-            get;
-            set;
-        }
-
         public string NodeName
         {
             get;
             set;
         }
 
-        public bool ShowShell
+        public string Data
         {
             get;
             set;

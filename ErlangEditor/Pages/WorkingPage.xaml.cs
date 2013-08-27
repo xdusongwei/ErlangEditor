@@ -36,17 +36,7 @@ namespace ErlangEditor.Pages
 
         public void UpdateToolBox()
         {
-            App.MainViewModel.ContextButtonsLeft.Clear();
-        }
-
-        private void TreeCtrl_GotFocus(object sender, RoutedEventArgs e)
-        {
-            //LoadTreeItemToolBar();
-        }
-
-        private void TreeCtrl_LostFocus(object sender, RoutedEventArgs e)
-        {
-            //App.MainViewModel.ContextButtonsLeft.Clear();
+            LoadTreeItemToolBar();
         }
 
         private void LoadTreeItemToolBar()
@@ -73,210 +63,31 @@ namespace ErlangEditor.Pages
                     }
                 })
             });
-            
-
-            var item = rtvSolution.SelectedItem as ViewModel.PrjTreeItemVM;
-            if (item == null || item.Entity == null) return;
-            if (item.Entity is ErlangEditor.Core.Entity.SolutionEntity)
-            {
-                App.MainViewModel.ContextButtonsLeft.Add(new ToolBoxButtonVM
-                {
-                    Text = "全部编译",
-                    ImageSource = new BitmapImage(new Uri("/Images/MB_0015_reload.png", UriKind.RelativeOrAbsolute)),
-                    ClickedAction = new Action(() =>
-                    {
-                        UpdateTabCollection();
-                        App.Compile.MakeSolution();
-                    })
-                });
-                App.MainViewModel.ContextButtonsLeft.Add(new ToolBoxButtonVM
-                {
-                    Text = "应用",
-                    ImageSource = new BitmapImage(new Uri("/Images/appbar.add.rest.png", UriKind.RelativeOrAbsolute)),
-                    ClickedAction = new Action(() => 
-                    { 
-                        App.Navigation.GoFroward(new NewApp(item)); 
-                    })
-                });
-            }
-            if (item.Entity is ErlangEditor.Core.Entity.ApplicationEntity)
-            {
-                App.MainViewModel.ContextButtonsLeft.Add(new ToolBoxButtonVM
-                {
-                    Text = "全部编译",
-                    ImageSource = new BitmapImage(new Uri("/Images/MB_0015_reload.png", UriKind.RelativeOrAbsolute)),
-                    ClickedAction = new Action(() =>
-                    {
-                        UpdateTabCollection();
-                        App.Compile.MakeSolution();
-                    })
-                });
-                App.MainViewModel.ContextButtonsLeft.Add(new ToolBoxButtonVM
-                {
-                    Text = "编译应用",
-                    ImageSource = new BitmapImage(new Uri("/Images/MB_0013_APP-info.png", UriKind.RelativeOrAbsolute)),
-                    ClickedAction = new Action(() =>
-                    {
-                        UpdateTabCollection();
-                        App.Compile.MakeApp(item);
-                    })
-                });
-                App.MainViewModel.ContextButtonsLeft.Add(new ToolBoxButtonVM
-                {
-                    Text = "文件",
-                    ImageSource = new BitmapImage(new Uri("/Images/appbar.add.rest.png", UriKind.RelativeOrAbsolute)),
-                    ClickedAction = new Action(() => { App.Navigation.GoFroward(new NewFile(rtvSolution.SelectedItem as ViewModel.PrjTreeItemVM)); })
-                });
-                App.MainViewModel.ContextButtonsLeft.Add(new ToolBoxButtonVM
-                {
-                    Text = "分离",
-                    ImageSource = new BitmapImage(new Uri("/Images/appbar.close.rest.png", UriKind.RelativeOrAbsolute)),
-                    ClickedAction = new Action(() => 
-                    {
-                        App.Navigation.ShowYesNoBox(string.Format("确认将应用 {0} 分离吗?", item.DisplayText), "确认操作");
-                        if (YesNoFrame.Result)
-                        {
-                            try
-                            {
-                                ErlangEditor.Core.ApplicationUtil.SeparateApplication(App.Entity.FindAppName(item.Entity));
-                                (rtvSolution.SelectedContainer.ParentItem.Item as ViewModel.PrjTreeItemVM).Children.Remove(item);
-                            }
-                            catch (Exception ecp)
-                            {
-                                App.Navigation.ShowMessageBox(ecp.Message, "出错");
-                            }
-                        }
-                    })
-                });
-                App.MainViewModel.ContextButtonsLeft.Add(new ToolBoxButtonVM
-                {
-                    Text = "删除",
-                    ImageSource = new BitmapImage(new Uri("/Images/appbar.delete.rest.png", UriKind.RelativeOrAbsolute)),
-                    ClickedAction = new Action(() => 
-                    {
-                        App.Navigation.ShowYesNoBox(string.Format("确认将应用 {0} 删除吗?", item.DisplayText), "确认操作");
-                        if (YesNoFrame.Result)
-                        {
-                            try
-                            {
-                                ErlangEditor.Core.ApplicationUtil.DeleteApplication(App.Entity.FindAppName(item.Entity));
-                                (rtvSolution.SelectedContainer.ParentItem.Item as ViewModel.PrjTreeItemVM).Children.Remove(item);
-                            }
-                            catch (Exception ecp)
-                            {
-                                App.Navigation.ShowMessageBox(ecp.Message, "出错");
-                            }
-                        }
-                    })
-                });
-            }
-            if (item.Entity is ErlangEditor.Core.Entity.FolderEntity)
-            {
-                App.MainViewModel.ContextButtonsLeft.Add(new ToolBoxButtonVM
-                {
-                    Text = "全部编译",
-                    ImageSource = new BitmapImage(new Uri("/Images/MB_0015_reload.png", UriKind.RelativeOrAbsolute)),
-                    ClickedAction = new Action(() =>
-                    {
-                        UpdateTabCollection();
-                        App.Compile.MakeSolution();
-                    })
-                });
-                App.MainViewModel.ContextButtonsLeft.Add(new ToolBoxButtonVM
-                {
-                    Text = "编译应用",
-                    ImageSource = new BitmapImage(new Uri("/Images/MB_0013_APP-info.png", UriKind.RelativeOrAbsolute)),
-                    ClickedAction = new Action(() =>
-                    {
-                        var vm = rtvSolution.SelectedContainer.ParentItem.Item as ViewModel.PrjTreeItemVM;
-                        UpdateTabCollection();
-                        App.Compile.MakeApp(vm);
-                    })
-                });
-                App.MainViewModel.ContextButtonsLeft.Add(new ToolBoxButtonVM
-                {
-                    Text = "文件",
-                    ImageSource = new BitmapImage(new Uri("/Images/appbar.add.rest.png", UriKind.RelativeOrAbsolute)),
-                    ClickedAction = new Action(() => { App.Navigation.GoFroward(new NewFile(rtvSolution.SelectedItem as ViewModel.PrjTreeItemVM)); })
-                });
-            }
-            if (item.Entity is ErlangEditor.Core.Entity.FileEntity)
-            {
-                App.MainViewModel.ContextButtonsLeft.Add(new ToolBoxButtonVM
-                {
-                    Text = "全部编译",
-                    ImageSource = new BitmapImage(new Uri("/Images/MB_0015_reload.png", UriKind.RelativeOrAbsolute)),
-                    ClickedAction = new Action(() =>
-                    {
-                        UpdateTabCollection();
-                        App.Compile.MakeSolution();
-                    })
-                });
-                App.MainViewModel.ContextButtonsLeft.Add(new ToolBoxButtonVM
-                {
-                    Text = "编译应用",
-                    ImageSource = new BitmapImage(new Uri("/Images/MB_0013_APP-info.png", UriKind.RelativeOrAbsolute)),
-                    ClickedAction = new Action(() =>
-                    {
-                        var h = rtvSolution.SelectedContainer.ParentItem;
-                        while (!((h.Item as ViewModel.PrjTreeItemVM).Entity is ErlangEditor.Core.Entity.ApplicationEntity))
-                        {
-                            h = h.ParentItem;
-                        }
-                        UpdateTabCollection();
-                        App.Compile.MakeApp(h.Item as ViewModel.PrjTreeItemVM);
-                    })
-                });
-                App.MainViewModel.ContextButtonsLeft.Add(new ToolBoxButtonVM
-                {
-                    Text = "分离",
-                    ImageSource = new BitmapImage(new Uri("/Images/appbar.close.rest.png", UriKind.RelativeOrAbsolute)),
-                    ClickedAction = new Action(() => 
-                    {
-                        
-                        App.Navigation.ShowYesNoBox(string.Format("确认将文件 {0} 分离吗?", item.DisplayText), "确认操作");
-                        if (YesNoFrame.Result)
-                        {
-                            try
-                            {
-                                ErlangEditor.Core.FileUtil.SeparateFile(item.Entity as ErlangEditor.Core.Entity.FileEntity);
-                                (rtvSolution.SelectedContainer.ParentItem.Item as ViewModel.PrjTreeItemVM).Children.Remove(item);
-                            }
-                            catch (Exception ecp)
-                            {
-                                App.Navigation.ShowMessageBox(ecp.Message, "出错");
-                            }
-                        }
-                    })
-                });
-                App.MainViewModel.ContextButtonsLeft.Add(new ToolBoxButtonVM
-                {
-                    Text = "删除",
-                    ImageSource = new BitmapImage(new Uri("/Images/appbar.delete.rest.png", UriKind.RelativeOrAbsolute)),
-                    ClickedAction = new Action(() => 
-                    {
-                        App.Navigation.ShowYesNoBox(string.Format("确认将应用 {0} 删除吗?", item.DisplayText), "确认操作");
-                        if (YesNoFrame.Result)
-                        {
-                            try
-                            {
-                                ErlangEditor.Core.FileUtil.RemoveFile(item.Entity as ErlangEditor.Core.Entity.FileEntity);
-                                (rtvSolution.SelectedContainer.ParentItem.Item as ViewModel.PrjTreeItemVM).Children.Remove(item);
-                            }
-                            catch (Exception ecp)
-                            {
-                                App.Navigation.ShowMessageBox(ecp.Message, "出错");
-                            }
-                        }
-                    })
-                });
-            }
-            
         }
 
         private void TreeCtrl_ItemChanged(object sender, SelectionChangedEventArgs e)
         {
             LoadTreeItemToolBar();
+            foreach (var i in e.RemovedItems)
+            {
+                var vm = i as ViewModel.PrjTreeItemVM;
+                vm.RemoveToolbarVisibility = System.Windows.Visibility.Collapsed;
+                vm.PropToolbarVisibility = System.Windows.Visibility.Collapsed;
+                vm.AddToolbarVisibility = System.Windows.Visibility.Collapsed;
+                vm.CompileToolbarVisibility = System.Windows.Visibility.Collapsed;
+            }
+            foreach (var i in e.AddedItems)
+            {
+                var vm = i as ViewModel.PrjTreeItemVM;
+                if (!(vm.Entity is ErlangEditor.Core.Entity.SolutionEntity) && !(vm.Entity is ErlangEditor.Core.Entity.FolderEntity))
+                    vm.RemoveToolbarVisibility = System.Windows.Visibility.Visible;
+                if (!(vm.Entity is ErlangEditor.Core.Entity.FileEntity))
+                    vm.AddToolbarVisibility = System.Windows.Visibility.Visible;
+                if (vm.Entity is ErlangEditor.Core.Entity.ApplicationEntity)
+                    vm.PropToolbarVisibility = System.Windows.Visibility.Visible;
+                if (vm.Entity is ErlangEditor.Core.Entity.ApplicationEntity || vm.Entity is ErlangEditor.Core.Entity.SolutionEntity)
+                    vm.CompileToolbarVisibility = System.Windows.Visibility.Visible;
+            }
         }
 
         private void rtvSolution_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -342,6 +153,7 @@ namespace ErlangEditor.Pages
             try
             {
                 var vm = (sender as FrameworkElement).Tag as ViewModel.NodeVM;
+                if (vm.Entity.IsRunning) return;
                 ErlangEditor.Core.NodeUtil.StartupNode(vm.Name);
                 vm.Proxy.Run(vm.Entity);
                 vm.State = true;
@@ -353,6 +165,7 @@ namespace ErlangEditor.Pages
                 {
                     var vm = (sender as FrameworkElement).Tag as ViewModel.NodeVM;
                     ErlangEditor.Core.NodeUtil.StopNode(vm.Name);
+                    vm.Proxy.Stop();
                 }
                 catch { }
             }
@@ -373,8 +186,9 @@ namespace ErlangEditor.Pages
 
         private void ItemMouseMove(object sender, MouseEventArgs e)
         {
-            var panel = sender as StackPanel;
+            var panel = sender as FrameworkElement;
             var vm = panel.Tag as ViewModel.PrjTreeItemVM;
+            //vm.ToolbarVisibility = System.Windows.Visibility.Visible;
             if (vm != null && e.LeftButton == MouseButtonState.Pressed && vm.Entity is ErlangEditor.Core.Entity.ApplicationEntity)
             {
                 dragVM_ = vm;
@@ -408,15 +222,137 @@ namespace ErlangEditor.Pages
                     try
                     {
                         var dest = panel.Tag as ViewModel.NodeVM;
-                        ErlangEditor.Core.NodeUtil.InjectionApp(dest.Name, (vm.Entity as ErlangEditor.Core.Entity.ApplicationEntity).Name);
-                        var apps = new System.Collections.ObjectModel.ObservableCollection<string>(dest.Entity.Apps);
-                        dest.AppNames = apps;
-                        ErlangEditor.Core.SolutionUtil.SaveSolution();
+                        if (dest.Entity.Apps.Contains((vm.Entity as ErlangEditor.Core.Entity.ApplicationEntity).Name))
+                        {
+                            ErlangEditor.Core.NodeUtil.SeparateApp(dest.Name, (vm.Entity as ErlangEditor.Core.Entity.ApplicationEntity).Name);
+                            var apps = new System.Collections.ObjectModel.ObservableCollection<string>(dest.Entity.Apps);
+                            dest.AppNames = apps;
+                            ErlangEditor.Core.SolutionUtil.SaveSolution();
+                        }
+                        else
+                        {
+                            ErlangEditor.Core.NodeUtil.InjectionApp(dest.Name, (vm.Entity as ErlangEditor.Core.Entity.ApplicationEntity).Name);
+                            var apps = new System.Collections.ObjectModel.ObservableCollection<string>(dest.Entity.Apps);
+                            dest.AppNames = apps;
+                            ErlangEditor.Core.SolutionUtil.SaveSolution();
+                        }
                     }
                     catch(Exception ecp)
                     {
                         App.Navigation.ShowMessageBox(ecp.Message, "出错");
                     }
+                }
+            }
+        }
+
+        private void ItemSetting(object sender, MouseButtonEventArgs e)
+        {
+            var vm = (sender as FrameworkElement).Tag as PrjTreeItemVM;
+            if (vm.Entity is ErlangEditor.Core.Entity.ApplicationEntity)
+            {
+                App.Navigation.GoFroward(new AppProp(vm));
+            }
+        }
+
+        private void ItemAdd(object sender, MouseButtonEventArgs e)
+        {
+            var vm = (sender as FrameworkElement).Tag as PrjTreeItemVM;
+            if (vm.Entity is ErlangEditor.Core.Entity.SolutionEntity)
+            {
+                App.Navigation.GoFroward(new NewApp(vm)); 
+            }
+            else
+            {
+                App.Navigation.GoFroward(new NewFile(vm));
+            }
+        }
+
+        private void ItemSep(object sender, MouseButtonEventArgs e)
+        {
+            var vm = (sender as FrameworkElement).Tag as PrjTreeItemVM;
+            App.Navigation.ShowYesNoBox(string.Format("确认将文件 {0} 分离吗?", vm.DisplayText), "确认操作");
+            if (YesNoFrame.Result)
+            {
+                try
+                {
+                    ErlangEditor.Core.FileUtil.SeparateFile(vm.Entity as ErlangEditor.Core.Entity.FileEntity);
+                    (rtvSolution.SelectedContainer.ParentItem.Item as ViewModel.PrjTreeItemVM).Children.Remove(vm);
+                }
+                catch (Exception ecp)
+                {
+                    App.Navigation.ShowMessageBox(ecp.Message, "出错");
+                }
+            }
+        }
+
+        private void ItemRemove(object sender, MouseButtonEventArgs e)
+        {
+            var vm = (sender as FrameworkElement).Tag as PrjTreeItemVM;
+            if (vm.Entity is ErlangEditor.Core.Entity.ApplicationEntity)
+            {
+                App.Navigation.ShowYesNoBox(string.Format("确认将应用 {0} 删除吗?", vm.DisplayText), "确认操作");
+                if (YesNoFrame.Result)
+                {
+                    try
+                    {
+                        ErlangEditor.Core.ApplicationUtil.DeleteApplication(App.Entity.FindAppName(vm.Entity));
+                        (rtvSolution.SelectedContainer.ParentItem.Item as ViewModel.PrjTreeItemVM).Children.Remove(vm);
+                        ErlangEditor.Core.SolutionUtil.SaveSolution();
+                    }
+                    catch (Exception ecp)
+                    {
+                        App.Navigation.ShowMessageBox(ecp.Message, "出错");
+                    }
+                }
+            }
+            if (vm.Entity is ErlangEditor.Core.Entity.FileEntity)
+            {
+                App.Navigation.ShowYesNoBox(string.Format("确认将文件 {0} 删除吗?", vm.DisplayText), "确认操作");
+                if (YesNoFrame.Result)
+                {
+                    try
+                    {
+                        ErlangEditor.Core.FileUtil.RemoveFile(vm.Entity as ErlangEditor.Core.Entity.FileEntity);
+                        (rtvSolution.SelectedContainer.ParentItem.Item as ViewModel.PrjTreeItemVM).Children.Remove(vm);
+                        ErlangEditor.Core.SolutionUtil.SaveSolution();
+                    }
+                    catch (Exception ecp)
+                    {
+                        App.Navigation.ShowMessageBox(ecp.Message, "出错");
+                    }
+                }
+            }
+        }
+
+        private void ItemCompile(object sender, MouseButtonEventArgs e)
+        {
+            var vm = (sender as FrameworkElement).Tag as PrjTreeItemVM;
+            UpdateTabCollection();
+            if (vm.Entity is ErlangEditor.Core.Entity.SolutionEntity)
+            {
+                App.Compile.MakeSolution();
+            }
+            if (vm.Entity is ErlangEditor.Core.Entity.ApplicationEntity)
+            {
+                App.Compile.MakeApp(vm);
+            }
+        }
+
+        private void DeleteNode(object sender, MouseButtonEventArgs e)
+        {
+            var vm = (sender as FrameworkElement).Tag as NodeVM;
+            App.Navigation.ShowYesNoBox(string.Format("确认要将{0}节点删除吗?", vm.Name), "删除节点");
+            if (YesNoFrame.Result)
+            {
+                try
+                {
+                    ErlangEditor.Core.NodeUtil.DeleteNode(vm.Name);
+                    ErlangEditor.Core.SolutionUtil.SaveSolution();
+                    App.MainViewModel.Nodes.Remove(vm);
+                }
+                catch (Exception ecp)
+                {
+                    App.Navigation.ShowMessageBox(ecp.Message, "出错");
                 }
             }
         }

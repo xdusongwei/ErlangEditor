@@ -30,6 +30,7 @@ namespace ErlangEditor.ViewModel
             AppNames = new ObservableCollection<string>();
             foreach (var i in aEntity.Apps)
                 AppNames.Add(i);
+            Proxy.NewOutput += (a, b) => { Dispatcher.Invoke(new Action(() => { App.MainViewModel.Output.Add(new OutputVM { NodeName = b.NodeName, Info = b.Data }); })); };
         }
 
         public string Name

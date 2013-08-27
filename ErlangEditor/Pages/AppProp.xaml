@@ -7,7 +7,7 @@
              xmlns:telerikControls="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls"
              xmlns:local ="clr-namespace:ErlangEditor"
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="1000">
+             d:DesignHeight="600" d:DesignWidth="1000" Loaded="UserControl_Loaded">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -15,46 +15,40 @@
         </Grid.RowDefinitions>
         <TextBlock x:Name="tbTitle" Grid.Row="0" Text="应用设置" Foreground="White" Style="{DynamicResource TitleStyle}" />
         <Grid local:EffectHelper.ScrollEffect="400" Grid.Row="1">
-            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical">
-                <StackPanel.Resources>
-                    <Style TargetType="{x:Type StackPanel}">
-                        <Setter Property="Orientation" Value="Horizontal" />
-                    </Style>
-                    <Style TargetType="{x:Type TextBlock}">
-                        <Setter Property="Foreground" Value="White" />
-                        <Setter Property="FontSize" Value="36" />
-                        <Setter Property="HorizontalAlignment" Value="Center" />
-                        <Setter Property="Width" Value="220" />
-                        <Setter Property="TextAlignment" Value="Right" />
-                        <Setter Property="Margin" Value="8" />
-                    </Style>
-                </StackPanel.Resources>
-                <StackPanel>
-                    <TextBlock Text="启动模式" />
-                    <StackPanel Orientation="Vertical">
-                        <telerik:RadRadioButton  IsChecked="True" telerikControls:StyleManager.Theme="Metro">
-                            <TextBlock Text="start_link()" Style="{x:Null}" FontSize="24"/>
+            <Grid.Resources>
+                <Style TargetType="{x:Type TextBlock}">
+                    <Setter Property="Foreground" Value="White" />
+                    <Setter Property="FontSize" Value="36" />
+                    <Setter Property="HorizontalAlignment" Value="Center" />
+                </Style>
+            </Grid.Resources>
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="应用名称"/>
+                    <TextBox  Width="440" Margin="16,0,0,0" FontSize="34" Name="tbName" IsReadOnly="True"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,36,0,0">
+                    <TextBlock Text="创建方式"/>
+                    <telerik:RadRadioButton  Margin="16,0,0,0" IsChecked="True" telerikControls:StyleManager.Theme="Metro" Name="rbNormal">
+                        <TextBlock Text="一般Erlang代码" Style="{x:Null}" FontSize="24"/>
+                    </telerik:RadRadioButton>
+                    <telerik:RadRadioButton  Margin="48,0,0,0" IsChecked="False" telerikControls:StyleManager.Theme="Metro" Name="rbAppConfig">
+                        <TextBlock Text="Erlang应用配置" Style="{x:Null}" FontSize="24"/>
+                    </telerik:RadRadioButton>
+                </StackPanel>
+                <StackPanel Margin="0,36,0,0" Orientation="Horizontal">
+                    <TextBlock Text="启动方式" />
+                    <StackPanel Margin="16,0,0,0"  Width="350">
+                        <telerik:RadRadioButton  IsChecked="False" telerikControls:StyleManager.Theme="Metro" Height="50" Name="rbMFA">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="指定MFA" Style="{x:Null}" FontSize="24"/>
+                                <TextBox Width="220" Margin="16,0,0,0" VerticalAlignment="Center" Height="32" FontSize="24" Name="tbMFA"/>
+                            </StackPanel>
                         </telerik:RadRadioButton>
-                        <telerik:RadRadioButton  IsChecked="False" telerikControls:StyleManager.Theme="Metro">
-                            <TextBlock Text="指定MFA" Style="{x:Null}" FontSize="24"/>
-                        </telerik:RadRadioButton>
-                        <telerik:RadRadioButton  IsChecked="False" telerikControls:StyleManager.Theme="Metro">
-                            <TextBlock Text="打开Shell" Style="{x:Null}" FontSize="24"/>
+                        <telerik:RadRadioButton  telerikControls:StyleManager.Theme="Metro" IsChecked="True"  Height="50" Name="rbNostartup">
+                            <TextBlock Text="不启动" Style="{x:Null}" FontSize="24"/>
                         </telerik:RadRadioButton>
                     </StackPanel>
-                </StackPanel>
-                <StackPanel>
-                    <TextBlock Text="节点名称" />
-                    <TextBox  Width="440" FontSize="34" VerticalAlignment="Center"/>
-                </StackPanel>
-                <StackPanel>
-                    <TextBlock Text="Shell可见性" />
-                    <telerik:RadRadioButton  IsChecked="False" telerikControls:StyleManager.Theme="Metro">
-                        <TextBlock Text="可见" Style="{x:Null}" FontSize="24"/>
-                    </telerik:RadRadioButton>
-                    <telerik:RadRadioButton  IsChecked="False" telerikControls:StyleManager.Theme="Metro">
-                        <TextBlock Text="不可见" Style="{x:Null}" FontSize="24"/>
-                    </telerik:RadRadioButton>
                 </StackPanel>
             </StackPanel>
         </Grid>
