@@ -9,9 +9,9 @@
 	[
 		{description, "<#= Description #>"},
 		{vsn, "<#= Vsn #>"},
-		{modules, <#= string.Join(",", Modules) #>},
-		{registered, <#= string.Join(",", Registered) #>},
-		{applications, <#= string.Join(",", Applications) #>},
+		{modules, [<#= string.Join(",", Modules) #>]},
+		{registered, [<#= string.Join(",", Registered) #>]},
+		{applications, [<#= string.Join(",", Applications) #>]},
 		{mod,{ <#= Mod#> , <#= Args#> }}
 	]
 }

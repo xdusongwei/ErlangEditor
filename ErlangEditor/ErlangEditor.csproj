@@ -50,6 +50,9 @@
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="ICSharpCode.AvalonEdit, Version=4.3.1.9429, Culture=neutral, PublicKeyToken=9cc39be672370310, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -150,6 +153,7 @@
     </Compile>
     <Compile Include="ValueConverter\FileTabTextVC.cs" />
     <Compile Include="ValueConverter\NodeAppsVC.cs" />
+    <Compile Include="ValueConverter\NodeShowShellVC.cs" />
     <Compile Include="ValueConverter\NodeStateVC.cs" />
     <Compile Include="ViewModel\ErrorInfoVM.cs" />
     <Compile Include="ViewModel\FileVM.cs" />
@@ -398,6 +402,9 @@
     <Resource Include="Images\appbar.transport.play.rest2.png" />
     <Resource Include="Images\appbar.cancel.rest.png" />
     <Resource Include="Images\appbar.add.rest2.png" />
+    <Resource Include="Images\appbar.download.rest.png" />
+    <Resource Include="Images\appbar.upload.rest.png" />
+    <Resource Include="icon.ico" />
     <Content Include="Import\ICSharpCode.AvalonEdit.dll" />
     <Resource Include="Import\ICSharpCode.AvalonEdit.xml" />
     <Content Include="Import\Telerik.Windows.Controls.Data.dll" />

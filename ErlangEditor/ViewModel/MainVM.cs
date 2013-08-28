@@ -28,7 +28,7 @@ namespace ErlangEditor.ViewModel
             });
             HeaderButtons.Add(new ToolBoxButtonVM
             {
-                Text = "作业",
+                Text = "项目",
                 ImageSource = new BitmapImage(new Uri("/Images/MB_0010_tasks.png", UriKind.RelativeOrAbsolute)),
                 ClickedAction = new Action(() => { App.Navigation.JumpToWithFirstFrame(WorkingPage); })
             });

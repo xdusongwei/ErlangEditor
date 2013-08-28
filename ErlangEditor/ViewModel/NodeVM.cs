@@ -63,7 +63,11 @@ namespace ErlangEditor.ViewModel
             set;
         }
 
-
+        public bool ShowShell
+        {
+            get { return Entity == null ? false : Entity.ShowShell; }
+            set { if (Entity != null) Entity.ShowShell = value; OnPropertyChanged("ShowShell"); }
+        }
 
         public ObservableCollection<string> AppNames
         {

@@ -25,8 +25,8 @@
                 <ColumnDefinition Width="2*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <TextBlock x:Name="tbTitle" Text="Title Here" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" FontSize="38" Padding="38,8,28,3"/>
-            <TextBlock x:Name="tbMessage" Text="Content Here" Grid.Column="1" TextWrapping="WrapWithOverflow" Grid.Row="1" Grid.ColumnSpan="2" FontSize="16" Padding="46,0" />
+            <TextBlock x:Name="tbTitle" Text="Title Here" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" FontSize="38" Padding="38,8,28,3" Foreground="White"/>
+            <TextBlock x:Name="tbMessage" Text="Content Here" Grid.Column="1" TextWrapping="WrapWithOverflow" Grid.Row="1" Grid.ColumnSpan="2" FontSize="16" Padding="46,0"  Foreground="White"/>
             <StackPanel Orientation="Horizontal" Grid.Row="2" Margin="0,12" Grid.Column="1" HorizontalAlignment="Right">
                 <Button x:Name="btnYes" Content="是" VerticalAlignment="Center" Width="100" Height="35"  Click="btnOK_Click" Margin="0,0,24,0" />
                 <Button x:Name="btnNo" Content="否" VerticalAlignment="Center" Width="100" Height="35" Click="btnOK_Click" />

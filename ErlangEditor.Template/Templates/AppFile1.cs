@@ -49,28 +49,28 @@ namespace ErlangEditor.Template.Templates
             
             #line default
             #line hidden
-            this.Write("\"},\r\n\t\t{modules, ");
+            this.Write("\"},\r\n\t\t{modules, [");
             
             #line 12 "D:\文档\GitHub\ErlangEditor\ErlangEditor.Template\Templates\AppFile.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(string.Join(",", Modules)));
             
             #line default
             #line hidden
-            this.Write("},\r\n\t\t{registered, ");
+            this.Write("]},\r\n\t\t{registered, [");
             
             #line 13 "D:\文档\GitHub\ErlangEditor\ErlangEditor.Template\Templates\AppFile.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(string.Join(",", Registered)));
             
             #line default
             #line hidden
-            this.Write("},\r\n\t\t{applications, ");
+            this.Write("]},\r\n\t\t{applications, [");
             
             #line 14 "D:\文档\GitHub\ErlangEditor\ErlangEditor.Template\Templates\AppFile.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(string.Join(",", Applications)));
             
             #line default
             #line hidden
-            this.Write("},\r\n\t\t{mod,{ ");
+            this.Write("]},\r\n\t\t{mod,{ ");
             
             #line 15 "D:\文档\GitHub\ErlangEditor\ErlangEditor.Template\Templates\AppFile.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Mod));

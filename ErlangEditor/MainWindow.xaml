@@ -8,6 +8,9 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         mc:Ignorable="d" 
         d:DataContext="{d:DesignData /DesignData/MainVM.xaml}"
         Title="ErlangEditor" Height="500" Width="756.343" Loaded="Window_Loaded" WindowState="Maximized">
+    <Window.CommandBindings>
+        <CommandBinding Command="Save" />
+    </Window.CommandBindings>
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

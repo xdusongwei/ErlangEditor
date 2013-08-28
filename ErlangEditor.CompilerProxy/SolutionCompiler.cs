@@ -27,6 +27,10 @@ namespace ErlangEditor.CompilerProxy
                 thCompiler.Abort();
                 thCompiler = null;
             }
+            if (string.IsNullOrWhiteSpace(ErlangEditor.Core.ConfigUtil.Config.CompilerPath))
+                throw new Exception("尚未制定编译器位置，请从\"设置\"页设置正确的Erlang编译器程序位置。");
+            if(!System.IO.File.Exists(ErlangEditor.Core.ConfigUtil.Config.CompilerPath))
+                throw new Exception("编译器程序位置不存在，请从\"设置\"页设置正确的Erlang编译器程序位置。");
             int success = 0;
             int failed = 0;
             aExportReport.Clear();
@@ -74,78 +78,7 @@ namespace ErlangEditor.CompilerProxy
             thCompiler.Start();
         }
 
-        //private static void Dig(object aEntity, Action<object> aAction)
-        //{
-        //    foreach (dynamic i in (aEntity as dynamic).Children)
-        //    {
-        //        if (i.Compilable && i.Name.IndexOf("m") == 0)
-        //        {
-        //            aAction(i);
-        //        }
-        //        else if (i.IsFolder)
-        //        {
-        //            Dig(i, aAction);
-        //        }
-        //    }
-        //}
-
-
-        //public void Start(
-        //    SolutionEntity aEntity, 
-        //    IEnumerable<CodeEntity> aEntities, 
-        //    string aExportPath, 
-        //    Collection<string> aExportReport
-        //    )
-        //{
-        //    if (thCompiler != null)
-        //    {
-        //        thCompiler.Abort();
-        //        thCompiler = null;
-        //    }
-        //    aExportReport.Clear();
-        //    PrintBegin(aExportReport);
-        //    int success=0;
-        //    int failed = 0;
-        //    thCompiler = new Thread(() =>
-        //    {
-        //        foreach (var i in aEntities)
-        //        {
-        //            Dispatcher.Invoke(new Action<string, Collection<string>>(PrintLine), new object[] { string.Format("编译{0}", Solution.GetFullPath(i.Entity)), aExportReport });
-        //            using (var prc = new Process())
-        //            {
-        //                prc.StartInfo = new ProcessStartInfo();
-        //                prc.StartInfo.CreateNoWindow = true;
-        //                prc.StartInfo.FileName = aEntity.CompilerPath;
-        //                prc.StartInfo.WorkingDirectory = Path.Combine(aEntity.SolutionPath, aEntity.MakeFolder);
-        //                prc.StartInfo.Arguments = Solution.GetFullPath(i.Entity);
-        //                prc.StartInfo.UseShellExecute = false;
-        //                prc.StartInfo.RedirectStandardInput = prc.StartInfo.RedirectStandardOutput = true;
-        //                prc.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-        //                prc.Start();
-        //                prc.WaitForExit();
-        //                var result = prc.StandardOutput.ReadToEnd();
-        //                if (string.IsNullOrEmpty(result))
-        //                {
-        //                    success++;
-        //                }
-        //                else
-        //                {
-        //                    failed++;
-        //                    var results = result.Replace(prc.StartInfo.Arguments,string.Empty).Split(new char[] { '\n' }).Where(a => !string.IsNullOrEmpty(a));
-        //                    foreach (var j in results)
-        //                    {
-        //                        var evt = CodeFileError;
-        //                        if (evt != null)
-        //                            Dispatcher.Invoke(new Action<object, CodeFileErrorEventArgs>(evt), new object[] { this, new CodeFileErrorEventArgs(j, i.Entity) });
-        //                    }
-        //                }
-        //            }
-        //        }
-        //        PrintEnd(aExportReport, success, failed);
-        //    });
-        //    thCompiler.Start();
-        //}
-
+        
         public event EventHandler<CodeFileErrorEventArgs> CodeFileError;
 
         private static void PrintBegin(Collection<string> aExportReport)

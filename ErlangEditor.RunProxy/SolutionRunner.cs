@@ -14,6 +14,20 @@ namespace ErlangEditor.RunProxy
 
         public void Run(ErlangEditor.Core.Entity.NodeEntity aEntity)
         {
+            if(prc_ != null)
+            {
+                try
+                {
+                    prc_.Kill();
+                }
+                catch { }
+                prc_ = null;
+            }
+            if (string.IsNullOrWhiteSpace(ErlangEditor.Core.ConfigUtil.Config.ConsolePath) ||
+                string.IsNullOrWhiteSpace(ErlangEditor.Core.ConfigUtil.Config.ShellPath) ||
+                !System.IO.File.Exists(ErlangEditor.Core.ConfigUtil.Config.ConsolePath) ||
+                !System.IO.File.Exists(ErlangEditor.Core.ConfigUtil.Config.ShellPath))
+                throw new Exception("Erlang shell设置有误，请在\"设置\"页设置好shell路径。");
             var prc = new Process();
             prc.StartInfo = new ProcessStartInfo();
             prc.StartInfo.CreateNoWindow = !aEntity.ShowShell;

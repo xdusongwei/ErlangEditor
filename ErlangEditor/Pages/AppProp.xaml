@@ -27,7 +27,7 @@
                     <TextBlock Text="应用名称"/>
                     <TextBox  Width="440" Margin="16,0,0,0" FontSize="34" Name="tbName" IsReadOnly="True"/>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="0,36,0,0">
+                <StackPanel Orientation="Horizontal" Margin="0,36,0,0" Visibility="Collapsed">
                     <TextBlock Text="创建方式"/>
                     <telerik:RadRadioButton  Margin="16,0,0,0" IsChecked="True" telerikControls:StyleManager.Theme="Metro" Name="rbNormal">
                         <TextBlock Text="一般Erlang代码" Style="{x:Null}" FontSize="24"/>
@@ -42,7 +42,7 @@
                         <telerik:RadRadioButton  IsChecked="False" telerikControls:StyleManager.Theme="Metro" Height="50" Name="rbMFA">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="指定MFA" Style="{x:Null}" FontSize="24"/>
-                                <TextBox Width="220" Margin="16,0,0,0" VerticalAlignment="Center" Height="32" FontSize="24" Name="tbMFA"/>
+                                <TextBox Width="220" Margin="16,0,0,0" VerticalAlignment="Center" Height="32" FontSize="22" Name="tbMFA"/>
                             </StackPanel>
                         </telerik:RadRadioButton>
                         <telerik:RadRadioButton  telerikControls:StyleManager.Theme="Metro" IsChecked="True"  Height="50" Name="rbNostartup">

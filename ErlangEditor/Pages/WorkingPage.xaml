@@ -14,6 +14,7 @@
     <UserControl.Resources>
         <vc:NodeStateVC x:Key="NodeStateVC" />  
         <vc:NodeAppsVC x:Key="NodeAppsVC" />
+        <vc:NodeShowShellVC x:Key="NodeShowingVC" />
     </UserControl.Resources>
     <Grid>
         <telerik:RadDocking Background="Transparent" telerikControls:StyleManager.Theme="Windows8" BorderBrush="Transparent">
@@ -59,7 +60,7 @@
                                                     <Border Width="28" Height="28" Tag="{Binding}" MouseLeftButtonDown="Border_MouseLeftButtonDown">
                                                         <Border HorizontalAlignment="Center" VerticalAlignment="Center" Height="10" Width="10" Background="Black" />
                                                     </Border>
-                                                    <Image Source="/ErlangEditor;component/Images/appbar.feature.settings.rest.png"  Width="28" Height="28"/>
+                                                    <Image Source="{Binding ShowShell,Converter={StaticResource NodeShowingVC}}"  Width="28" Height="28" Tag="{Binding}" MouseLeftButtonDown="NodeVisibilityChange" />
                                                     <Image Source="/ErlangEditor;component/Images/appbar.delete.rest2.png"  Width="28" Height="28" Tag="{Binding}" MouseLeftButtonDown="DeleteNode"/>
                                                 </StackPanel>
                                             </Grid>

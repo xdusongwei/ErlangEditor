@@ -48,21 +48,27 @@ namespace ErlangEditor.Pages
                 ImageSource = new BitmapImage(new Uri("/Images/MB_0008_save.png", UriKind.RelativeOrAbsolute)),
                 ClickedAction = new Action(() =>
                 {
-                    try
-                    {
-                        ErlangEditor.Core.SolutionUtil.SaveSolution();
-                        foreach (var i in App.MainViewModel.OpenedFiles.Where(i => i.Changed))
-                        {
-                            ErlangEditor.Core.FileUtil.SaveFile(i.FileEntity, i.Content);
-                            i.Changed = false;
-                        }
-                    }
-                    catch (Exception ecp)
-                    {
-                        App.Navigation.ShowMessageBox(ecp.Message, "出错");
-                    }
+                    SaveProject();
                 })
             });
+            
+        }
+
+        private static void SaveProject()
+        {
+            try
+            {
+                ErlangEditor.Core.SolutionUtil.SaveSolution();
+                foreach (var i in App.MainViewModel.OpenedFiles.Where(i => i.Changed))
+                {
+                    ErlangEditor.Core.FileUtil.SaveFile(i.FileEntity, i.Content);
+                    i.Changed = false;
+                }
+            }
+            catch (Exception ecp)
+            {
+                App.Navigation.ShowMessageBox(ecp.Message, "出错");
+            }
         }
 
         private void TreeCtrl_ItemChanged(object sender, SelectionChangedEventArgs e)
@@ -98,6 +104,7 @@ namespace ErlangEditor.Pages
             {
                 try
                 {
+                    UpdateTabCollection();
                     var entity = vm.Entity as ErlangEditor.Core.Entity.FileEntity;
                     if (App.MainViewModel.OpenedFiles.Any(i => i.FileName == entity.Name))
                     {
@@ -160,7 +167,7 @@ namespace ErlangEditor.Pages
             }
             catch (Exception ecp)
             {
-                App.Navigation.ShowMessageBox(ecp.Message, "出错");
+                App.Navigation.ShowMessageBox(ecp.Message, "运行出错提示");
                 try
                 {
                     var vm = (sender as FrameworkElement).Tag as ViewModel.NodeVM;
@@ -328,13 +335,21 @@ namespace ErlangEditor.Pages
         {
             var vm = (sender as FrameworkElement).Tag as PrjTreeItemVM;
             UpdateTabCollection();
-            if (vm.Entity is ErlangEditor.Core.Entity.SolutionEntity)
+            SaveProject();
+            try
             {
-                App.Compile.MakeSolution();
+                if (vm.Entity is ErlangEditor.Core.Entity.SolutionEntity)
+                {
+                    App.Compile.MakeSolution();
+                }
+                if (vm.Entity is ErlangEditor.Core.Entity.ApplicationEntity)
+                {
+                    App.Compile.MakeApp(vm);
+                }
             }
-            if (vm.Entity is ErlangEditor.Core.Entity.ApplicationEntity)
+            catch (Exception ecp)
             {
-                App.Compile.MakeApp(vm);
+                App.Navigation.ShowMessageBox(ecp.Message, "编译出错提示");
             }
         }
 
@@ -354,6 +369,20 @@ namespace ErlangEditor.Pages
                 {
                     App.Navigation.ShowMessageBox(ecp.Message, "出错");
                 }
+            }
+        }
+
+        private void NodeVisibilityChange(object sender, MouseButtonEventArgs e)
+        {
+            var vm = (sender as FrameworkElement).Tag as ViewModel.NodeVM;
+            vm.ShowShell = !vm.ShowShell;
+            try
+            {
+                ErlangEditor.Core.SolutionUtil.SaveSolution();
+            }
+            catch (Exception ecp)
+            {
+                App.Navigation.ShowMessageBox(ecp.Message, "出错");
             }
         }
     }
