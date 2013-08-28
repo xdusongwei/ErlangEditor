@@ -43,7 +43,7 @@ namespace ErlangEditor.Pages
                     var compilerpath = tbCompiler.Text;
                     var shellpath = tbShell.Text;
                     var consolepath = tbConsole.Text;
-                    if (!string.IsNullOrEmpty(compilerpath) && !string.IsNullOrEmpty(shellpath))
+                    if (!string.IsNullOrEmpty(compilerpath) && !string.IsNullOrEmpty(shellpath) && !string.IsNullOrEmpty(consolepath))
                     {
                         try
                         {
@@ -102,7 +102,7 @@ namespace ErlangEditor.Pages
             if (fileDialog.ShowDialog() == true)
             {
                 string file = fileDialog.FileName;
-                tbShell.Text = file;
+                tbConsole.Text = file;
             }
         }
 
