@@ -67,6 +67,12 @@
       <DependentUpon>gen_server.tt</DependentUpon>
     </Compile>
     <Compile Include="Templates\gen_serverExtent.cs" />
+    <Compile Include="Templates\supervisor.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>supervisor.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\supervisorExtent.cs" />
     <Compile Include="Templates\HeaderCode1.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -91,6 +97,10 @@
     <None Include="Templates\gen_server.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>gen_server.cs</LastGenOutput>
+    </None>
+    <None Include="Templates\supervisor.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>supervisor.cs</LastGenOutput>
     </None>
     <None Include="Templates\HeaderCode.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>

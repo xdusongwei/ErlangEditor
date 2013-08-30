@@ -136,7 +136,7 @@ namespace ErlangEditor.Pages
             var name = tbName.Text.Trim();
             if (string.IsNullOrEmpty(name) || vm_ == null || vm_.Entity == null)
                 return;
-            App.Navigation.GoFroward(new NewFile_gen_supervisor());
+            App.Navigation.GoFroward(new NewFile_supervisor(name , vm_));
         }
 
         private void Gen_appClicked(object sender, RoutedEventArgs e)

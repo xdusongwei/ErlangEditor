@@ -18,9 +18,9 @@ namespace ErlangEditor.Template.Templates
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "D:\文档\GitHub\ErlangEditor\ErlangEditor.Template\Templates\AppFile.tt"
+    #line 1 "D:\文档\GitHub\ErlangEditor\ErlangEditor.Template\Templates\supervisor.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "11.0.0.0")]
-    public partial class AppFile : AppFileBase
+    public partial class supervisor : supervisorBase
     {
 #line hidden
         /// <summary>
@@ -28,63 +28,108 @@ namespace ErlangEditor.Template.Templates
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("{\r\n\tapplication, ");
+            this.Write("-module(");
             
-            #line 8 "D:\文档\GitHub\ErlangEditor\ErlangEditor.Template\Templates\AppFile.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(AppName));
-            
-            #line default
-            #line hidden
-            this.Write(",\r\n\t[\r\n\t\t{description, \"");
-            
-            #line 10 "D:\文档\GitHub\ErlangEditor\ErlangEditor.Template\Templates\AppFile.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Description));
+            #line 7 "D:\文档\GitHub\ErlangEditor\ErlangEditor.Template\Templates\supervisor.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ModuleName));
             
             #line default
             #line hidden
-            this.Write("\"},\r\n\t\t{vsn, \"");
+            this.Write(").\r\n-behaviour(supervisor).\r\n\r\n-export([start_link/0,start_child/0]).\r\n\r\n-export(" +
+                    "[init/1]). \r\n\r\n%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\r\n% APIs\r\nstart_link" +
+                    "()->\r\n\tsupervisor:start_link({local,");
             
-            #line 11 "D:\文档\GitHub\ErlangEditor\ErlangEditor.Template\Templates\AppFile.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Vsn));
-            
-            #line default
-            #line hidden
-            this.Write("\"},\r\n\t\t{modules, [");
-            
-            #line 12 "D:\文档\GitHub\ErlangEditor\ErlangEditor.Template\Templates\AppFile.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(string.Join(",", Modules)));
+            #line 17 "D:\文档\GitHub\ErlangEditor\ErlangEditor.Template\Templates\supervisor.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ModuleName));
             
             #line default
             #line hidden
-            this.Write("]},\r\n\t\t{registered, [");
+            this.Write("}, ");
             
-            #line 13 "D:\文档\GitHub\ErlangEditor\ErlangEditor.Template\Templates\AppFile.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(string.Join(",", Registered)));
-            
-            #line default
-            #line hidden
-            this.Write("]},\r\n\t\t{applications, [");
-            
-            #line 14 "D:\文档\GitHub\ErlangEditor\ErlangEditor.Template\Templates\AppFile.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(string.Join(",", Applications)));
+            #line 17 "D:\文档\GitHub\ErlangEditor\ErlangEditor.Template\Templates\supervisor.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ModuleName));
             
             #line default
             #line hidden
-            this.Write("]},\r\n\t\t{mod,{ ");
+            this.Write(" , []).\r\n\r\nstart_child()->\r\n\tok.\r\n\r\n%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" +
+                    "\r\n% Callbacks\r\n\r\ninit(_ArgList)->\r\n\tRS = { ");
             
-            #line 15 "D:\文档\GitHub\ErlangEditor\ErlangEditor.Template\Templates\AppFile.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Mod));
+            #line 26 "D:\文档\GitHub\ErlangEditor\ErlangEditor.Template\Templates\supervisor.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(RS));
+            
+            #line default
+            #line hidden
+            this.Write(" ,");
+            
+            #line 26 "D:\文档\GitHub\ErlangEditor\ErlangEditor.Template\Templates\supervisor.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Max));
+            
+            #line default
+            #line hidden
+            this.Write(" ,");
+            
+            #line 26 "D:\文档\GitHub\ErlangEditor\ErlangEditor.Template\Templates\supervisor.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Within));
+            
+            #line default
+            #line hidden
+            this.Write(" },\r\n\tServer");
+            
+            #line 27 "D:\文档\GitHub\ErlangEditor\ErlangEditor.Template\Templates\supervisor.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ID));
+            
+            #line default
+            #line hidden
+            this.Write(" = { ");
+            
+            #line 27 "D:\文档\GitHub\ErlangEditor\ErlangEditor.Template\Templates\supervisor.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ID));
+            
+            #line default
+            #line hidden
+            this.Write(" , { ");
+            
+            #line 27 "D:\文档\GitHub\ErlangEditor\ErlangEditor.Template\Templates\supervisor.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(StartupMFA));
+            
+            #line default
+            #line hidden
+            this.Write(" } , ");
+            
+            #line 27 "D:\文档\GitHub\ErlangEditor\ErlangEditor.Template\Templates\supervisor.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Restart));
             
             #line default
             #line hidden
             this.Write(" , ");
             
-            #line 15 "D:\文档\GitHub\ErlangEditor\ErlangEditor.Template\Templates\AppFile.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Args));
+            #line 27 "D:\文档\GitHub\ErlangEditor\ErlangEditor.Template\Templates\supervisor.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Shutdown));
             
             #line default
             #line hidden
-            this.Write(" }}\r\n\t]\r\n}.");
+            this.Write(" , ");
+            
+            #line 27 "D:\文档\GitHub\ErlangEditor\ErlangEditor.Template\Templates\supervisor.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(NodeType));
+            
+            #line default
+            #line hidden
+            this.Write(" , [");
+            
+            #line 27 "D:\文档\GitHub\ErlangEditor\ErlangEditor.Template\Templates\supervisor.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Mods));
+            
+            #line default
+            #line hidden
+            this.Write("]},\r\n\t{ok , { RS , [ Server");
+            
+            #line 28 "D:\文档\GitHub\ErlangEditor\ErlangEditor.Template\Templates\supervisor.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ID));
+            
+            #line default
+            #line hidden
+            this.Write(" ] } }.");
             return this.GenerationEnvironment.ToString();
         }
     }
@@ -96,7 +141,7 @@ namespace ErlangEditor.Template.Templates
     /// Base class for this transformation
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "11.0.0.0")]
-    public class AppFileBase
+    public class supervisorBase
     {
         #region Fields
         private global::System.Text.StringBuilder generationEnvironmentField;

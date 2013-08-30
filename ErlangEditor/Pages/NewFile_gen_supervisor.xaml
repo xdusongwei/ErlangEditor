@@ -1,11 +1,103 @@
-﻿<UserControl x:Class="ErlangEditor.Pages.NewFile_gen_supervisor"
+﻿<UserControl x:Class="ErlangEditor.Pages.NewFile_supervisor"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             Loaded="UserControl_Loaded"
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             xmlns:telerikControls="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="600" d:DesignWidth="1000" >
     <Grid>
-            
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBlock x:Name="tbTitle" Grid.Row="0" Text="新supervisor行为模式配置" Foreground="White" Style="{DynamicResource TitleStyle}" />
+        <Grid Grid.Row="1">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical">
+                <StackPanel.Resources>
+                    <Style TargetType="{x:Type StackPanel}">
+                        <Setter Property="Orientation" Value="Horizontal" />
+                    </Style>
+                    <Style TargetType="{x:Type TextBlock}">
+                        <Setter Property="Foreground" Value="White" />
+                        <Setter Property="FontSize" Value="36" />
+                        <Setter Property="HorizontalAlignment" Value="Center" />
+                        <Setter Property="Width" Value="260" />
+                        <Setter Property="TextAlignment" Value="Right" />
+                        <Setter Property="Margin" Value="8" />
+                    </Style>
+                    <Style TargetType="{x:Type ComboBox}" >
+                        <Setter Property="VerticalContentAlignment" Value="Center" />
+                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                        <Setter Property="Width" Value="440" />
+                        <Setter Property="VerticalAlignment" Value="Center" />
+                        <Setter Property="FontSize" Value="34" />
+                        <Setter Property="Background" Value="LightBlue" />
+                        <Setter Property="BorderBrush" Value="LightBlue" />
+                        <Setter Property="Height" Value="46" />
+                    </Style>
+                </StackPanel.Resources>
+                <StackPanel>
+                    <TextBlock Text="模块名称" />
+                    <TextBox x:Name="tbModName" Width="440" FontSize="34" VerticalAlignment="Center"/>
+                </StackPanel>
+                <StackPanel>
+                    <TextBlock Text="重启策略" />
+                    <ComboBox Name="cbRS">
+                        <ComboBoxItem Tag="one_for_one" Content="one_for_one" IsSelected="True"/>
+                        <ComboBoxItem Tag="one_for_all" Content="one_for_all"/>
+                        <ComboBoxItem Tag="rest_for_one" Content="rest_for_one"/>
+                        <ComboBoxItem Tag="simple_one_for_one" Content="simple_one_for_one"/>
+                    </ComboBox>
+                </StackPanel>
+                <StackPanel>
+                    <TextBlock Text="在" />
+                    <TextBox x:Name="tbMax" Width="120"  FontSize="34" VerticalAlignment="Center" Text="3600" TextAlignment="Right"/>
+                    <TextBlock Text="秒内重启" Width="Auto"/>
+                    <TextBox  Name="tbWhitin" Width="120"  FontSize="34" VerticalAlignment="Center" Text="4" TextAlignment="Right"/>
+                    <TextBlock Text="次" Width="Auto"/>
+                </StackPanel>
+                <StackPanel>
+                    <TextBlock Text="系统标识(ID)" />
+                    <TextBox x:Name="tbID" Width="440"  FontSize="34" VerticalAlignment="Center" Text=""/>
+                </StackPanel>
+                <StackPanel>
+                    <TextBlock Text="启动MFA" />
+                    <TextBox x:Name="tbStartupMFA" Width="440"  FontSize="34" VerticalAlignment="Center" Text="M,F,[]"/>
+                </StackPanel>
+                <StackPanel>
+                    <TextBlock Text="子节点故障时"/>
+                    <ComboBox Name="cbRestart">
+                        <ComboBoxItem IsSelected="True" Tag="permanent">重启(permanent)</ComboBoxItem>
+                        <ComboBoxItem Tag="temporary">仅意外关闭时重启(temporary)</ComboBoxItem>
+                        <ComboBoxItem Tag="transient">不作为(transient)</ComboBoxItem>
+                    </ComboBox>
+                </StackPanel>
+                <StackPanel>
+                    <TextBlock Text="进程终止时限" />
+                    <ComboBox Width="170" FontSize="16" Name="cbShutdown">
+                        <ComboBoxItem IsSelected="True" Tag="brutal_kill">立即(brutal_kill)</ComboBoxItem>
+                        <ComboBoxItem Tag="infinity">一直等待(infinity)</ComboBoxItem>
+                        <ComboBoxItem x:Name="cbiShutdownCountdown">在毫秒时间内</ComboBoxItem>
+                    </ComboBox>
+                    <TextBox Name="tbShutdownCountdown" Width="140"  FontSize="34" VerticalAlignment="Center" TextAlignment="Right" Margin="8" 
+                             Text="2000" IsEnabled="{Binding IsSelected,ElementName=cbiShutdownCountdown}"/>
+                    <TextBlock Text="毫秒" Width="Auto"/>
+                </StackPanel>
+                <StackPanel>
+                    <TextBlock Text="被监控进程类型" />
+                    <ComboBox Name="cbType">
+                        <ComboBoxItem IsSelected="True" Tag="worker">工作者(worker)</ComboBoxItem>
+                        <ComboBoxItem Tag="supervisor">监督者(supervisor)</ComboBoxItem>
+                    </ComboBox>
+                </StackPanel>
+                <StackPanel>
+                    <TextBlock Text="依赖的模块" />
+                    <TextBox Name="tbMods" Width="440"  FontSize="34" VerticalAlignment="Center" Text=""/>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
     </Grid>
 </UserControl>

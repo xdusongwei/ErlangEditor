@@ -38,5 +38,12 @@ namespace ErlangEditor.Template
         {
             return new Templates.application(aModuleName, aMFA).TransformText();
         }
+
+        public static string Make_supervisor(string aModuleName, string aRS, string aMax, string aWithin, string aID, string aStartMFA, string aRestart, string aShutdown,
+            string aNodeType, string aMods)
+        {
+            return new Templates.supervisor(aModuleName, aRS, aMax, aWithin, aID, aStartMFA, aRestart, aShutdown, aNodeType, aMods).TransformText();
+        }
+
     }
 }

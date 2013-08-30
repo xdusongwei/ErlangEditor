@@ -9,9 +9,9 @@ namespace ErlangEditor.Core.Entity
     {
         public ConfigEntity()
         {
-            CompilerPath = @"E:\erl5.10.1\bin\erlc.exe";
-            ShellPath = @"E:\erl5.10.1\bin\werl.exe";
-            ConsolePath = @"E:\erl5.10.1\bin\erl.exe";
+            CompilerPath = @"";
+            ShellPath = @"";
+            ConsolePath = @"";
         }
 
         public string CompilerPath

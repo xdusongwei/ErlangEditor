@@ -63,7 +63,7 @@
                             <TextBlock Foreground="White" HorizontalAlignment="Center" TextWrapping="Wrap"  VerticalAlignment="Center" FontSize="36" Margin="0,4,0,0" TextAlignment="Center">
                                 <Run Text="gen_server" />
                                 <LineBreak/>
-                                <Run Text="模板"/>
+                                <Run Text="行为模式"/>
                             </TextBlock>
                         </Grid>
                     </telerik:RadButton>
@@ -73,17 +73,17 @@
                             <TextBlock Foreground="White" HorizontalAlignment="Center" TextWrapping="Wrap"  VerticalAlignment="Center" FontSize="36" Margin="0,4,0,0" TextAlignment="Center">
                                 <Run Text="gen_event" />
                                 <LineBreak/>
-                                <Run Text="模板"/>
+                                <Run Text="行为模式"/>
                             </TextBlock>
                         </Grid>
                     </telerik:RadButton>
                     <telerik:RadButton Click="Gen_supervisorClicked">
                         <Grid>
                             <TextBlock Text="S"  FontSize="300" Foreground="White" Opacity="0.3" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Lucida Sans"/>
-                            <TextBlock Foreground="White" HorizontalAlignment="Center" TextWrapping="Wrap"  VerticalAlignment="Center" FontSize="28" Margin="0,4,0,0" TextAlignment="Center">
-                                <Run Text="gen_supervisor" />
+                            <TextBlock Foreground="White" HorizontalAlignment="Center" TextWrapping="Wrap"  VerticalAlignment="Center" FontSize="36" Margin="0,4,0,0" TextAlignment="Center">
+                                <Run Text="supervisor" />
                                 <LineBreak/>
-                                <Run Text="模板"/>
+                                <Run Text="行为模式"/>
                             </TextBlock>
                         </Grid>
                     </telerik:RadButton>
@@ -93,7 +93,7 @@
                             <TextBlock Foreground="White" HorizontalAlignment="Center" TextWrapping="Wrap"  VerticalAlignment="Center" FontSize="36" Margin="0,4,0,0" TextAlignment="Center">
                                 <Run Text="application" />
                                 <LineBreak/>
-                                <Run Text="模板"/>
+                                <Run Text="行为模式"/>
                             </TextBlock>
                         </Grid>
                     </telerik:RadButton>

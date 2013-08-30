@@ -85,6 +85,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Import\Telerik.Windows.Controls.GridView.dll</HintPath>
     </Reference>
+    <Reference Include="Telerik.Windows.Controls.Input, Version=2013.1.220.40, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Import\Telerik.Windows.Controls.Input.dll</HintPath>
+    </Reference>
     <Reference Include="Telerik.Windows.Controls.Navigation, Version=2012.3.1017.40, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Import\Telerik.Windows.Controls.Navigation.dll</HintPath>
@@ -411,6 +415,7 @@
     <Content Include="Import\Telerik.Windows.Controls.dll" />
     <Content Include="Import\Telerik.Windows.Controls.Docking.dll" />
     <Content Include="Import\Telerik.Windows.Controls.GridView.dll" />
+    <Content Include="Import\Telerik.Windows.Controls.Input.dll" />
     <Content Include="Import\Telerik.Windows.Controls.Navigation.dll" />
     <Content Include="Import\Telerik.Windows.Controls.RibbonView.dll" />
     <Content Include="Import\Telerik.Windows.Data.dll" />

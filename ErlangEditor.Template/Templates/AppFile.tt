@@ -14,4 +14,4 @@
 		{applications, [<#= string.Join(",", Applications) #>]},
 		{mod,{ <#= Mod#> , <#= Args#> }}
 	]
-}
+}.
