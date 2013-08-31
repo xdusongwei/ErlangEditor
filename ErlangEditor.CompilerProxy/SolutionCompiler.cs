@@ -38,7 +38,10 @@ namespace ErlangEditor.CompilerProxy
             thCompiler = new Thread(() =>
             {
                 foreach(var i in aApps)
-                    foreach(var k in i.Folders.Where(x=>x.Name=="src"))
+                {
+                    var pa = string.Concat(i.IncludePath.Select(x => string.Format("-pa {0} ", x)));
+                    foreach (var k in i.Folders.Where(x => x.Name == "src"))
+                    {
                         foreach (var j in k.Files)
                         {
                             Dispatcher.Invoke(new Action<string, Collection<string>>(PrintLine), new object[] { string.Format("编译{0}", j.Name), aExportReport });
@@ -49,7 +52,7 @@ namespace ErlangEditor.CompilerProxy
                                 prc.StartInfo.FileName = ErlangEditor.Core.ConfigUtil.Config.CompilerPath;
                                 prc.StartInfo.WorkingDirectory = System.IO.Path.Combine(ErlangEditor.Core.Helper.EntityTreeUtil.GetBasePath, i.Name);
                                 var fullPath = j.Name;
-                                prc.StartInfo.Arguments = string.Format("-I {0} -o ebin src\\{1}", "include", fullPath);
+                                prc.StartInfo.Arguments = string.Format("-I \"{0}\" -o ebin {1} src\\{2}", "include", pa, fullPath);
                                 prc.StartInfo.UseShellExecute = false;
                                 prc.StartInfo.RedirectStandardInput = prc.StartInfo.RedirectStandardOutput = true;
                                 prc.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
@@ -73,6 +76,8 @@ namespace ErlangEditor.CompilerProxy
                                 }
                             }
                         }
+                    }
+                }
                 PrintEnd(aExportReport, success, failed);
             });
             thCompiler.Start();

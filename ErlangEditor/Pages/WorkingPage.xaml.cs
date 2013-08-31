@@ -277,17 +277,46 @@ namespace ErlangEditor.Pages
         private void ItemSep(object sender, MouseButtonEventArgs e)
         {
             var vm = (sender as FrameworkElement).Tag as PrjTreeItemVM;
-            App.Navigation.ShowYesNoBox(string.Format("确认将文件 {0} 分离吗?", vm.DisplayText), "确认操作");
-            if (YesNoFrame.Result)
+            if (vm.Entity is ErlangEditor.Core.Entity.FileEntity)
             {
-                try
+                App.Navigation.ShowYesNoBox(string.Format("确认将文件 {0} 分离吗?", vm.DisplayText), "确认操作");
+                if (YesNoFrame.Result)
                 {
-                    ErlangEditor.Core.FileUtil.SeparateFile(vm.Entity as ErlangEditor.Core.Entity.FileEntity);
-                    (rtvSolution.SelectedContainer.ParentItem.Item as ViewModel.PrjTreeItemVM).Children.Remove(vm);
+                    try
+                    {
+                        ErlangEditor.Core.FileUtil.SeparateFile(vm.Entity as ErlangEditor.Core.Entity.FileEntity);
+                        (rtvSolution.SelectedContainer.ParentItem.Item as ViewModel.PrjTreeItemVM).Children.Remove(vm);
+                    }
+                    catch (Exception ecp)
+                    {
+                        App.Navigation.ShowMessageBox(ecp.Message, "出错");
+                    }
                 }
-                catch (Exception ecp)
+            }
+            if (vm.Entity is ErlangEditor.Core.Entity.ApplicationEntity)
+            {
+                App.Navigation.ShowYesNoBox(string.Format("确认将应用 {0} 分离吗?", vm.DisplayText), "确认操作");
+                if (YesNoFrame.Result)
                 {
-                    App.Navigation.ShowMessageBox(ecp.Message, "出错");
+                    try
+                    {
+                        ErlangEditor.Core.ApplicationUtil.SeparateApplication(App.Entity.FindAppName(vm.Entity));
+                        (rtvSolution.SelectedContainer.ParentItem.Item as ViewModel.PrjTreeItemVM).Children.Remove(vm);
+                        foreach (var i in App.MainViewModel.Nodes)
+                        {
+                            if (i.AppNames.Contains(vm.DisplayText))
+                            {
+                                ErlangEditor.Core.NodeUtil.SeparateApp(i.Name, vm.DisplayText);
+                                var apps = new System.Collections.ObjectModel.ObservableCollection<string>(i.Entity.Apps);
+                                i.AppNames = apps;
+                            }
+                        }
+                        ErlangEditor.Core.SolutionUtil.SaveSolution();
+                    }
+                    catch (Exception ecp)
+                    {
+                        App.Navigation.ShowMessageBox(ecp.Message, "出错");
+                    }
                 }
             }
         }
@@ -304,6 +333,15 @@ namespace ErlangEditor.Pages
                     {
                         ErlangEditor.Core.ApplicationUtil.DeleteApplication(App.Entity.FindAppName(vm.Entity));
                         (rtvSolution.SelectedContainer.ParentItem.Item as ViewModel.PrjTreeItemVM).Children.Remove(vm);
+                        foreach(var i in App.MainViewModel.Nodes)
+                        {
+                            if (i.AppNames.Contains(vm.DisplayText))
+                            {
+                                ErlangEditor.Core.NodeUtil.SeparateApp(i.Name, vm.DisplayText);
+                                var apps = new System.Collections.ObjectModel.ObservableCollection<string>(i.Entity.Apps);
+                                i.AppNames = apps;
+                            }
+                        }
                         ErlangEditor.Core.SolutionUtil.SaveSolution();
                     }
                     catch (Exception ecp)

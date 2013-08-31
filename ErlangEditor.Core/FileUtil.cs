@@ -9,6 +9,33 @@ namespace ErlangEditor.Core
 {
     public static class FileUtil
     {
+        public static void AddFile(string aAppName, string aFolderName, Entity.FileEntity aNewFile)
+        {
+            if (SolutionUtil.Solution == null) return;
+            if (SolutionUtil.Solution.Apps.Any(x => x.Name == aAppName))
+            {
+                var app = SolutionUtil.Solution.Apps.First(x => x.Name == aAppName);
+                if (string.IsNullOrWhiteSpace(aFolderName) && !app.Files.Any(x => x.Name == aNewFile.Name))
+                {
+                    app.Files.Add(aNewFile);
+                    Helper.EntityTreeUtil.UpdateDict();
+                }
+                else if (app.Folders.Any(x => x.Name == aFolderName))
+                {
+                    var fld = app.Folders.First(x => x.Name == aFolderName);
+                    if (!fld.Files.Any(x => x.Name == aNewFile.Name))
+                    {
+                        fld.Files.Add(aNewFile);
+                        Helper.EntityTreeUtil.UpdateDict();
+                    }
+                }
+            }
+            else
+            {
+                throw new Exception("文件层次结构未知。");
+            }
+        }
+
         public static void AddFile(string aAppName, string aFolderName, Entity.FileEntity aNewFile, string aContent)
         {
             if (SolutionUtil.Solution == null) return;
@@ -36,6 +63,13 @@ namespace ErlangEditor.Core
                     {
                         fld.Files.Add(aNewFile);
                         Helper.EntityTreeUtil.UpdateDict();
+                        var path = Helper.EntityTreeUtil.GetPath(aNewFile);
+                        if (System.IO.File.Exists(path))
+                        {
+                            fld.Files.Remove(aNewFile);
+                            Helper.EntityTreeUtil.UpdateDict();
+                            throw new Exception("文件已经存在");
+                        }
                         using (var ws = System.IO.File.CreateText(Helper.EntityTreeUtil.GetPath(aNewFile)))
                             ws.Write(aContent);
                     }

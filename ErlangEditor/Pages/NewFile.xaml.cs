@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -145,6 +146,43 @@ namespace ErlangEditor.Pages
             if (string.IsNullOrEmpty(name) || vm_ == null || vm_.Entity == null)
                 return;
             App.Navigation.GoFroward(new NewFile_application(name,vm_));
+        }
+
+        private void ExistsFiles(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog fileDialog = new OpenFileDialog();
+            fileDialog.Title = "选择现有文件";
+            fileDialog.Filter = "All Files (*.*)|*.*";
+            fileDialog.Multiselect = true;
+            if (fileDialog.ShowDialog() == true)
+            {
+                try
+                {
+                    var fld = App.Entity.FindFolderName(vm_.Entity);
+                    var app = App.Entity.FindAppName(vm_.Entity);
+                    foreach (var i in fileDialog.FileNames)
+                    {
+                        var name = System.IO.Path.GetFileName(i);
+                        var displayname = System.IO.Path.GetFileNameWithoutExtension(i);
+                        var newpath  = System.IO.Path.Combine(ErlangEditor.Core.Helper.EntityTreeUtil.GetPath(vm_.Entity), name);
+                        if (System.IO.File.Exists(newpath))
+                        {
+                            throw new Exception(string.Format("目录中已经存在{0},请在目录中删除后在进行添加。", name));
+                        }
+                        System.IO.File.Copy(i, newpath);
+                        var entity = new ErlangEditor.Core.Entity.FileEntity { Name = name, DisplayName = displayname };
+                        ErlangEditor.Core.FileUtil.AddFile(app, fld, entity);
+                        ErlangEditor.Core.SolutionUtil.SaveSolution();
+                        vm_.Children.Add(new ViewModel.PrjTreeItemVM(entity));
+                        App.Navigation.JumpToWithFirstFrame(App.MainViewModel.WorkingPage);
+                    }
+                }
+                catch (Exception ecp)
+                {
+                    App.Navigation.ShowMessageBox(ecp.Message, "选择现有文件");
+                }
+                //App.ViewModel.LoadSolution(file);
+            }
         }
     }
 }

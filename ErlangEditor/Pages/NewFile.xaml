@@ -97,6 +97,14 @@
                             </TextBlock>
                         </Grid>
                     </telerik:RadButton>
+                    <telerik:RadButton Click="ExistsFiles">
+                        <Grid>
+                            <TextBlock Text="A"  FontSize="300" Foreground="White" Opacity="0.3" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Lucida Sans"/>
+                            <TextBlock Foreground="White" HorizontalAlignment="Center" TextWrapping="Wrap"  VerticalAlignment="Center" FontSize="48" Margin="0,4,0,0" TextAlignment="Center">
+                                <Run Text="现有文件" />
+                            </TextBlock>
+                        </Grid>
+                    </telerik:RadButton>
                 </WrapPanel>
             </StackPanel>
         </Grid>

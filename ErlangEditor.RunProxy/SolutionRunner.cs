@@ -35,20 +35,15 @@ namespace ErlangEditor.RunProxy
             var sln = ErlangEditor.Core.SolutionUtil.Solution;
             var pathSB = new StringBuilder(1024);
             var startupSB = new StringBuilder(1024);
+            var pas = string.Empty; //这个...比较矛盾
             foreach (var i in aEntity.Apps)
             {
                 if (sln.Apps.Any(j => j.Name == i))
                 {
                     var app = sln.Apps.First(j => j.Name == i);
                     var path = string.Empty;
-                    if (app.AppMode)
-                    {
-                        path = ErlangEditor.Core.Helper.EntityTreeUtil.GetPath(app);
-                    }
-                    if (app.CodeMode)
-                    {
-                        path = System.IO.Path.Combine(ErlangEditor.Core.Helper.EntityTreeUtil.GetPath(app), "ebin");
-                    }
+                    path = System.IO.Path.Combine(ErlangEditor.Core.Helper.EntityTreeUtil.GetPath(app), "ebin");
+                    //pas += string.Concat(app.IncludePath.Select(x => string.Format("-pa {0} ", x)));
                     if(!string.IsNullOrWhiteSpace(path))
                         pathSB.AppendFormat("-pa \"{0}\" ", path);
                     if (app.StartupAsMFA && !string.IsNullOrWhiteSpace(app.StartupMFA))
@@ -57,7 +52,7 @@ namespace ErlangEditor.RunProxy
                     }
                 }
             }
-            prc.StartInfo.Arguments = string.Format("-sname {0} " , aEntity.NodeName) +  pathSB.ToString() + startupSB.ToString();
+            prc.StartInfo.Arguments = string.Format("-sname {0} " , aEntity.NodeName) +  pathSB.ToString() + pas + startupSB.ToString();
             prc.StartInfo.UseShellExecute = false;
             //prc.StartInfo.RedirectStandardInput = 
             prc.StartInfo.RedirectStandardOutput = true;

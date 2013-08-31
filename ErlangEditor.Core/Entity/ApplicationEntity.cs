@@ -14,6 +14,7 @@ namespace ErlangEditor.Core.Entity
             Folders = new List<FolderEntity>();
             Files = new List<FileEntity>();
             NodeNames = new List<string>();
+            IncludePath = new List<string>();
             StartupMFA = string.Empty;
         }
 
@@ -66,6 +67,12 @@ namespace ErlangEditor.Core.Entity
         }
 
         public List<string> NodeNames
+        {
+            get;
+            set;
+        }
+
+        public List<string> IncludePath
         {
             get;
             set;
