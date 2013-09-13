@@ -45,5 +45,9 @@ namespace ErlangEditor.Template
             return new Templates.supervisor(aModuleName, aRS, aMax, aWithin, aID, aStartMFA, aRestart, aShutdown, aNodeType, aMods).TransformText();
         }
 
+        public static string Make_gen_event(string aModuleName)
+        {
+            return new Templates.gen_event(aModuleName).TransformText();
+        }
     }
 }

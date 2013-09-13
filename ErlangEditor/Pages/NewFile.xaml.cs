@@ -129,7 +129,21 @@ namespace ErlangEditor.Pages
             var name = tbName.Text.Trim();
             if (string.IsNullOrEmpty(name) || vm_ == null || vm_.Entity == null)
                 return;
-            App.Navigation.GoFroward(new NewFile_gen_event());
+            try
+            {
+                var fld = App.Entity.FindFolderName(vm_.Entity);
+                var app = App.Entity.FindAppName(vm_.Entity);
+                var entity = new ErlangEditor.Core.Entity.FileEntity { Name = name + ".erl", DisplayName = name };
+                var content = ErlangEditor.Template.TemplateUtil.Make_gen_event(name);
+                ErlangEditor.Core.FileUtil.AddFile(app, fld, entity, content);
+                ErlangEditor.Core.SolutionUtil.SaveSolution();
+                vm_.Children.Add(new ViewModel.PrjTreeItemVM(entity));
+                App.Navigation.JumpToWithFirstFrame(App.MainViewModel.WorkingPage);
+            }
+            catch (Exception ecp)
+            {
+                App.Navigation.ShowMessageBox(ecp.Message, "创建文件");
+            }
         }
 
         private void Gen_supervisorClicked(object sender, RoutedEventArgs e)
