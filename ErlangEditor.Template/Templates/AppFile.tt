@@ -3,7 +3,7 @@
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
-<#@ output extension=".app" #>
+<#@ output extension=".app.src" #>
 {
 	application, <#= AppName #>,
 	[

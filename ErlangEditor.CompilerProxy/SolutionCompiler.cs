@@ -44,6 +44,14 @@ namespace ErlangEditor.CompilerProxy
                     {
                         foreach (var j in k.Files)
                         {
+                            if (j.IsAppFile)
+                            {
+                                System.IO.File.Copy(
+                                    ErlangEditor.Core.Helper.EntityTreeUtil.GetPath(j),
+                                    System.IO.Path.Combine(ErlangEditor.Core.Helper.EntityTreeUtil.GetBasePath, i.Name, "ebin" , j.DisplayName),
+                                    true);
+                                continue;
+                            }
                             Dispatcher.Invoke(new Action<string, Collection<string>>(PrintLine), new object[] { string.Format("编译{0}", j.Name), aExportReport });
                             using (var prc = new Process())
                             {

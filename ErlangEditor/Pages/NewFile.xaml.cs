@@ -184,7 +184,11 @@ namespace ErlangEditor.Pages
                             throw new Exception(string.Format("目录中已经存在{0},请在目录中删除后在进行添加。", name));
                         }
                         System.IO.File.Copy(i, newpath);
-                        var entity = new ErlangEditor.Core.Entity.FileEntity { Name = name, DisplayName = displayname };
+                        ErlangEditor.Core.Entity.FileEntity entity = null;
+                        if(System.IO.Path.GetExtension(newpath).ToLower() == ".src")
+                            entity = new ErlangEditor.Core.Entity.FileEntity { Name = name, DisplayName = displayname , IsAppFile = true };
+                        else
+                            entity = new ErlangEditor.Core.Entity.FileEntity { Name = name, DisplayName = displayname };
                         ErlangEditor.Core.FileUtil.AddFile(app, fld, entity);
                         ErlangEditor.Core.SolutionUtil.SaveSolution();
                         vm_.Children.Add(new ViewModel.PrjTreeItemVM(entity));

@@ -25,6 +25,12 @@ namespace ErlangEditor.Core.Entity
             set;
         }
 
+        public bool IsAppFile
+        {
+            get;
+            set;
+        }
+
         public object GetParent()
         {
             return Helper.EntityTreeUtil.GetParent(this);

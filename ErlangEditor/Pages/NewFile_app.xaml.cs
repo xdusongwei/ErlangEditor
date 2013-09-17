@@ -58,7 +58,7 @@ namespace ErlangEditor.Pages
                         var fld = App.Entity.FindFolderName(vm_.Entity);
                         var app = App.Entity.FindAppName(vm_.Entity);
                         var content = ErlangEditor.Template.TemplateUtil.MakeAppFile(vsn, appname, desc, mods, reg, apps, mod, arg);
-                        var entity = new ErlangEditor.Core.Entity.FileEntity { Name = appname + ".app", DisplayName = appname };
+                        var entity = new ErlangEditor.Core.Entity.FileEntity { Name = appname + ".app.src", DisplayName = appname + ".app", IsAppFile = true };
                         ErlangEditor.Core.FileUtil.AddFile(app, fld, entity, content);
                         ErlangEditor.Core.SolutionUtil.SaveSolution();
                         vm_.Children.Add(new ViewModel.PrjTreeItemVM(entity));
