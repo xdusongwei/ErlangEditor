@@ -46,6 +46,8 @@ namespace ErlangEditor.Pages
                     entity.NoStartup = rbNostartup.IsChecked ?? false;
                     entity.StartupAsMFA = rbMFA.IsChecked ?? false;
                     entity.StartupMFA = tbMFA.Text.Trim();
+                    entity.DebugInfo = rbDebug.IsChecked ?? false;
+                    entity.CompileNative = rbNative.IsChecked ?? false;
                     var pa = tbPa.Text.Split(';').Where(i => !string.IsNullOrWhiteSpace(i)).Select(i => i.Trim());
                     entity.IncludePath.Clear();
                     entity.IncludePath.AddRange(pa);
@@ -76,6 +78,9 @@ namespace ErlangEditor.Pages
             rbNostartup.IsChecked = entity.NoStartup;
             rbMFA.IsChecked = entity.StartupAsMFA;
             tbPa.Text = string.Join(";", entity.IncludePath);
+            rbDebug.IsChecked = entity.DebugInfo;
+            rbNoDebug.IsChecked = !entity.DebugInfo && !entity.CompileNative;
+            rbNative.IsChecked = entity.CompileNative;
         }
     }
 }

@@ -60,7 +60,7 @@ namespace ErlangEditor.CompilerProxy
                                 prc.StartInfo.FileName = ErlangEditor.Core.ConfigUtil.Config.CompilerPath;
                                 prc.StartInfo.WorkingDirectory = System.IO.Path.Combine(ErlangEditor.Core.Helper.EntityTreeUtil.GetBasePath, i.Name);
                                 var fullPath = j.Name;
-                                prc.StartInfo.Arguments = string.Format("-I \"{0}\" -o ebin {1} src\\{2}", "include", pa, fullPath);
+                                prc.StartInfo.Arguments = string.Format("{0} {1} -I \"{2}\" -o ebin {3} src\\{4}", i.DebugInfo ? "+native" : string.Empty, i.DebugInfo ? "+debug_info" : string.Empty, "include", pa, fullPath);
                                 prc.StartInfo.UseShellExecute = false;
                                 prc.StartInfo.RedirectStandardInput = prc.StartInfo.RedirectStandardOutput = true;
                                 prc.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;

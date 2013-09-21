@@ -54,6 +54,20 @@
                         </telerik:RadRadioButton>
                     </StackPanel>
                 </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,36,0,0" >
+                    <TextBlock Text="编译参数" />
+                    <StackPanel Margin="16,0,0,0"  Width="350">
+                        <telerik:RadRadioButton  IsChecked="False" telerikControls:StyleManager.Theme="Metro" Height="50" Name="rbNative">
+                            <TextBlock Text="编译为native code" Style="{x:Null}" FontSize="24"/>
+                        </telerik:RadRadioButton>
+                        <telerik:RadRadioButton  IsChecked="False" telerikControls:StyleManager.Theme="Metro" Height="50" Name="rbDebug">
+                            <TextBlock Text="编译时加入debug_info" Style="{x:Null}" FontSize="24"/>
+                        </telerik:RadRadioButton>
+                        <telerik:RadRadioButton  telerikControls:StyleManager.Theme="Metro" IsChecked="True"  Height="50" Name="rbNoDebug">
+                            <TextBlock Text="不加入调试信息" Style="{x:Null}" FontSize="24"/>
+                        </telerik:RadRadioButton>
+                    </StackPanel>
+                </StackPanel>
             </StackPanel>
         </Grid>
     </Grid>

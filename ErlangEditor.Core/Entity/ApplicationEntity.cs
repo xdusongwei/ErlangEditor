@@ -66,6 +66,18 @@ namespace ErlangEditor.Core.Entity
             set;
         }
 
+        public bool DebugInfo
+        {
+            get;
+            set;
+        }
+
+        public bool CompileNative
+        {
+            get;
+            set;
+        }
+
         public List<string> NodeNames
         {
             get;
