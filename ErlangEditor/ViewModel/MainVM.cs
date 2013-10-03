@@ -60,6 +60,13 @@ namespace ErlangEditor.ViewModel
             OpenedFiles = new List<FileVM>();
             Nodes = new ObservableCollection<NodeVM>();
             Output = new ObservableCollection<OutputVM>();
+            AutoCompleteCache = new AutoComplete.AcCore();
+        }
+
+        public ErlangEditor.AutoComplete.AcCore AutoCompleteCache
+        {
+            get;
+            set;
         }
 
         public ObservableCollection<ToolBoxButtonVM> HeaderButtons

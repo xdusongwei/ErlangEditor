@@ -58,6 +58,7 @@ namespace ErlangEditor.Pages
                     ErlangEditor.Core.SolutionUtil.LoadSolution(file);
                     App.MainViewModel.WorkingPage = new WorkingPage();
                     App.Entity.UpdateProjectTree();
+                    App.MainViewModel.AutoCompleteCache.ScanAllBin(ErlangEditor.Core.SolutionUtil.Solution);
                     App.Navigation.GoFroward(App.MainViewModel.WorkingPage);
                 }
                 catch (Exception ecp)

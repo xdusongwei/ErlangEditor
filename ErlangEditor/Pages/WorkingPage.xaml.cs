@@ -1,5 +1,8 @@
 ﻿using ErlangEditor.ViewModel;
 using ICSharpCode.AvalonEdit;
+using ICSharpCode.AvalonEdit.CodeCompletion;
+using ICSharpCode.AvalonEdit.Document;
+using ICSharpCode.AvalonEdit.Editing;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -120,6 +123,8 @@ namespace ErlangEditor.Pages
                     editor.FontSize = 16;
                     editor.ShowLineNumbers = true;
                     editor.SyntaxHighlighting = ICSharpCode.AvalonEdit.Highlighting.HighlightingManager.Instance.GetDefinition("Erl");
+                    editor.TextArea.TextEntering += textEditor_TextArea_TextEntering;
+                    editor.TextArea.TextEntered += textEditor_TextArea_TextEntered;
                     rp.Content = editor;
                     rp.Tag = fileVM;
                     rpContent.Items.Add(rp);
@@ -135,6 +140,99 @@ namespace ErlangEditor.Pages
                 catch (Exception ecp)
                 {
                     App.Navigation.ShowMessageBox(ecp.Message, "出错");
+                }
+            }
+        }
+
+        CompletionWindow completionWindow;
+
+        void textEditor_TextArea_TextEntered(object sender, TextCompositionEventArgs e)
+        {
+            var textArea = sender as TextArea;
+            if(e.Text == "\'")
+            {
+                completionWindow = new CompletionWindow(textArea);
+                IList<ICompletionData> data = completionWindow.CompletionList.CompletionData;
+                var mods = App.MainViewModel.AutoCompleteCache.GetModules;
+                foreach (var i in mods)
+                {
+                    data.Add(new CompletionData(true) { Text = i + "\':", Content = i });
+                }
+                completionWindow.Show();
+                completionWindow.Closed += delegate
+                {
+                    completionWindow = null;
+                };
+            }
+        }
+
+        void textEditor_TextArea_TextEntering(object sender, TextCompositionEventArgs e)
+        {
+            if (e.Text.Length > 0 && completionWindow != null)
+            {
+                if (!char.IsLetterOrDigit(e.Text[0]))
+                {
+                    // Whenever a non-letter is typed while the completion window is open,
+                    // insert the currently selected element.
+                    completionWindow.CompletionList.RequestInsertion(e);
+                }
+            }
+            // Do not set e.Handled=true.
+            // We still want to insert the character that was typed.
+        }
+
+        public class CompletionData : ICompletionData
+        {
+            public CompletionData(bool aAcAgain)
+            {
+                //entity_ = aEntity;
+                autocompleteAgain_ = aAcAgain;
+            }
+
+            private bool autocompleteAgain_;
+            private ErlangEditor.AutoComplete.AcEntity entity_ = null;
+
+            public System.Windows.Media.ImageSource Image
+            {
+                get { return null; }
+            }
+
+            public string Text { get; set; }
+
+            // Use this property if you want to show a fancy UIElement in the list.
+            public object Content
+            {
+                get;
+                set;
+            }
+
+            public double Priority { get { return 1.0; } }
+
+            public object Description
+            {
+                get { return null; }
+            }
+
+           public void Complete(TextArea textArea, ISegment completionSegment,
+                EventArgs insertionRequestEventArgs)
+            {
+                textArea.Document.Replace(completionSegment, this.Text);
+                if (autocompleteAgain_)
+                {
+                    var completionWindow = new CompletionWindow(textArea);
+                    IList<ICompletionData> data = completionWindow.CompletionList.CompletionData;
+                    
+                    var functions = App.MainViewModel.AutoCompleteCache.GetFunctions(Content as string);
+                    (functions as List<ErlangEditor.AutoComplete.AcEntity>).Sort(new Tools.Reverser<ErlangEditor.AutoComplete.AcEntity>(new AutoComplete.AcEntity().GetType(), "FunctionName", Tools.ReverserInfo.Direction.DESC));
+                    foreach (var i in functions)
+                    {
+                        data.Add(new CompletionData(false) { Text = "\'" + i.FunctionName + "\'(", Content = i.FunctionName + "/" + i.Arity });
+                    }
+                    completionWindow.Show();
+                    completionWindow.Closed += delegate
+                    {
+                        completionWindow = null;
+                    };
                 }
             }
         }
@@ -286,6 +384,7 @@ namespace ErlangEditor.Pages
                     {
                         ErlangEditor.Core.FileUtil.SeparateFile(vm.Entity as ErlangEditor.Core.Entity.FileEntity);
                         (rtvSolution.SelectedContainer.ParentItem.Item as ViewModel.PrjTreeItemVM).Children.Remove(vm);
+                        App.MainViewModel.AutoCompleteCache.DropModule((vm.Entity as ErlangEditor.Core.Entity.FileEntity).DisplayName);
                     }
                     catch (Exception ecp)
                     {
@@ -302,6 +401,7 @@ namespace ErlangEditor.Pages
                     {
                         ErlangEditor.Core.ApplicationUtil.SeparateApplication(App.Entity.FindAppName(vm.Entity));
                         (rtvSolution.SelectedContainer.ParentItem.Item as ViewModel.PrjTreeItemVM).Children.Remove(vm);
+                        App.MainViewModel.AutoCompleteCache.DropApplication(vm.Entity as ErlangEditor.Core.Entity.ApplicationEntity);
                         foreach (var i in App.MainViewModel.Nodes)
                         {
                             if (i.AppNames.Contains(vm.DisplayText))
@@ -343,6 +443,7 @@ namespace ErlangEditor.Pages
                             }
                         }
                         ErlangEditor.Core.SolutionUtil.SaveSolution();
+                        App.MainViewModel.AutoCompleteCache.DropApplication(vm.Entity as ErlangEditor.Core.Entity.ApplicationEntity);
                     }
                     catch (Exception ecp)
                     {
@@ -360,6 +461,7 @@ namespace ErlangEditor.Pages
                         ErlangEditor.Core.FileUtil.RemoveFile(vm.Entity as ErlangEditor.Core.Entity.FileEntity);
                         (rtvSolution.SelectedContainer.ParentItem.Item as ViewModel.PrjTreeItemVM).Children.Remove(vm);
                         ErlangEditor.Core.SolutionUtil.SaveSolution();
+                        App.MainViewModel.AutoCompleteCache.DropModule((vm.Entity as ErlangEditor.Core.Entity.FileEntity).DisplayName);
                     }
                     catch (Exception ecp)
                     {
@@ -379,10 +481,12 @@ namespace ErlangEditor.Pages
                 if (vm.Entity is ErlangEditor.Core.Entity.SolutionEntity)
                 {
                     App.Compile.MakeSolution();
+                    App.MainViewModel.AutoCompleteCache.ScanAllBin(vm.Entity as ErlangEditor.Core.Entity.SolutionEntity);
                 }
                 if (vm.Entity is ErlangEditor.Core.Entity.ApplicationEntity)
                 {
                     App.Compile.MakeApp(vm);
+                    App.MainViewModel.AutoCompleteCache.ScanBin(vm.Entity as ErlangEditor.Core.Entity.ApplicationEntity);
                 }
             }
             catch (Exception ecp)

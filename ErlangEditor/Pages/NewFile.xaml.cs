@@ -63,6 +63,11 @@ namespace ErlangEditor.Pages
             }
         }
 
+        private void RelClicked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
         private void HrlClicked(object sender, RoutedEventArgs e)
         {
             var name = tbName.Text.Trim();
@@ -179,11 +184,8 @@ namespace ErlangEditor.Pages
                         var name = System.IO.Path.GetFileName(i);
                         var displayname = System.IO.Path.GetFileNameWithoutExtension(i);
                         var newpath  = System.IO.Path.Combine(ErlangEditor.Core.Helper.EntityTreeUtil.GetPath(vm_.Entity), name);
-                        if (System.IO.File.Exists(newpath))
-                        {
-                            throw new Exception(string.Format("目录中已经存在{0},请在目录中删除后在进行添加。", name));
-                        }
-                        System.IO.File.Copy(i, newpath);
+                        if(i.ToLower() != newpath.ToLower())
+                            System.IO.File.Copy(i, newpath);
                         ErlangEditor.Core.Entity.FileEntity entity = null;
                         if(System.IO.Path.GetExtension(newpath).ToLower() == ".src")
                             entity = new ErlangEditor.Core.Entity.FileEntity { Name = name, DisplayName = displayname , IsAppFile = true };

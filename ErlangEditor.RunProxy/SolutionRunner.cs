@@ -8,7 +8,7 @@ namespace ErlangEditor.RunProxy
 {
     public class SolutionRunner
     {
-        private Process prc_ = null;
+        private volatile Process prc_ = null;
 
         public event EventHandler<ShellClosedEventArgs> Closed;
 

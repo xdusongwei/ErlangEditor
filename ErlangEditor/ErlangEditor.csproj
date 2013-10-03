@@ -155,6 +155,7 @@
     <Compile Include="Controls\ToolBoxButton.xaml.cs">
       <DependentUpon>ToolBoxButton.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Tools\Sort.cs" />
     <Compile Include="ValueConverter\FileTabTextVC.cs" />
     <Compile Include="ValueConverter\NodeAppsVC.cs" />
     <Compile Include="ValueConverter\NodeShowShellVC.cs" />
@@ -339,6 +340,10 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ErlangEditor.AutoComplete\ErlangEditor.AutoComplete.csproj">
+      <Project>{da03ad73-46a0-493c-a198-92bb0c99a450}</Project>
+      <Name>ErlangEditor.AutoComplete</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ErlangEditor.CompilerProxy\ErlangEditor.CompilerProxy.csproj">
       <Project>{9c5bfe5c-3854-4bac-98d9-301b2a747d04}</Project>
       <Name>ErlangEditor.CompilerProxy</Name>
@@ -346,6 +351,10 @@
     <ProjectReference Include="..\ErlangEditor.Core\ErlangEditor.Core.csproj">
       <Project>{4292b9b3-29c2-4c16-9ae4-0feb951b3a1a}</Project>
       <Name>ErlangEditor.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ErlangEditor.ReleaseProxy\ErlangEditor.ReleaseProxy.csproj">
+      <Project>{8f65094d-3618-4b19-825b-b0f0658c8882}</Project>
+      <Name>ErlangEditor.ReleaseProxy</Name>
     </ProjectReference>
     <ProjectReference Include="..\ErlangEditor.RunProxy\ErlangEditor.RunProxy.csproj">
       <Project>{a48e9394-75b7-495c-b8e9-9b9477fde27a}</Project>
@@ -420,9 +429,7 @@
     <Content Include="Import\Telerik.Windows.Controls.RibbonView.dll" />
     <Content Include="Import\Telerik.Windows.Data.dll" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Tools\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
       <Visible>False</Visible>
