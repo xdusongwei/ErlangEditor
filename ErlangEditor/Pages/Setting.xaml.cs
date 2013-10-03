@@ -106,6 +106,10 @@ namespace ErlangEditor.Pages
             }
         }
 
-
+        private void RefreshCache(object sender, RoutedEventArgs e)
+        {
+            App.MainViewModel.AutoCompleteCache.CacheLib();
+            App.Navigation.ShowMessageBox("Erlang库代码的自动提示已经缓存完毕。","刷新缓存");
+        }
     }
 }

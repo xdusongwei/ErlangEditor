@@ -31,5 +31,11 @@ namespace ErlangEditor.Core.Entity
             get;
             set;
         }
+
+        public string AutoCompleteCache
+        {
+            get;
+            set;
+        }
     }
 }

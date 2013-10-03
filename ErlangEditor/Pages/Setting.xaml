@@ -43,6 +43,13 @@
                     <Image Height="41" Width="41" Source="/ErlangEditor;component/Images/appbar.feature.search.rest.png" />
                 </telerik:RadButton>
             </StackPanel>
+            <StackPanel Margin="0,48,0,0">
+                <telerik:RadButton Height="64" HorizontalAlignment="Center" Background="Transparent" BorderBrush="White" BorderThickness="3" telerikControls:StyleManager.Theme="Summer" Click="RefreshCache">
+                    <StackPanel>
+                        <TextBlock Text="刷新自动完成缓存" Foreground="White" HorizontalAlignment="Center" FontSize="32" Margin="4,4,4,0"/>
+                    </StackPanel>
+                </telerik:RadButton>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </UserControl>

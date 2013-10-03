@@ -152,6 +152,8 @@ namespace ErlangEditor.Pages
             if(e.Text == "\'")
             {
                 completionWindow = new CompletionWindow(textArea);
+                completionWindow.Width = 256;
+                completionWindow.Opacity = 0.6;
                 IList<ICompletionData> data = completionWindow.CompletionList.CompletionData;
                 var mods = App.MainViewModel.AutoCompleteCache.GetModules;
                 foreach (var i in mods)
@@ -220,6 +222,8 @@ namespace ErlangEditor.Pages
                 if (autocompleteAgain_)
                 {
                     var completionWindow = new CompletionWindow(textArea);
+                    completionWindow.Opacity = 0.6;
+                    completionWindow.Width = double.NaN;
                     IList<ICompletionData> data = completionWindow.CompletionList.CompletionData;
                     
                     var functions = App.MainViewModel.AutoCompleteCache.GetFunctions(Content as string);

@@ -83,6 +83,7 @@ namespace ErlangEditor
             try
             {
                 ErlangEditor.Core.ConfigUtil.LoadConfig();
+                App.MainViewModel.AutoCompleteCache.SetLibCache(ErlangEditor.Core.ConfigUtil.Config.AutoCompleteCache);
             }
             catch (Exception ecp)
             {
