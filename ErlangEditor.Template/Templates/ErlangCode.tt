@@ -6,7 +6,9 @@
 <#@ output extension=".erl" #>
 -module(<#= ModuleName #>).
 -compile(export_all).
+-msummary("<#= ModuleName #>的模块描述,这是一个普通erlang模块。").
 %%-export([]).
 
+-summary(start,1,"一个start函数").
 start()->
 	ok.

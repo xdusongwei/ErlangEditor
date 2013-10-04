@@ -35,9 +35,16 @@ namespace ErlangEditor.Template.Templates
             
             #line default
             #line hidden
-            this.Write(").\r\n-behaviour(supervisor).\r\n\r\n-export([start_link/0,start_child/0]).\r\n\r\n-export(" +
-                    "[init/1]). \r\n\r\n%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\r\n% APIs\r\nstart_link" +
-                    "()->\r\n\tsupervisor:start_link({local,");
+            this.Write(").\r\n-behaviour(supervisor).\r\n-msummary(\"");
+            
+            #line 9 "D:\文档\GitHub\ErlangEditor\ErlangEditor.Template\Templates\supervisor.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ModuleName));
+            
+            #line default
+            #line hidden
+            this.Write("的模块描述,这是一个使用supervisor行为模式的模块。\").\r\n-export([start_link/0,start_child/0]).\r\n\r\n-exp" +
+                    "ort([init/1]). \r\n\r\n%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\r\n% APIs\r\nstart_" +
+                    "link()->\r\n\tsupervisor:start_link({local,");
             
             #line 17 "D:\文档\GitHub\ErlangEditor\ErlangEditor.Template\Templates\supervisor.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModuleName));

@@ -25,7 +25,7 @@ namespace ErlangEditor.Helper
                 item.Line = line;
                 App.MainViewModel.ErrorLog.Add(item);
             };
-            slnCompiler.Start(ErlangEditor.Core.SolutionUtil.Solution.Apps, App.MainViewModel.ExportLog);
+            slnCompiler.Start(ErlangEditor.Core.SolutionUtil.Solution.Apps, App.MainViewModel.ExportLog, () => { App.MainViewModel.AutoCompleteCache.ScanAllBin(ErlangEditor.Core.SolutionUtil.Solution); });
         }
 
         public void MakeApp(PrjTreeItemVM aAppVM)
@@ -44,7 +44,7 @@ namespace ErlangEditor.Helper
                 item.Line = line;
                 App.MainViewModel.ErrorLog.Add(item);
             };
-            slnCompiler.Start(new ErlangEditor.Core.Entity.ApplicationEntity[] { aAppVM.Entity as ErlangEditor.Core.Entity.ApplicationEntity }, App.MainViewModel.ExportLog);
+            slnCompiler.Start(new ErlangEditor.Core.Entity.ApplicationEntity[] { aAppVM.Entity as ErlangEditor.Core.Entity.ApplicationEntity }, App.MainViewModel.ExportLog, () => { App.MainViewModel.AutoCompleteCache.ScanBin(aAppVM.Entity as ErlangEditor.Core.Entity.ApplicationEntity); });
         }
     }
 }

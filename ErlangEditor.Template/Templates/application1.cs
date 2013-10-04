@@ -35,16 +35,23 @@ namespace ErlangEditor.Template.Templates
             
             #line default
             #line hidden
-            this.Write(").\r\n\r\n-behaviour(application).\r\n-export([start/2,stop/1]).\r\n\r\nstart(_Type, _Start" +
-                    "Args)->\r\n\tcase ");
+            this.Write(").\r\n\r\n-behaviour(application).\r\n-export([start/2,stop/1]).\r\n-msummary(\"");
             
-            #line 13 "D:\文档\GitHub\ErlangEditor\ErlangEditor.Template\Templates\application.tt"
+            #line 11 "D:\文档\GitHub\ErlangEditor\ErlangEditor.Template\Templates\application.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ModuleName));
+            
+            #line default
+            #line hidden
+            this.Write("的模块描述,这是一个application模块。\").\r\n\r\n-summary(start,2,\"应用模式的start函数\").\r\nstart(_Type, _S" +
+                    "tartArgs)->\r\n\tcase ");
+            
+            #line 15 "D:\文档\GitHub\ErlangEditor\ErlangEditor.Template\Templates\application.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(StartupMFA));
             
             #line default
             #line hidden
-            this.Write(" of\r\n\t\t{ ok, _Pid } = M ->\r\n\t\t\tM;\r\n\t\tOther ->\r\n\t\t\t{ error , Other }\r\n\tend.\r\n\r\nsto" +
-                    "p(_State)->\r\n\tok.\r\n ");
+            this.Write(" of\r\n\t\t{ ok, _Pid } = M ->\r\n\t\t\tM;\r\n\t\tOther ->\r\n\t\t\t{ error , Other }\r\n\tend.\r\n\r\n-su" +
+                    "mmary(stop,1,\"应用模式的stop函数\").\r\nstop(_State)->\r\n\tok.\r\n ");
             return this.GenerationEnvironment.ToString();
         }
     }

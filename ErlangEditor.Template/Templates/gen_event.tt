@@ -6,7 +6,7 @@
 <#@ output extension=".erl" #>
 -module(<#= ModuleName #>).
 -behaviour(gen_event).
-
+-msummary("<#= ModuleName #>的模块描述,这是一个使用gen_event行为模式的模块。").
 -export([register_event/0,unregister_event/0]).
 
 -export([init/1,handle_call/2,handle_event/2,handle_info/2,terminate/2,code_change/3]). 

@@ -19,7 +19,8 @@ namespace ErlangEditor.CompilerProxy
 
         public void Start(
             IEnumerable<ApplicationEntity> aApps,
-            Collection<string> aExportReport
+            Collection<string> aExportReport,
+            Action aFinish
             )
         {
             if (thCompiler != null)
@@ -39,7 +40,9 @@ namespace ErlangEditor.CompilerProxy
             {
                 foreach(var i in aApps)
                 {
-                    var pa = string.Concat(i.IncludePath.Select(x => string.Format("-pa {0} ", x)));
+                    var existAppName = i.IncludePath.Where(x => ErlangEditor.Core.SolutionUtil.Solution.Apps.Where(y => y.Name == x).Count() > 0);
+                    var existApp = ErlangEditor.Core.SolutionUtil.Solution.Apps.Where(x => existAppName.Any(y => y == x.Name));
+                    var pa = string.Concat(existApp.Select(x => string.Format("-pa {0} ", System.IO.Path.Combine(ErlangEditor.Core.Helper.EntityTreeUtil.GetPath(x), "ebin"))));
                     foreach (var k in i.Folders.Where(x => x.Name == "src"))
                     {
                         foreach (var j in k.Files)
@@ -82,6 +85,7 @@ namespace ErlangEditor.CompilerProxy
                                             Dispatcher.Invoke(new Action<object, CodeFileErrorEventArgs>(evt), new object[] { this, new CodeFileErrorEventArgs(l, j) });
                                     }
                                 }
+                                if (aFinish != null) aFinish();
                             }
                         }
                     }

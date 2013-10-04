@@ -8,7 +8,9 @@
 
 -behaviour(application).
 -export([start/2,stop/1]).
+-msummary("<#= ModuleName #>的模块描述,这是一个application模块。").
 
+-summary(start,2,"应用模式的start函数").
 start(_Type, _StartArgs)->
 	case <#= StartupMFA #> of
 		{ ok, _Pid } = M ->
@@ -17,6 +19,7 @@ start(_Type, _StartArgs)->
 			{ error , Other }
 	end.
 
+-summary(stop,1,"应用模式的stop函数").
 stop(_State)->
 	ok.
  

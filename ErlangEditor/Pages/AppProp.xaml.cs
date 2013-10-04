@@ -48,7 +48,7 @@ namespace ErlangEditor.Pages
                     entity.StartupMFA = tbMFA.Text.Trim();
                     entity.DebugInfo = rbDebug.IsChecked ?? false;
                     entity.CompileNative = rbNative.IsChecked ?? false;
-                    var pa = tbPa.Text.Split(';').Where(i => !string.IsNullOrWhiteSpace(i)).Select(i => i.Trim());
+                    var pa = tbPa.Text.Split(new char[]{';'}, StringSplitOptions.RemoveEmptyEntries).Where(i => !string.IsNullOrWhiteSpace(i)).Select(i => i.Trim());
                     entity.IncludePath.Clear();
                     entity.IncludePath.AddRange(pa);
                     try

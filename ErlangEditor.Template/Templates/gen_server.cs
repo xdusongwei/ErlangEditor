@@ -35,9 +35,14 @@ namespace ErlangEditor.Template.Templates
             
             #line default
             #line hidden
-            this.Write(@").
--behaviour(gen_server).
-
+            this.Write(").\r\n-behaviour(gen_server).\r\n-msummary(\"");
+            
+            #line 9 "D:\文档\GitHub\ErlangEditor\ErlangEditor.Template\Templates\gen_server.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ModuleName));
+            
+            #line default
+            #line hidden
+            this.Write(@"的模块描述,这是一个使用gen_server行为模式的模块。"").
 -export([start_link/0,stop/0]).
 
 -export([init/1,handle_call/3,handle_cast/2,handle_info/2,terminate/2,code_change/3]). 

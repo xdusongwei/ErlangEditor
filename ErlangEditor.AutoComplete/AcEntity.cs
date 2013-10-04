@@ -24,5 +24,11 @@ namespace ErlangEditor.AutoComplete
             get;
             set;
         }
+
+        public string Desc
+        {
+            get;
+            set;
+        }
     }
 }

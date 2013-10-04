@@ -10,7 +10,7 @@ namespace ErlangEditor.AutoComplete
     {
         private Dictionary<string, List<AcEntity>> dictMods_ = new Dictionary<string, List<AcEntity>>();
         private Dictionary<string, List<AcEntity>> dictLibCache_ = new Dictionary<string, List<AcEntity>>();
-
+        private Dictionary<string, string> dictModSummary_ = new Dictionary<string, string>();
         public void SetLibCache(string aJsonDict)
         {
             var dict = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, List<AcEntity>>>(aJsonDict);
@@ -25,6 +25,11 @@ namespace ErlangEditor.AutoComplete
                 result.Sort();
                 return result;
             }
+        }
+
+        public string GetModuleDesc(string aModName)
+        {
+            return dictModSummary_.ContainsKey(aModName) ? dictModSummary_[aModName] : null;
         }
 
         public IEnumerable<AcEntity> GetFunctions(string aModule)
@@ -44,6 +49,7 @@ namespace ErlangEditor.AutoComplete
         {
             dictMods_.Clear();
             dictMods_ = new Dictionary<string, List<AcEntity>>(dictLibCache_);
+            dictModSummary_.Clear();
         }
 
         public void ScanAllBin(ErlangEditor.Core.Entity.SolutionEntity aSln)
@@ -79,8 +85,15 @@ namespace ErlangEditor.AutoComplete
                 prc.StartInfo.CreateNoWindow = true;
                 prc.StartInfo.FileName = ErlangEditor.Core.ConfigUtil.Config.ConsolePath;
                 prc.StartInfo.Arguments = string.Format("-noshell -eval \"" +
+                    "L = {0}," +
                     "B = fun(X)-> lists:map(fun({{A,B}})-> io:format(\\\"~p,~p,~p~n\\\",[X,A,B]) end, X:module_info(exports)) end," +
-                    "lists:map(fun(X)-> B(X) end, {0})," +
+                    "lists:map(fun(X)-> B(X) end, L)," +
+                    "io:format(\\\"break00\\\")," +
+                    "M = fun(X)-> lists:map(fun({{A,V}})->if A=:=msummary-> io:format(\\\"~p,~p~n\\\",[X,V]);true->ok end  end, X:module_info(attributes)) end," +
+                    "try lists:map(fun(X)-> M(X) end, L) catch _:_->io:format(\\\"\\\") end," +
+                    "io:format(\\\"break00\\\")," +
+                    "S = fun(X)-> lists:map(fun({{A,V}})->if A=:=summary->[{{F,Arity,D}}] = V, io:format(\\\"~p,~p,~p,~p~n\\\",[X,F,Arity,D]);true->ok end end, X:module_info(attributes)) end," +
+                    "try lists:map(fun(X)-> S(X) end, L) catch _:_->io:format(\\\"\\\") end," +
                     "init:stop().\" {1}", lst, string.Concat( aEntity.Apps.Select(x => " -pa " + System.IO.Path.Combine(ErlangEditor.Core.Helper.EntityTreeUtil.GetPath(x) + "\\ebin"))));
                 prc.StartInfo.UseShellExecute = false;
                 prc.StartInfo.WorkingDirectory = ErlangEditor.Core.Helper.EntityTreeUtil.GetBasePath;
@@ -89,18 +102,46 @@ namespace ErlangEditor.AutoComplete
                 prc.EnableRaisingEvents = true;
                 prc.Start();
                 var result = prc.StandardOutput.ReadToEnd();
-                var lines = result.Split('\n').Where(x => !string.IsNullOrWhiteSpace(x));
-                foreach (var i in lines)
-                {
-                    var args = i.Split(',');
-                    var mod = args[0];
-                    var func = args[1];
-                    var arity = args[2];
-                    if (!dictMods_.ContainsKey(mod))
-                        dictMods_[mod] = new List<AcEntity>();
-                    dictMods_[mod].Add(new AcEntity { Arity = arity, FunctionName = func, ModuleName = mod });
-                }
+                UpdateDict(result);
                 prc.WaitForExit(30000);
+            }
+        }
+
+        private void UpdateDict(string result)
+        {
+            var blocks = result.Split(new string[] { "break00" }, StringSplitOptions.None);
+            var lines = blocks[0].Split('\n').Where(x => !string.IsNullOrWhiteSpace(x));
+            foreach (var i in lines)
+            {
+                var args = i.Split(new char[]{','},3);
+                var mod = args[0];
+                var func = args[1];
+                var arity = args[2];
+                if (!dictMods_.ContainsKey(mod))
+                    dictMods_[mod] = new List<AcEntity>();
+                dictMods_[mod].Add(new AcEntity { Arity = arity, FunctionName = func, ModuleName = mod });
+            }
+            lines = blocks[1].Split('\n').Where(x => !string.IsNullOrWhiteSpace(x));
+            foreach (var i in lines)
+            {
+                var args = i.Split(new char[] { ',' }, 2);
+                var mod = args[0];
+                var desc = args[1];
+                dictModSummary_[mod] = desc;
+            }
+            lines = blocks[2].Split('\n').Where(x => !string.IsNullOrWhiteSpace(x));
+            foreach (var i in lines)
+            {
+                var args = i.Split(new char[]{','},4);
+                var mod = args[0];
+                var func = args[1];
+                var arity = args[2];
+                var desc = args[3];
+                if (dictMods_.ContainsKey(mod) && dictMods_[mod].Any(x => x.FunctionName == func && x.Arity == arity))
+                {
+                    var entity = dictMods_[mod].First(x => x.FunctionName == func && x.Arity == arity);
+                    entity.Desc = desc;
+                }
             }
         }
 
@@ -134,8 +175,15 @@ namespace ErlangEditor.AutoComplete
                 prc.StartInfo.CreateNoWindow = true;
                 prc.StartInfo.FileName = ErlangEditor.Core.ConfigUtil.Config.ConsolePath;
                 prc.StartInfo.Arguments = string.Format("-noshell -eval \"" +
+                    "L = {0}," +
                     "B = fun(X)-> lists:map(fun({{A,B}})-> io:format(\\\"~p,~p,~p~n\\\",[X,A,B]) end, X:module_info(exports)) end," +
-                    "lists:map(fun(X)-> B(X) end, {0})," +
+                    "lists:map(fun(X)-> B(X) end, L)," +
+                    "io:format(\\\"break00\\\")," +
+                    "M = fun(X)-> lists:map(fun({{A,V}})->if A=:=msummary-> io:format(\\\"~p,~p~n\\\",[X,V]);true->ok end  end, X:module_info(attributes)) end," +
+                    "try lists:map(fun(X)-> M(X) end, L) catch _:_->io:format(\\\"\\\") end," +
+                    "io:format(\\\"break00\\\")," +
+                    "S = fun(X)-> lists:map(fun({{A,V}})->if A=:=summary->[{{F,Arity,D}}] = V, io:format(\\\"~p,~p,~p,~p~n\\\",[X,F,Arity,D]);true->ok end end, X:module_info(attributes)) end," +
+                    "try lists:map(fun(X)-> S(X) end, L) catch _:_->io:format(\\\"\\\") end," +
                     "init:stop().\" {1}", lst, " -pa " + System.IO.Path.Combine(ErlangEditor.Core.Helper.EntityTreeUtil.GetPath(aEntity) + "\\ebin"));
                 prc.StartInfo.UseShellExecute = false;
                 prc.StartInfo.WorkingDirectory = ErlangEditor.Core.Helper.EntityTreeUtil.GetBasePath;
@@ -144,17 +192,7 @@ namespace ErlangEditor.AutoComplete
                 prc.EnableRaisingEvents = true;
                 prc.Start();
                 var result = prc.StandardOutput.ReadToEnd();
-                var lines = result.Split('\n').Where(x => !string.IsNullOrWhiteSpace(x));
-                foreach (var i in lines)
-                {
-                    var args = i.Split(',');
-                    var mod = args[0];
-                    var func = args[1];
-                    var arity = args[2];
-                    if (!dictMods_.ContainsKey(mod))
-                        dictMods_[mod] = new List<AcEntity>();
-                    dictMods_[mod].Add(new AcEntity { Arity = arity, FunctionName = func, ModuleName = mod });
-                }
+                UpdateDict(result);
                 prc.WaitForExit(30000);
             }
         }

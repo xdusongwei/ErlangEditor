@@ -28,7 +28,7 @@
                     <TextBox  Width="440" Margin="16,0,0,0" FontSize="34" Name="tbName" IsReadOnly="True"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="0,36,0,0" >
-                    <TextBlock Text="包含目录"/>
+                    <TextBlock Text="编译前提"/>
                     <TextBox  Width="440" Margin="16,0,0,0" FontSize="24" TextWrapping="WrapWithOverflow" Text="" Height="72" Name="tbPa"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="0,36,0,0" Visibility="Collapsed">

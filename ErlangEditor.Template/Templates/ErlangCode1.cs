@@ -35,7 +35,15 @@ namespace ErlangEditor.Template.Templates
             
             #line default
             #line hidden
-            this.Write(").\r\n-compile(export_all).\r\n%%-export([]).\r\n\r\nstart()->\r\n\tok.");
+            this.Write(").\r\n-compile(export_all).\r\n-msummary(\"");
+            
+            #line 9 "D:\文档\GitHub\ErlangEditor\ErlangEditor.Template\Templates\ErlangCode.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ModuleName));
+            
+            #line default
+            #line hidden
+            this.Write("的模块描述,这是一个普通erlang模块。\").\r\n%%-export([]).\r\n\r\n-summary(start,1,\"一个start函数\").\r\nstart" +
+                    "()->\r\n\tok.");
             return this.GenerationEnvironment.ToString();
         }
     }

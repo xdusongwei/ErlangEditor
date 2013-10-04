@@ -150,18 +150,6 @@
             <telerik:RadSplitContainer InitialPosition="DockedBottom">
                 
                 <telerik:RadPaneGroup Background="Transparent">
-                    <telerik:RadPane Header="输出" CanUserClose="False" Background="Transparent">
-                        <ListBox Background="Transparent" ItemsSource="{Binding Output}" local:ListScroll.IsEnabled="True">
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal" Height="22">
-                                        <TextBlock Width="100" Text="{Binding NodeName}" />
-                                        <TextBlock Text="{Binding Info}" />
-                                    </StackPanel>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
-                    </telerik:RadPane>
                     <telerik:RadPane Header="编译" CanUserClose="False">
                         <ListBox ItemsSource="{Binding ExportLog}" local:ListScroll.IsEnabled="True">
                             <ListBox.ItemTemplate>
@@ -186,7 +174,18 @@
                             </ListBox.ItemTemplate>
                         </ListBox>
                     </telerik:RadPane>
-                    
+                    <telerik:RadPane Header="输出" CanUserClose="False" Background="Transparent">
+                        <ListBox Background="Transparent" ItemsSource="{Binding Output}" local:ListScroll.IsEnabled="True">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" Height="22">
+                                        <TextBlock Width="100" Text="{Binding NodeName}" />
+                                        <TextBlock Text="{Binding Info}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </telerik:RadPane>
                 </telerik:RadPaneGroup>
             </telerik:RadSplitContainer>
         </telerik:RadDocking>

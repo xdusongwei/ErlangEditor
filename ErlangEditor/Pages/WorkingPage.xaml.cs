@@ -107,7 +107,6 @@ namespace ErlangEditor.Pages
             {
                 try
                 {
-                    UpdateTabCollection();
                     var entity = vm.Entity as ErlangEditor.Core.Entity.FileEntity;
                     if (App.MainViewModel.OpenedFiles.Any(i => i.FileName == entity.Name))
                     {
@@ -127,6 +126,15 @@ namespace ErlangEditor.Pages
                     editor.TextArea.TextEntered += textEditor_TextArea_TextEntered;
                     rp.Content = editor;
                     rp.Tag = fileVM;
+                    rp.Unloaded += (a, b) => { Debug.WriteLine(string.Format("unloaded,{0}", a)); var panel = a as RadPane; App.MainViewModel.OpenedFiles.Remove(panel.Tag as FileVM); };
+                    rp.Loaded += (a, b) => 
+                    { 
+                        Debug.WriteLine(string.Format("loaded,{0}", a)); 
+                        var panel = a as RadPane;
+                        var fvm = panel.Tag as FileVM;
+                        if (!App.MainViewModel.OpenedFiles.Contains(fvm))
+                            App.MainViewModel.OpenedFiles.Add(fvm);
+                    };
                     rpContent.Items.Add(rp);
                     var b1 = new Binding("FileName") { Source = fileVM, Mode = BindingMode.OneWay };
                     var b2 = new Binding("Changed") { Source = fileVM, Mode = BindingMode.OneWay };
@@ -153,12 +161,11 @@ namespace ErlangEditor.Pages
             {
                 completionWindow = new CompletionWindow(textArea);
                 completionWindow.Width = 256;
-                completionWindow.Opacity = 0.6;
                 IList<ICompletionData> data = completionWindow.CompletionList.CompletionData;
                 var mods = App.MainViewModel.AutoCompleteCache.GetModules;
                 foreach (var i in mods)
                 {
-                    data.Add(new CompletionData(true) { Text = i + "\':", Content = i });
+                    data.Add(new CompletionData(true) { Text = i + "\':", Content = i , Description = App.MainViewModel.AutoCompleteCache.GetModuleDesc(i)});
                 }
                 completionWindow.Show();
                 completionWindow.Closed += delegate
@@ -192,7 +199,6 @@ namespace ErlangEditor.Pages
             }
 
             private bool autocompleteAgain_;
-            private ErlangEditor.AutoComplete.AcEntity entity_ = null;
 
             public System.Windows.Media.ImageSource Image
             {
@@ -212,7 +218,8 @@ namespace ErlangEditor.Pages
 
             public object Description
             {
-                get { return null; }
+                get;
+                set;
             }
 
            public void Complete(TextArea textArea, ISegment completionSegment,
@@ -222,15 +229,14 @@ namespace ErlangEditor.Pages
                 if (autocompleteAgain_)
                 {
                     var completionWindow = new CompletionWindow(textArea);
-                    completionWindow.Opacity = 0.6;
-                    completionWindow.Width = double.NaN;
+                    completionWindow.Width = 256;
                     IList<ICompletionData> data = completionWindow.CompletionList.CompletionData;
                     
                     var functions = App.MainViewModel.AutoCompleteCache.GetFunctions(Content as string);
                     (functions as List<ErlangEditor.AutoComplete.AcEntity>).Sort(new Tools.Reverser<ErlangEditor.AutoComplete.AcEntity>(new AutoComplete.AcEntity().GetType(), "FunctionName", Tools.ReverserInfo.Direction.DESC));
                     foreach (var i in functions)
                     {
-                        data.Add(new CompletionData(false) { Text = "\'" + i.FunctionName + "\'(", Content = i.FunctionName + "/" + i.Arity });
+                        data.Add(new CompletionData(false) { Text = "\'" + i.FunctionName + "\'(", Content = i.FunctionName + "/" + i.Arity , Description = i.Desc });
                     }
                     completionWindow.Show();
                     completionWindow.Closed += delegate
@@ -238,17 +244,6 @@ namespace ErlangEditor.Pages
                         completionWindow = null;
                     };
                 }
-            }
-        }
-
-        private void UpdateTabCollection()
-        {
-            App.MainViewModel.OpenedFiles.Clear();
-            foreach (var i in rpContent.Items)
-            {
-                var pane = i as RadPane;
-                var fileVM = pane.Tag as ViewModel.FileVM;
-                App.MainViewModel.OpenedFiles.Add(fileVM);
             }
         }
 
@@ -478,19 +473,16 @@ namespace ErlangEditor.Pages
         private void ItemCompile(object sender, MouseButtonEventArgs e)
         {
             var vm = (sender as FrameworkElement).Tag as PrjTreeItemVM;
-            UpdateTabCollection();
             SaveProject();
             try
             {
                 if (vm.Entity is ErlangEditor.Core.Entity.SolutionEntity)
                 {
                     App.Compile.MakeSolution();
-                    App.MainViewModel.AutoCompleteCache.ScanAllBin(vm.Entity as ErlangEditor.Core.Entity.SolutionEntity);
                 }
                 if (vm.Entity is ErlangEditor.Core.Entity.ApplicationEntity)
                 {
                     App.Compile.MakeApp(vm);
-                    App.MainViewModel.AutoCompleteCache.ScanBin(vm.Entity as ErlangEditor.Core.Entity.ApplicationEntity);
                 }
             }
             catch (Exception ecp)
