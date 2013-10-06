@@ -34,6 +34,12 @@ namespace ErlangEditor.ViewModel
             });
             HeaderButtons.Add(new ToolBoxButtonVM
             {
+                Text = "发布",
+                ImageSource = new BitmapImage(new Uri("/Images/MS_0000s_0031_net3.png", UriKind.RelativeOrAbsolute)),
+                ClickedAction = new Action(() => { App.Navigation.JumpToWithFirstFrame(new Release()); })
+            });
+            HeaderButtons.Add(new ToolBoxButtonVM
+            {
                 Text = "设置",
                 ImageSource = new BitmapImage(new Uri("/Images/MB_0005_sett_small.png", UriKind.RelativeOrAbsolute)),
                 ClickedAction = new Action(() => { App.Navigation.JumpToWithFirstFrame(new Setting()); })

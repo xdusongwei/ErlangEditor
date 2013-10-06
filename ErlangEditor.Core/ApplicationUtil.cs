@@ -15,6 +15,10 @@ namespace ErlangEditor.Core
             {
                 throw new Exception("文件目录中已经存在该应用的目录，不能添加。");
             }
+            if (aApplication.Name.ToLower() == ErlangEditor.Core.SolutionUtil.Solution.Name.ToLower())
+            {
+                throw new Exception("因为发布系统的原因，不能创建同项目相同名称的应用。");
+            }
             if (app != null)
             {
                 System.IO.Directory.CreateDirectory(System.IO.Path.Combine(Helper.EntityTreeUtil.GetBasePath , app.Name));

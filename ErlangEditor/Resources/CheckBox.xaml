@@ -20,7 +20,7 @@
                                     <SolidColorBrush Color="Transparent" />
                                 </Border.Background>
                                 <Path x:Name="cp" Width="12" Height="12"
-                                          Stroke="Blue"
+                                          Stroke="White"
                                           StrokeThickness="3"/>
                             </Border>
                         </BulletDecorator.Bullet>
@@ -34,12 +34,12 @@
                             <!-- 画上一个勾 -->
                             <Setter TargetName="cp" Property="Data"
                                         Value="M 0,6 L 6,12 12,0"/>
-                            <Setter Property="Foreground" Value="LightGreen"/>
+                            <Setter Property="Foreground" Value="White"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="bd" Property="Background">
                                 <Setter.Value>
-                                    <SolidColorBrush Color="White" />
+                                    <SolidColorBrush Color="Black" />
                                 </Setter.Value>
                             </Setter>
                         </Trigger>

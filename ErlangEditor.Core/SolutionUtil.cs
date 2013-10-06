@@ -14,7 +14,7 @@ namespace ErlangEditor.Core
             Solution = null;
             if (File.Exists(Path.Combine(aBasePath, aName + "\\" + aName + ".sln")))
                 throw new Exception("文件已经存在");
-            var sln = new Entity.SolutionEntity { BasePath = Path.Combine(aBasePath, aName), Name = aName };
+            var sln = new Entity.SolutionEntity(aName);
             Helper.EntityTreeUtil.GetBasePath = Path.Combine(aBasePath, aName);
             Helper.EntityTreeUtil.UpdateDict();
             Solution = sln;
@@ -41,6 +41,8 @@ namespace ErlangEditor.Core
             //ensure solution base folder is exists
             if (!Directory.Exists(Helper.EntityTreeUtil.GetBasePath))
                 Directory.CreateDirectory(Helper.EntityTreeUtil.GetBasePath);
+            if (!Directory.Exists(Path.Combine(Helper.EntityTreeUtil.GetBasePath, "lib")))
+                Directory.CreateDirectory(Path.Combine(Helper.EntityTreeUtil.GetBasePath, "lib"));
             //write .sln file
             using (StreamWriter ws = new StreamWriter(Helper.EntityTreeUtil.GetBasePath + "\\" + Solution.Name + ".sln"))
             {
@@ -48,7 +50,6 @@ namespace ErlangEditor.Core
                 ws.Write(strData);
                 ws.Flush();
             }
-            //write any edited files
         }
 
         public static void CloseSolution()

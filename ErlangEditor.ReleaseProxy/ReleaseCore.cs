@@ -8,80 +8,67 @@ namespace ErlangEditor.ReleaseProxy
 {
     public class ReleaseCore
     {
-        private volatile Process prc_ = null;
+        public void MakeTar(string aLibPath)
+        {
+            if (string.IsNullOrWhiteSpace(ErlangEditor.Core.ConfigUtil.Config.ConsolePath) ||
+                string.IsNullOrWhiteSpace(ErlangEditor.Core.ConfigUtil.Config.ShellPath) ||
+                !System.IO.File.Exists(ErlangEditor.Core.ConfigUtil.Config.ConsolePath) ||
+                !System.IO.File.Exists(ErlangEditor.Core.ConfigUtil.Config.ShellPath))
+                throw new Exception("Erlang shell设置有误，请在\"设置\"页设置好shell路径。");
+            var prc = new Process();
+            prc.StartInfo = new ProcessStartInfo();
+            prc.StartInfo.CreateNoWindow = true;
+            prc.StartInfo.FileName = ErlangEditor.Core.ConfigUtil.Config.ConsolePath;
+            prc.StartInfo.Arguments = string.Format("-noshell  -eval \"" +
+                "application:start(sasl)," +
+                "systools:make_tar(\\\"{0}\\\",[])," +
+                "io:format(\\\"%OK%\\\")," +
+                "init:stop().\"", ErlangEditor.Core.SolutionUtil.Solution.Name );
+            prc.StartInfo.UseShellExecute = false;
+            prc.StartInfo.WorkingDirectory = aLibPath;
+            prc.StartInfo.RedirectStandardOutput = true;
+            prc.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            prc.EnableRaisingEvents = true;
+            prc.Start();
+            var result = prc.StandardOutput.ReadToEnd();
+            prc.WaitForExit(30000);
+            if (!result.Contains("%OK%"))
+            {
+                throw new Exception("打包应用时遇到了问题。");
+            }
+        }
 
-        //public void MakeRelease(ErlangEditor.Core.Entity.SolutionEntity aSln)
-        //{
-        //    if (prc_ != null)
-        //    {
-        //        try
-        //        {
-        //            prc_.Kill();
-        //        }
-        //        catch { }
-        //        prc_ = null;
-        //    }
-        //    if (string.IsNullOrWhiteSpace(ErlangEditor.Core.ConfigUtil.Config.ConsolePath) ||
-        //        string.IsNullOrWhiteSpace(ErlangEditor.Core.ConfigUtil.Config.ShellPath) ||
-        //        !System.IO.File.Exists(ErlangEditor.Core.ConfigUtil.Config.ConsolePath) ||
-        //        !System.IO.File.Exists(ErlangEditor.Core.ConfigUtil.Config.ShellPath))
-        //        throw new Exception("Erlang shell设置有误，请在\"设置\"页设置好shell路径。");
-        //    var prc = new Process();
-        //    prc.StartInfo = new ProcessStartInfo();
-        //    prc.StartInfo.CreateNoWindow = !aEntity.ShowShell;
-        //    prc.StartInfo.FileName = aEntity.ShowShell ? ErlangEditor.Core.ConfigUtil.Config.ShellPath : ErlangEditor.Core.ConfigUtil.Config.ConsolePath;
-        //    var sln = ErlangEditor.Core.SolutionUtil.Solution;
-        //    var pathSB = new StringBuilder(1024);
-        //    var startupSB = new StringBuilder(1024);
-        //    var pas = string.Empty; //这个...比较矛盾
-        //    foreach (var i in aEntity.Apps)
-        //    {
-        //        if (sln.Apps.Any(j => j.Name == i))
-        //        {
-        //            var app = sln.Apps.First(j => j.Name == i);
-        //            var path = string.Empty;
-        //            path = System.IO.Path.Combine(ErlangEditor.Core.Helper.EntityTreeUtil.GetPath(app), "ebin");
-        //            //pas += string.Concat(app.IncludePath.Select(x => string.Format("-pa {0} ", x)));
-        //            if (!string.IsNullOrWhiteSpace(path))
-        //                pathSB.AppendFormat("-pa \"{0}\" ", path);
-        //            if (app.StartupAsMFA && !string.IsNullOrWhiteSpace(app.StartupMFA))
-        //            {
-        //                startupSB.AppendFormat("-s {0} ", app.StartupMFA);
-        //            }
-        //        }
-        //    }
-        //    prc.StartInfo.Arguments = string.Format("-sname {0} ", aEntity.NodeName) + pathSB.ToString() + pas + startupSB.ToString();
-        //    prc.StartInfo.UseShellExecute = false;
-        //    prc.StartInfo.WorkingDirectory = ErlangEditor.Core.Helper.EntityTreeUtil.GetBasePath;
-        //    //prc.StartInfo.RedirectStandardInput = 
-        //    prc.StartInfo.RedirectStandardOutput = true;
-        //    prc.StartInfo.WindowStyle = aEntity.ShowShell ? ProcessWindowStyle.Normal : ProcessWindowStyle.Hidden;
-        //    prc.EnableRaisingEvents = true;
-        //    prc.Exited += (a, b) => { var evt = Closed; if (evt != null)  evt(this, new ShellClosedEventArgs()); prc_ = null; };
-        //    prc.OutputDataReceived += (a, b) => { var evt = NewOutput; if (evt != null) evt(this, new NewOutputLineEventArgs { NodeName = aEntity.NodeName, Data = b.Data }); };
-        //    prc_ = prc;
-        //    prc.Start();
-        //    prc.BeginOutputReadLine();
-        //    //rel
-
-        //    //scriipt & boot
-
-        //    //sys.config
-
-        //    //package
-        //}
-
-        //public void Stop()
-        //{
-        //    if (prc_ != null)
-        //    {
-        //        prc_.Kill();
-        //        prc_.Dispose();
-        //        prc_ = null;
-        //        var evt = Closed;
-        //        if (evt != null)
-        //            evt(this, new ShellClosedEventArgs());
-        //    }
-        //}
+        public void MakeScript(IEnumerable< ErlangEditor.Core.Entity.ApplicationEntity> aApps, bool aLocal)
+        {
+            if (string.IsNullOrWhiteSpace(ErlangEditor.Core.ConfigUtil.Config.ConsolePath) ||
+                string.IsNullOrWhiteSpace(ErlangEditor.Core.ConfigUtil.Config.ShellPath) ||
+                !System.IO.File.Exists(ErlangEditor.Core.ConfigUtil.Config.ConsolePath) ||
+                !System.IO.File.Exists(ErlangEditor.Core.ConfigUtil.Config.ShellPath))
+                throw new Exception("Erlang shell设置有误，请在\"设置\"页设置好shell路径。");
+            var basePath = ErlangEditor.Core.Helper.EntityTreeUtil.GetBasePath;
+            var pas = aApps.Select(x => string.Format("-pa {0}" ,  System.IO.Path.Combine(basePath, ErlangEditor.Core.SolutionUtil.Solution.Name, x.Name, "ebin")));
+            var arg = string.Join(" ", pas);
+            var prc = new Process();
+            prc.StartInfo = new ProcessStartInfo();
+            prc.StartInfo.CreateNoWindow = true;
+            prc.StartInfo.FileName = ErlangEditor.Core.ConfigUtil.Config.ConsolePath;
+            prc.StartInfo.Arguments = string.Format("-noshell {0} -eval \"" +
+                "application:start(sasl)," +
+                "systools:make_script(\\\"{1}\\\",[{2}])," +
+                "io:format(\\\"%OK%\\\")," +
+                "init:stop().\"", arg, ErlangEditor.Core.SolutionUtil.Solution.Name, aLocal ? "local" : string.Empty);
+            prc.StartInfo.UseShellExecute = false;
+            prc.StartInfo.WorkingDirectory = System.IO.Path.Combine(ErlangEditor.Core.Helper.EntityTreeUtil.GetBasePath, ErlangEditor.Core.SolutionUtil.Solution.Name);
+            prc.StartInfo.RedirectStandardOutput = true;
+            prc.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            prc.EnableRaisingEvents = true;
+            prc.Start();
+            var result = prc.StandardOutput.ReadToEnd();
+            prc.WaitForExit(30000);
+            if (!result.Contains("%OK%"))
+            {
+                throw new Exception("对应用创建脚本时遇到了问题。");
+            }
+        }
     }
 }
