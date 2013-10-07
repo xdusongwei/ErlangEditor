@@ -273,6 +273,11 @@ namespace ErlangEditor.AutoComplete
             ErlangEditor.Core.ConfigUtil.Config.AutoCompleteCache = json;
             ErlangEditor.Core.ConfigUtil.SaveConfig();
             dictLibCache_ = dict;
+            foreach (var i in dictLibCache_.Keys)
+            {
+                if (!dictMods_.ContainsKey(i))
+                    dictMods_[i] = dictLibCache_[i];
+            }
         }
     }
 }

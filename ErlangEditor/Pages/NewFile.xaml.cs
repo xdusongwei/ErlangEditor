@@ -41,6 +41,16 @@ namespace ErlangEditor.Pages
             App.MainViewModel.ContextButtonsLeft.Clear();
         }
 
+        private void SortChildren(ViewModel.PrjTreeItemVM node)
+        {
+            var comparer = new Tools.Reverser<ViewModel.PrjTreeItemVM>(new ViewModel.PrjTreeItemVM().GetType(), "DisplayText", Tools.ReverserInfo.Direction.ASC);
+            var lst = node.Children.ToList();
+            lst.Sort(comparer);
+            node.Children.Clear();
+            foreach (var i in lst)
+                node.Children.Add(i);
+        }
+
         private void ErlClicked(object sender, RoutedEventArgs e)
         {
             var name = tbName.Text.Trim();
@@ -55,17 +65,13 @@ namespace ErlangEditor.Pages
                 ErlangEditor.Core.FileUtil.AddFile(app, fld, entity, content);
                 ErlangEditor.Core.SolutionUtil.SaveSolution();
                 vm_.Children.Add(new ViewModel.PrjTreeItemVM(entity));
+                SortChildren(vm_);
                 App.Navigation.JumpToWithFirstFrame(App.MainViewModel.WorkingPage);
             }
             catch (Exception ecp)
             {
                 App.Navigation.ShowMessageBox(ecp.Message, "创建文件");
             }
-        }
-
-        private void RelClicked(object sender, RoutedEventArgs e)
-        {
-
         }
 
         private void HrlClicked(object sender, RoutedEventArgs e)
@@ -82,6 +88,7 @@ namespace ErlangEditor.Pages
                 ErlangEditor.Core.FileUtil.AddFile(app, fld, entity, content);
                 ErlangEditor.Core.SolutionUtil.SaveSolution();
                 vm_.Children.Add(new ViewModel.PrjTreeItemVM(entity));
+                SortChildren(vm_);
                 App.Navigation.JumpToWithFirstFrame(App.MainViewModel.WorkingPage);
             }
             catch (Exception ecp)
@@ -121,6 +128,7 @@ namespace ErlangEditor.Pages
                 ErlangEditor.Core.FileUtil.AddFile(app, fld, entity, content);
                 ErlangEditor.Core.SolutionUtil.SaveSolution();
                 vm_.Children.Add(new ViewModel.PrjTreeItemVM(entity));
+                SortChildren(vm_);
                 App.Navigation.JumpToWithFirstFrame(App.MainViewModel.WorkingPage);
             }
             catch (Exception ecp)
@@ -143,6 +151,7 @@ namespace ErlangEditor.Pages
                 ErlangEditor.Core.FileUtil.AddFile(app, fld, entity, content);
                 ErlangEditor.Core.SolutionUtil.SaveSolution();
                 vm_.Children.Add(new ViewModel.PrjTreeItemVM(entity));
+                SortChildren(vm_);
                 App.Navigation.JumpToWithFirstFrame(App.MainViewModel.WorkingPage);
             }
             catch (Exception ecp)
@@ -196,6 +205,7 @@ namespace ErlangEditor.Pages
                         vm_.Children.Add(new ViewModel.PrjTreeItemVM(entity));
                         App.Navigation.JumpToWithFirstFrame(App.MainViewModel.WorkingPage);
                     }
+                    SortChildren(vm_);
                 }
                 catch (Exception ecp)
                 {

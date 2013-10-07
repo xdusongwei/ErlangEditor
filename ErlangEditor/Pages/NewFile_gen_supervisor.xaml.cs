@@ -26,6 +26,16 @@ namespace ErlangEditor.Pages
             name_ = aName;
         }
 
+        private void SortChildren(ViewModel.PrjTreeItemVM node)
+        {
+            var comparer = new Tools.Reverser<ViewModel.PrjTreeItemVM>(new ViewModel.PrjTreeItemVM().GetType(), "DisplayText", Tools.ReverserInfo.Direction.ASC);
+            var lst = node.Children.ToList();
+            lst.Sort(comparer);
+            node.Children.Clear();
+            foreach (var i in lst)
+                node.Children.Add(i);
+        }
+
         private ViewModel.PrjTreeItemVM vm_;
         private string name_;
 
@@ -64,6 +74,7 @@ namespace ErlangEditor.Pages
                         ErlangEditor.Core.FileUtil.AddFile(app, fld, entity, content);
                         ErlangEditor.Core.SolutionUtil.SaveSolution();
                         vm_.Children.Add(new ViewModel.PrjTreeItemVM(entity));
+                        SortChildren(vm_);
                         App.Navigation.JumpToWithFirstFrame(App.MainViewModel.WorkingPage);
                     }
                     catch (Exception ecp)

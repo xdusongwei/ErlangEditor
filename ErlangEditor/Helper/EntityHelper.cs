@@ -116,6 +116,15 @@ namespace ErlangEditor
                     MakeTreeLoop(node, i);
                 }
             }
+            if (!(aNode is ErlangEditor.Core.Entity.FileEntity))
+            {
+                var comparer = new Tools.Reverser<ViewModel.PrjTreeItemVM>(new ViewModel.PrjTreeItemVM().GetType(), "DisplayText", Tools.ReverserInfo.Direction.ASC);
+                var lst = node.Children.ToList();
+                lst.Sort(comparer);
+                node.Children.Clear();
+                foreach (var i in lst)
+                    node.Children.Add(i);
+            }
         }
     }
 }
