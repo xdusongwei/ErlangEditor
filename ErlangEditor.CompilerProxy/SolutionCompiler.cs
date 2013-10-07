@@ -111,6 +111,13 @@ namespace ErlangEditor.CompilerProxy
                                 {
                                     success++;
                                     warning++;
+                                    var results = result.Replace(prc.StartInfo.Arguments, string.Empty).Split(new char[] { '\n' }).Where(a => !string.IsNullOrEmpty(a));
+                                    foreach (var l in results)
+                                    {
+                                        var evt = CodeFileError;
+                                        if (evt != null)
+                                            Dispatcher.Invoke(new Action<object, CodeFileErrorEventArgs>(evt), new object[] { this, new CodeFileErrorEventArgs(l, j) });
+                                    }
                                     if (aFileComplete != null) aFileComplete(j);
                                 }
                                 else

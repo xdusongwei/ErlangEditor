@@ -8,13 +8,16 @@ namespace ErlangEditor.ReleaseProxy
 {
     public class ReleaseCore
     {
-        public void MakeTar(string aLibPath)
+        public void MakeTar(string aLibPath, IEnumerable<ErlangEditor.Core.Entity.ApplicationEntity> aApps)
         {
             if (string.IsNullOrWhiteSpace(ErlangEditor.Core.ConfigUtil.Config.ConsolePath) ||
                 string.IsNullOrWhiteSpace(ErlangEditor.Core.ConfigUtil.Config.ShellPath) ||
                 !System.IO.File.Exists(ErlangEditor.Core.ConfigUtil.Config.ConsolePath) ||
                 !System.IO.File.Exists(ErlangEditor.Core.ConfigUtil.Config.ShellPath))
                 throw new Exception("Erlang shell设置有误，请在\"设置\"页设置好shell路径。");
+            var basePath = ErlangEditor.Core.Helper.EntityTreeUtil.GetBasePath;
+            var pas = aApps.Select(x => string.Format("-pa {0}", System.IO.Path.Combine(basePath, ErlangEditor.Core.SolutionUtil.Solution.Name, x.Name, "ebin")));
+            var arg = string.Join(" ", pas);
             var prc = new Process();
             prc.StartInfo = new ProcessStartInfo();
             prc.StartInfo.CreateNoWindow = true;
@@ -23,7 +26,7 @@ namespace ErlangEditor.ReleaseProxy
                 "application:start(sasl)," +
                 "systools:make_tar(\\\"{0}\\\",[])," +
                 "io:format(\\\"%OK%\\\")," +
-                "init:stop().\"", ErlangEditor.Core.SolutionUtil.Solution.Name );
+                "init:stop().\" {1}", ErlangEditor.Core.SolutionUtil.Solution.Name ,arg);
             prc.StartInfo.UseShellExecute = false;
             prc.StartInfo.WorkingDirectory = aLibPath;
             prc.StartInfo.RedirectStandardOutput = true;
@@ -32,9 +35,10 @@ namespace ErlangEditor.ReleaseProxy
             prc.Start();
             var result = prc.StandardOutput.ReadToEnd();
             prc.WaitForExit(30000);
-            if (!result.Contains("%OK%"))
+            result = result.Split(new string[] { "started_at: nonode@nohost", "%OK%" }, StringSplitOptions.None)[1].Trim();
+            if (!string.IsNullOrWhiteSpace(result))
             {
-                throw new Exception("打包应用时遇到了问题。");
+                throw new Exception("打包应用时遇到了问题。\n" + result);
             }
         }
 
@@ -54,6 +58,7 @@ namespace ErlangEditor.ReleaseProxy
             prc.StartInfo.FileName = ErlangEditor.Core.ConfigUtil.Config.ConsolePath;
             prc.StartInfo.Arguments = string.Format("-noshell {0} -eval \"" +
                 "application:start(sasl)," +
+                "io:format(\\\"%BEGIN%\\\")," +
                 "systools:make_script(\\\"{1}\\\",[{2}])," +
                 "io:format(\\\"%OK%\\\")," +
                 "init:stop().\"", arg, ErlangEditor.Core.SolutionUtil.Solution.Name, aLocal ? "local" : string.Empty);
@@ -65,9 +70,10 @@ namespace ErlangEditor.ReleaseProxy
             prc.Start();
             var result = prc.StandardOutput.ReadToEnd();
             prc.WaitForExit(30000);
-            if (!result.Contains("%OK%"))
+            result = result.Split(new string[] { "started_at: nonode@nohost", "%OK%" }, StringSplitOptions.None)[1].Trim();
+            if (!string.IsNullOrWhiteSpace(result))
             {
-                throw new Exception("对应用创建脚本时遇到了问题。");
+                throw new Exception("对应用创建脚本时遇到了问题。\n" + result);
             }
         }
     }

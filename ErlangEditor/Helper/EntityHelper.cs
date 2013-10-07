@@ -80,6 +80,10 @@ namespace ErlangEditor
                 App.MainViewModel.TreeRoot = new System.Collections.ObjectModel.ObservableCollection<ViewModel.PrjTreeItemVM>();
                 App.MainViewModel.TreeRoot.Add(node);
             }
+            else if (aNode is ErlangEditor.Core.Entity.FolderEntity && new string[]{"ebin","doc","priv"}.Any(x=> (aNode as ErlangEditor.Core.Entity.FolderEntity).Name == x))
+            {
+                return;
+            }
             else
             {
                 aParentVM.Children.Add(node);

@@ -100,7 +100,7 @@ namespace ErlangEditor.Pages
                 MakeLibFolder(apps);
                 Copy();
                 MakeScript(apps);
-                MakeTar();
+                MakeTar(apps);
                 Open();
             }
             catch(Exception e) 
@@ -209,6 +209,7 @@ namespace ErlangEditor.Pages
         {
             var relPath = System.IO.Path.Combine(ErlangEditor.Core.Helper.EntityTreeUtil.GetBasePath, ErlangEditor.Core.SolutionUtil.Solution.Name , ErlangEditor.Core.SolutionUtil.Solution.Name + ".rel");
             var configPath = System.IO.Path.Combine(ErlangEditor.Core.Helper.EntityTreeUtil.GetBasePath, ErlangEditor.Core.SolutionUtil.Solution.Name, ErlangEditor.Core.SolutionUtil.Solution.Name + ".config");
+            var batPath = System.IO.Path.Combine(ErlangEditor.Core.Helper.EntityTreeUtil.GetBasePath, ErlangEditor.Core.SolutionUtil.Solution.Name, ErlangEditor.Core.SolutionUtil.Solution.Name + ".bat");
             foreach (var i in lstCopy_)
                 System.IO.File.Copy(i.Item1, i.Item2, true);
             using (var ws = new StreamWriter(relPath))
@@ -221,6 +222,12 @@ namespace ErlangEditor.Pages
                 ws.Write(ErlangEditor.Core.SolutionUtil.Solution.ConfigContent);
                 ws.Flush();
             }
+            using (var ws = new StreamWriter(batPath))
+            {
+                var batcontent = string.Format("\"{0}\" -boot {1} -config {1}", ErlangEditor.Core.ConfigUtil.Config.ShellPath, ErlangEditor.Core.SolutionUtil.Solution.Name);
+                ws.Write(batcontent);
+                ws.Flush();
+            }
             Dispatcher.Invoke(new Action(() => { pb.Value += 10; Debug.WriteLine(pb.Value); }));
         }
 
@@ -231,13 +238,13 @@ namespace ErlangEditor.Pages
             Dispatcher.Invoke(new Action(() => { pb.Value += 10; Debug.WriteLine(pb.Value); }));
         }
 
-        private void MakeTar()
+        private void MakeTar(IEnumerable<ErlangEditor.Core.Entity.ApplicationEntity> aApps)
         {
             if (tar_)
             {
                 var libPath = System.IO.Path.Combine(ErlangEditor.Core.Helper.EntityTreeUtil.GetBasePath, ErlangEditor.Core.SolutionUtil.Solution.Name);
                 var rp = new ErlangEditor.ReleaseProxy.ReleaseCore();
-                rp.MakeTar(libPath);
+                rp.MakeTar(libPath,aApps);
             }
             Dispatcher.Invoke(new Action(() => { pb.Value += 10; Debug.WriteLine(pb.Value); }));
         }
