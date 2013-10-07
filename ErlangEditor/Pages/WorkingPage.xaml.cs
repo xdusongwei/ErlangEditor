@@ -233,7 +233,7 @@ namespace ErlangEditor.Pages
                     IList<ICompletionData> data = completionWindow.CompletionList.CompletionData;
                     
                     var functions = App.MainViewModel.AutoCompleteCache.GetFunctions(Content as string);
-                    (functions as List<ErlangEditor.AutoComplete.AcEntity>).Sort(new Tools.Reverser<ErlangEditor.AutoComplete.AcEntity>(new AutoComplete.AcEntity().GetType(), "FunctionName", Tools.ReverserInfo.Direction.DESC));
+                    (functions as List<ErlangEditor.AutoComplete.AcEntity>).Sort(new Tools.Reverser<ErlangEditor.AutoComplete.AcEntity>(new AutoComplete.AcEntity().GetType(), "FunctionName", Tools.ReverserInfo.Direction.ASC));
                     foreach (var i in functions)
                     {
                         data.Add(new CompletionData(false) { Text = "\'" + i.FunctionName + "\'(", Content = i.FunctionName + "/" + i.Arity , Description = i.Desc });

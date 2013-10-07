@@ -84,15 +84,15 @@ namespace ErlangEditor.AutoComplete
                 prc.StartInfo = new ProcessStartInfo();
                 prc.StartInfo.CreateNoWindow = true;
                 prc.StartInfo.FileName = ErlangEditor.Core.ConfigUtil.Config.ConsolePath;
-                prc.StartInfo.Arguments = string.Format("-noshell -eval \"" +
+                prc.StartInfo.Arguments = string.Format("-noshell +pc unicode -eval \"" +
                     "L = {0}," +
                     "B = fun(X)-> lists:map(fun({{A,B}})-> io:format(\\\"~p,~p,~p~n\\\",[X,A,B]) end, X:module_info(exports)) end," +
                     "lists:map(fun(X)-> B(X) end, L)," +
                     "io:format(\\\"break00\\\")," +
-                    "M = fun(X)-> lists:map(fun({{A,V}})->if A=:=msummary-> io:format(\\\"~p,~p~n\\\",[X,V]);true->ok end  end, X:module_info(attributes)) end," +
+                    "M = fun(X)-> lists:map(fun({{A,V}})->if A=:=msummary-> io:format(\\\"~p,~ts~n\\\",[X,V]);true->ok end  end, X:module_info(attributes)) end," +
                     "try lists:map(fun(X)-> M(X) end, L) catch _:_->io:format(\\\"\\\") end," +
                     "io:format(\\\"break00\\\")," +
-                    "S = fun(X)-> lists:map(fun({{A,V}})->if A=:=summary->[{{F,Arity,D}}] = V, io:format(\\\"~p,~p,~p,~p~n\\\",[X,F,Arity,D]);true->ok end end, X:module_info(attributes)) end," +
+                    "S = fun(X)-> lists:map(fun({{A,V}})->if A=:=summary->[{{F,Arity,D}}] = V, io:format(\\\"~p,~p,~p,~ts~n\\\",[X,F,Arity,D]);true->ok end end, X:module_info(attributes)) end," +
                     "try lists:map(fun(X)-> S(X) end, L) catch _:_->io:format(\\\"\\\") end," +
                     "init:stop().\" {1}", lst, string.Concat( aEntity.Apps.Select(x => " -pa " + System.IO.Path.Combine(ErlangEditor.Core.Helper.EntityTreeUtil.GetPath(x) + "\\ebin"))));
                 prc.StartInfo.UseShellExecute = false;
@@ -100,6 +100,7 @@ namespace ErlangEditor.AutoComplete
                 prc.StartInfo.RedirectStandardOutput = true;
                 prc.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
                 prc.EnableRaisingEvents = true;
+                prc.StartInfo.StandardOutputEncoding = Encoding.UTF8;
                 prc.Start();
                 var result = prc.StandardOutput.ReadToEnd();
                 UpdateDict(result);
@@ -126,7 +127,7 @@ namespace ErlangEditor.AutoComplete
             {
                 var args = i.Split(new char[] { ',' }, 2);
                 var mod = args[0];
-                var desc = args[1];
+                var desc = args[1].Trim(new char[]{'\"'});
                 dictModSummary_[mod] = desc;
             }
             lines = blocks[2].Split('\n').Where(x => !string.IsNullOrWhiteSpace(x));
@@ -136,7 +137,7 @@ namespace ErlangEditor.AutoComplete
                 var mod = args[0];
                 var func = args[1];
                 var arity = args[2];
-                var desc = args[3];
+                var desc = args[3].Trim(new char[] { '\"' });
                 if (dictMods_.ContainsKey(mod) && dictMods_[mod].Any(x => x.FunctionName == func && x.Arity == arity))
                 {
                     var entity = dictMods_[mod].First(x => x.FunctionName == func && x.Arity == arity);
@@ -174,15 +175,15 @@ namespace ErlangEditor.AutoComplete
                 prc.StartInfo = new ProcessStartInfo();
                 prc.StartInfo.CreateNoWindow = true;
                 prc.StartInfo.FileName = ErlangEditor.Core.ConfigUtil.Config.ConsolePath;
-                prc.StartInfo.Arguments = string.Format("-noshell -eval \"" +
+                prc.StartInfo.Arguments = string.Format("-noshell +pc unicode -eval \"" +
                     "L = {0}," +
                     "B = fun(X)-> lists:map(fun({{A,B}})-> io:format(\\\"~p,~p,~p~n\\\",[X,A,B]) end, X:module_info(exports)) end," +
                     "lists:map(fun(X)-> B(X) end, L)," +
                     "io:format(\\\"break00\\\")," +
-                    "M = fun(X)-> lists:map(fun({{A,V}})->if A=:=msummary-> io:format(\\\"~p,~p~n\\\",[X,V]);true->ok end  end, X:module_info(attributes)) end," +
+                    "M = fun(X)-> lists:map(fun({{A,V}})->if A=:=msummary-> io:format(\\\"~p,~ts~n\\\",[X,V]);true->ok end  end, X:module_info(attributes)) end," +
                     "try lists:map(fun(X)-> M(X) end, L) catch _:_->io:format(\\\"\\\") end," +
                     "io:format(\\\"break00\\\")," +
-                    "S = fun(X)-> lists:map(fun({{A,V}})->if A=:=summary->[{{F,Arity,D}}] = V, io:format(\\\"~p,~p,~p,~p~n\\\",[X,F,Arity,D]);true->ok end end, X:module_info(attributes)) end," +
+                    "S = fun(X)-> lists:map(fun({{A,V}})->if A=:=summary->[{{F,Arity,D}}] = V, io:format(\\\"~p,~p,~p,~ts~n\\\",[X,F,Arity,D]);true->ok end end, X:module_info(attributes)) end," +
                     "try lists:map(fun(X)-> S(X) end, L) catch _:_->io:format(\\\"\\\") end," +
                     "init:stop().\" {1}", lst, " -pa " + System.IO.Path.Combine(ErlangEditor.Core.Helper.EntityTreeUtil.GetPath(aEntity) + "\\ebin"));
                 prc.StartInfo.UseShellExecute = false;
@@ -190,6 +191,7 @@ namespace ErlangEditor.AutoComplete
                 prc.StartInfo.RedirectStandardOutput = true;
                 prc.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
                 prc.EnableRaisingEvents = true;
+                prc.StartInfo.StandardOutputEncoding = Encoding.UTF8;
                 prc.Start();
                 var result = prc.StandardOutput.ReadToEnd();
                 UpdateDict(result);
