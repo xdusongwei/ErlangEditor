@@ -52,7 +52,7 @@ namespace ErlangEditor.RunProxy
                     }
                 }
             }
-            prc.StartInfo.Arguments = string.Format("-sname {0} " , aEntity.NodeName) +  pathSB.ToString() + pas + startupSB.ToString();
+            prc.StartInfo.Arguments = string.Format("-name {0} " , aEntity.NodeName) +  pathSB.ToString() + pas + startupSB.ToString();
             prc.StartInfo.UseShellExecute = false;
             prc.StartInfo.WorkingDirectory = ErlangEditor.Core.Helper.EntityTreeUtil.GetBasePath;
             //prc.StartInfo.RedirectStandardInput = 

@@ -34,32 +34,28 @@
                             <Setter Property="Background" Value="Transparent" />
                             <Setter Property="BorderBrush" Value="White" />
                             <Setter Property="BorderThickness" Value="3" />
-                            <Setter Property="Height" Value="260" />
-                            <Setter Property="Width" Value="220" />
+                            <Setter Property="Height" Value="160" />
+                            <Setter Property="Width" Value="200" />
                             <Setter Property="telerikControls:StyleManager.Theme" Value="Summer" />
                         </Style>
                     </WrapPanel.Resources>
                     <telerik:RadButton Click="ErlClicked">
                         <Grid>
-                            <TextBlock Text="E"  FontSize="300" Foreground="White" Opacity="0.3" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Lucida Sans"/>
                             <TextBlock Text=".erl文件" Foreground="White" HorizontalAlignment="Center"  VerticalAlignment="Center" FontSize="48" Margin="0,4,0,0"/>
                         </Grid>
                     </telerik:RadButton>
                     <telerik:RadButton Click="HrlClicked">
                         <Grid>
-                            <TextBlock Text="H"  FontSize="300" Foreground="White" Opacity="0.3" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Lucida Sans"/>
                             <TextBlock Text=".hrl文件" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="48" Margin="0,4,0,0"/>
                         </Grid>
                     </telerik:RadButton>
                     <telerik:RadButton Click="AppClicked" >
                         <Grid>
-                            <TextBlock Text="A"  FontSize="300" Foreground="White" Opacity="0.3" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Lucida Sans"/>
                             <TextBlock Text=".app文件" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="48" Margin="0,4,0,0"/>
                         </Grid>
                     </telerik:RadButton>
                     <telerik:RadButton Click="Gen_serverClicked">
                         <Grid>
-                            <TextBlock Text="S"  FontSize="300" Foreground="White" Opacity="0.3" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Lucida Sans"/>
                             <TextBlock Foreground="White" HorizontalAlignment="Center" TextWrapping="Wrap"  VerticalAlignment="Center" FontSize="36" Margin="0,4,0,0" TextAlignment="Center">
                                 <Run Text="gen_server" />
                                 <LineBreak/>
@@ -69,7 +65,6 @@
                     </telerik:RadButton>
                     <telerik:RadButton Click="Gen_eventClicked">
                         <Grid>
-                            <TextBlock Text="E"  FontSize="300" Foreground="White" Opacity="0.3" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Lucida Sans"/>
                             <TextBlock Foreground="White" HorizontalAlignment="Center" TextWrapping="Wrap"  VerticalAlignment="Center" FontSize="36" Margin="0,4,0,0" TextAlignment="Center">
                                 <Run Text="gen_event" />
                                 <LineBreak/>
@@ -79,7 +74,6 @@
                     </telerik:RadButton>
                     <telerik:RadButton Click="Gen_supervisorClicked">
                         <Grid>
-                            <TextBlock Text="S"  FontSize="300" Foreground="White" Opacity="0.3" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Lucida Sans"/>
                             <TextBlock Foreground="White" HorizontalAlignment="Center" TextWrapping="Wrap"  VerticalAlignment="Center" FontSize="36" Margin="0,4,0,0" TextAlignment="Center">
                                 <Run Text="supervisor" />
                                 <LineBreak/>
@@ -89,7 +83,6 @@
                     </telerik:RadButton>
                     <telerik:RadButton Click="Gen_appClicked">
                         <Grid>
-                            <TextBlock Text="A"  FontSize="300" Foreground="White" Opacity="0.3" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Lucida Sans"/>
                             <TextBlock Foreground="White" HorizontalAlignment="Center" TextWrapping="Wrap"  VerticalAlignment="Center" FontSize="36" Margin="0,4,0,0" TextAlignment="Center">
                                 <Run Text="application" />
                                 <LineBreak/>
@@ -99,7 +92,6 @@
                     </telerik:RadButton>
                     <telerik:RadButton Click="ExistsFiles">
                         <Grid>
-                            <TextBlock Text="A"  FontSize="300" Foreground="White" Opacity="0.3" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Lucida Sans"/>
                             <TextBlock Foreground="White" HorizontalAlignment="Center" TextWrapping="Wrap"  VerticalAlignment="Center" FontSize="48" Margin="0,4,0,0" TextAlignment="Center">
                                 <Run Text="现有文件" />
                             </TextBlock>
