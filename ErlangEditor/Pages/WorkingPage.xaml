@@ -171,6 +171,7 @@
                                             <TextBlock Text="{Binding Path=DisplayText}" VerticalAlignment="Center" Margin="4,0,0,0"/>
                                         </StackPanel>
                                         <StackPanel Grid.Column="1" Orientation="Horizontal" Height="26" Margin="16,0,0,0" >
+                                            <Image Source="/ErlangEditor;component/Images/appbar.save.rest.png" Visibility="{Binding SaveToolbarVisibility}" ToolTip="保存" Tag="{Binding}" MouseLeftButtonDown="ItemSave"/>
                                             <Image Source="/ErlangEditor;component/Images/appbar.transport.play.rest2.png" Visibility="{Binding CompileToolbarVisibility}" ToolTip="编译" MouseLeftButtonDown="ItemCompile" Tag="{Binding}"/>
                                             <Image Source="/ErlangEditor;component/Images/appbar.add.rest2.png"  Visibility="{Binding AddToolbarVisibility}" MouseLeftButtonDown="ItemAdd" ToolTip="添加" Tag="{Binding}"/>
                                             <Image Source="/ErlangEditor;component/Images/appbar.feature.settings.rest.png" MouseLeftButtonDown="ItemSetting" Visibility="{Binding PropToolbarVisibility}" ToolTip="设置" Tag="{Binding}"/>

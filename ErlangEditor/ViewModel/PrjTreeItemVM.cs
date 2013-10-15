@@ -147,6 +147,18 @@ namespace ErlangEditor.ViewModel
         public static readonly DependencyProperty CompileToolbarVisibilityProperty =
             DependencyProperty.Register("CompileToolbarVisibility", typeof(Visibility), typeof(PrjTreeItemVM), new PropertyMetadata(Visibility.Collapsed));
 
+
+
+        public Visibility SaveToolbarVisibility
+        {
+            get { return (Visibility)GetValue(SaveToolbarVisibilityProperty); }
+            set { SetValue(SaveToolbarVisibilityProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for SaveToolbarVisibility.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty SaveToolbarVisibilityProperty =
+            DependencyProperty.Register("SaveToolbarVisibility", typeof(Visibility), typeof(PrjTreeItemVM), new PropertyMetadata(Visibility.Collapsed));
+
         
     }
 }

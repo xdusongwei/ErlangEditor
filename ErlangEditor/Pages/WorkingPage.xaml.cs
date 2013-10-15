@@ -84,10 +84,13 @@ namespace ErlangEditor.Pages
                 vm.PropToolbarVisibility = System.Windows.Visibility.Collapsed;
                 vm.AddToolbarVisibility = System.Windows.Visibility.Collapsed;
                 vm.CompileToolbarVisibility = System.Windows.Visibility.Collapsed;
+                vm.SaveToolbarVisibility = System.Windows.Visibility.Collapsed;
             }
             foreach (var i in e.AddedItems)
             {
                 var vm = i as ViewModel.PrjTreeItemVM;
+                if (vm.Entity is ErlangEditor.Core.Entity.SolutionEntity)
+                    vm.SaveToolbarVisibility = System.Windows.Visibility.Visible;
                 if (!(vm.Entity is ErlangEditor.Core.Entity.SolutionEntity) && !(vm.Entity is ErlangEditor.Core.Entity.FolderEntity))
                     vm.RemoveToolbarVisibility = System.Windows.Visibility.Visible;
                 if (!(vm.Entity is ErlangEditor.Core.Entity.FileEntity))
@@ -468,6 +471,11 @@ namespace ErlangEditor.Pages
                     }
                 }
             }
+        }
+
+        private void ItemSave(object sender, MouseEventArgs e)
+        {
+            SaveProject();
         }
 
         private void ItemCompile(object sender, MouseButtonEventArgs e)
