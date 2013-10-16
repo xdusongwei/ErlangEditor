@@ -22,7 +22,7 @@
                     </Style>
                     <Style TargetType="{x:Type TextBlock}">
                         <Setter Property="Foreground" Value="White" />
-                        <Setter Property="FontSize" Value="36" />
+                        <Setter Property="FontSize" Value="28" />
                         <Setter Property="HorizontalAlignment" Value="Center" />
                         <Setter Property="Width" Value="260" />
                         <Setter Property="TextAlignment" Value="Right" />
@@ -33,15 +33,15 @@
                         <Setter Property="HorizontalContentAlignment" Value="Center" />
                         <Setter Property="Width" Value="440" />
                         <Setter Property="VerticalAlignment" Value="Center" />
-                        <Setter Property="FontSize" Value="34" />
+                        <Setter Property="FontSize" Value="28" />
                         <Setter Property="Background" Value="LightBlue" />
                         <Setter Property="BorderBrush" Value="LightBlue" />
-                        <Setter Property="Height" Value="46" />
+                        <Setter Property="Height" Value="42" />
                     </Style>
                 </StackPanel.Resources>
                 <StackPanel>
                     <TextBlock Text="模块名称" />
-                    <TextBox x:Name="tbModName" Width="440" FontSize="34" VerticalAlignment="Center"/>
+                    <TextBox x:Name="tbModName" Width="440" FontSize="32" VerticalAlignment="Center"/>
                 </StackPanel>
                 <StackPanel>
                     <TextBlock Text="重启策略" />
@@ -54,18 +54,18 @@
                 </StackPanel>
                 <StackPanel>
                     <TextBlock Text="在" />
-                    <TextBox x:Name="tbMax" Width="120"  FontSize="34" VerticalAlignment="Center" Text="3600" TextAlignment="Right"/>
+                    <TextBox x:Name="tbMax" Width="120"  FontSize="32" VerticalAlignment="Center" Text="3600" TextAlignment="Right"/>
                     <TextBlock Text="秒内重启" Width="Auto"/>
-                    <TextBox  Name="tbWhitin" Width="120"  FontSize="34" VerticalAlignment="Center" Text="4" TextAlignment="Right"/>
+                    <TextBox  Name="tbWhitin" Width="120"  FontSize="32" VerticalAlignment="Center" Text="4" TextAlignment="Right"/>
                     <TextBlock Text="次" Width="Auto"/>
                 </StackPanel>
                 <StackPanel>
                     <TextBlock Text="系统标识(ID)" />
-                    <TextBox x:Name="tbID" Width="440"  FontSize="34" VerticalAlignment="Center" Text=""/>
+                    <TextBox x:Name="tbID" Width="440"  FontSize="32" VerticalAlignment="Center" Text=""/>
                 </StackPanel>
                 <StackPanel>
                     <TextBlock Text="启动MFA" />
-                    <TextBox x:Name="tbStartupMFA" Width="440"  FontSize="34" VerticalAlignment="Center" Text="M,F,[]"/>
+                    <TextBox x:Name="tbStartupMFA" Width="440"  FontSize="32" VerticalAlignment="Center" Text="M,F,[]"/>
                 </StackPanel>
                 <StackPanel>
                     <TextBlock Text="子节点故障时"/>
@@ -95,7 +95,7 @@
                 </StackPanel>
                 <StackPanel>
                     <TextBlock Text="依赖的模块" />
-                    <TextBox Name="tbMods" Width="440"  FontSize="34" VerticalAlignment="Center" Text=""/>
+                    <TextBox Name="tbMods" Width="440"  FontSize="32" VerticalAlignment="Center" Text=""/>
                 </StackPanel>
             </StackPanel>
         </Grid>
