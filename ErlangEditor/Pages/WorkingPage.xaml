@@ -56,12 +56,20 @@
                                                     <TextBlock Text="{Binding Name}" Margin="8,0,0,0" VerticalAlignment="Center" ToolTip="{Binding Name}"/>
                                                 </StackPanel>
                                                 <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right">
-                                                    <Image Source="/ErlangEditor;component/Images/appbar.transport.play.rest2.png" Width="28" Height="28" MouseLeftButtonDown="Image_MouseLeftButtonDown" Tag="{Binding}"/>
-                                                    <Border Width="28" Height="28" Tag="{Binding}" MouseLeftButtonDown="Border_MouseLeftButtonDown">
-                                                        <Border HorizontalAlignment="Center" VerticalAlignment="Center" Height="10" Width="10" Background="Black" />
-                                                    </Border>
-                                                    <Image Source="{Binding ShowShell,Converter={StaticResource NodeShowingVC}}"  Width="28" Height="28" Tag="{Binding}" MouseLeftButtonDown="NodeVisibilityChange" />
-                                                    <Image Source="/ErlangEditor;component/Images/appbar.delete.rest2.png"  Width="28" Height="28" Tag="{Binding}" MouseLeftButtonDown="DeleteNode"/>
+                                                    <Button Height="28" Width="28" Margin="0" Style="{StaticResource SmallButton}" Click="ItemBoot" Tag="{Binding}">
+                                                        <Image Source="/ErlangEditor;component/Images/appbar.transport.play.rest2.png" Width="28" Height="28" />
+                                                    </Button>
+                                                    <Button Height="28" Width="28" Margin="0" Style="{StaticResource SmallButton}" Tag="{Binding}" Click="ItemShutdown">
+                                                        <Border Width="28" Height="28" >
+                                                            <Border HorizontalAlignment="Center" VerticalAlignment="Center" Height="10" Width="10" Background="Black" />
+                                                        </Border>
+                                                    </Button>
+                                                    <Button Height="28" Width="28" Margin="0" Style="{StaticResource SmallButton}" Tag="{Binding}" Click="ItemVisibilityChange">
+                                                        <Image Source="{Binding ShowShell,Converter={StaticResource NodeShowingVC}}"  Width="28" Height="28"  />
+                                                    </Button>
+                                                    <Button Height="28" Width="28" Margin="0" Style="{StaticResource SmallButton}" Tag="{Binding}" Click="ItemDeleteNode">
+                                                        <Image Source="/ErlangEditor;component/Images/appbar.delete.rest2.png"  Width="28" Height="28" />
+                                                    </Button>
                                                 </StackPanel>
                                             </Grid>
                                             <TextBlock Text="{Binding AppNames,Converter={StaticResource NodeAppsVC}}" TextWrapping="WrapWithOverflow" Margin="8,0" FontFamily="Microsoft YaHei"/>
@@ -159,9 +167,12 @@
                     <telerik:RadPane Header="项目浏览器" CanUserClose="False">
                         <telerik:RadTreeView ItemsSource="{Binding TreeRoot}" Name="rtvSolution" SelectionChanged="TreeCtrl_ItemChanged" MouseDoubleClick="rtvSolution_MouseDoubleClick"
                                              HorizontalContentAlignment="Stretch">
+                            <telerik:RadTreeView.Resources>
+                                <Style BasedOn="{StaticResource SmallButton}" TargetType="Button" />
+                            </telerik:RadTreeView.Resources>
                             <telerik:RadTreeView.ItemTemplate>
                                 <HierarchicalDataTemplate ItemsSource="{Binding Path=Children}">
-                                    <Grid MouseMove="ItemMouseMove" Tag="{Binding}">
+                                    <Grid Tag="{Binding}" MouseMove="ItemMouseMove" >
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="Auto" />
@@ -171,12 +182,24 @@
                                             <TextBlock Text="{Binding Path=DisplayText}" VerticalAlignment="Center" Margin="4,0,0,0"/>
                                         </StackPanel>
                                         <StackPanel Grid.Column="1" Orientation="Horizontal" Height="26" Margin="16,0,0,0" >
-                                            <Image Source="/ErlangEditor;component/Images/appbar.save.rest.png" Visibility="{Binding SaveToolbarVisibility}" ToolTip="保存" Tag="{Binding}" MouseLeftButtonDown="ItemSave"/>
-                                            <Image Source="/ErlangEditor;component/Images/appbar.transport.play.rest2.png" Visibility="{Binding CompileToolbarVisibility}" ToolTip="编译" MouseLeftButtonDown="ItemCompile" Tag="{Binding}"/>
-                                            <Image Source="/ErlangEditor;component/Images/appbar.add.rest2.png"  Visibility="{Binding AddToolbarVisibility}" MouseLeftButtonDown="ItemAdd" ToolTip="添加" Tag="{Binding}"/>
-                                            <Image Source="/ErlangEditor;component/Images/appbar.feature.settings.rest.png" MouseLeftButtonDown="ItemSetting" Visibility="{Binding PropToolbarVisibility}" ToolTip="设置" Tag="{Binding}"/>
-                                            <Image Source="/ErlangEditor;component/Images/appbar.cancel.rest.png" Visibility="{Binding RemoveToolbarVisibility}" MouseLeftButtonDown="ItemSep" ToolTip="分离" Tag="{Binding}"/>
-                                            <Image Source="/ErlangEditor;component/Images/appbar.delete.rest2.png" Visibility="{Binding RemoveToolbarVisibility}" MouseLeftButtonDown="ItemRemove" ToolTip="删除" Tag="{Binding}"/>
+                                            <Button  Visibility="{Binding SaveToolbarVisibility}" ToolTip="保存" Tag="{Binding}" Click="ItemSave">
+                                                <Image Source="/ErlangEditor;component/Images/appbar.save.rest.png"/>
+                                            </Button>
+                                            <Button  Visibility="{Binding CompileToolbarVisibility}" ToolTip="编译" Click="ItemCompile" Tag="{Binding}">
+                                                <Image Source="/ErlangEditor;component/Images/appbar.transport.play.rest2.png"/>
+                                            </Button>
+                                            <Button  Visibility="{Binding AddToolbarVisibility}" Click="ItemAdd" ToolTip="添加" Tag="{Binding}">
+                                                <Image Source="/ErlangEditor;component/Images/appbar.add.rest2.png" />
+                                            </Button>
+                                            <Button Click="ItemSetting" Visibility="{Binding PropToolbarVisibility}" ToolTip="设置" Tag="{Binding}">
+                                                <Image Source="/ErlangEditor;component/Images/appbar.feature.settings.rest.png" />
+                                            </Button>
+                                            <Button  Visibility="{Binding RemoveToolbarVisibility}" Click="ItemSep" ToolTip="分离" Tag="{Binding}">
+                                                <Image Source="/ErlangEditor;component/Images/appbar.cancel.rest.png"/>
+                                            </Button>
+                                            <Button Visibility="{Binding RemoveToolbarVisibility}" Click="ItemRemove" ToolTip="删除" Tag="{Binding}">
+                                                <Image Source="/ErlangEditor;component/Images/appbar.delete.rest2.png" />
+                                            </Button>
                                         </StackPanel>
                                     </Grid> 
                                 </HierarchicalDataTemplate>

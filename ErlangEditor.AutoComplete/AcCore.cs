@@ -111,6 +111,7 @@ namespace ErlangEditor.AutoComplete
         private void UpdateDict(string result)
         {
             var blocks = result.Split(new string[] { "break00" }, StringSplitOptions.None);
+            if (blocks.Count() < 3) return;
             var lines = blocks[0].Split('\n').Where(x => !string.IsNullOrWhiteSpace(x));
             foreach (var i in lines)
             {

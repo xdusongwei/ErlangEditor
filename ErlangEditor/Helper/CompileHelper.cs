@@ -17,12 +17,19 @@ namespace ErlangEditor.Helper
             {
                 var item = new ErrorInfoVM();
                 var spIndex = b.Log.IndexOf(": ");
-                var front = b.Log.Substring(0, spIndex);
-                var line = front.Substring(front.LastIndexOf(':') + 1, front.Length - front.LastIndexOf(':') - 1);
-                var back = b.Log.Substring(spIndex + 1, b.Log.Length - spIndex - 1);
-                item.Entity = b.Entity;
-                item.Log = back;
-                item.Line = line;
+                if (spIndex == -1)
+                {
+                    item.Log = b.Log;
+                }
+                else
+                {
+                    var front = b.Log.Substring(0, spIndex);
+                    var line = front.Substring(front.LastIndexOf(':') + 1, front.Length - front.LastIndexOf(':') - 1);
+                    var back = b.Log.Substring(spIndex + 1, b.Log.Length - spIndex - 1);
+                    item.Entity = b.Entity;
+                    item.Log = back;
+                    item.Line = line;
+                }
                 App.MainViewModel.ErrorLog.Add(item);
             };
             slnCompiler.Start(ErlangEditor.Core.SolutionUtil.Solution.Apps, App.MainViewModel.ExportLog, null,(x) => { App.MainViewModel.AutoCompleteCache.ScanAllBin(ErlangEditor.Core.SolutionUtil.Solution); });

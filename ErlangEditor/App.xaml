@@ -14,6 +14,7 @@
                 <ResourceDictionary Source="Resources/PasswordBox.xaml"/>
                 <ResourceDictionary Source="Resources/CheckBox.xaml"/>
                 <ResourceDictionary Source="Resources/DeviceButton.xaml"/>
+                <ResourceDictionary Source="Resources/SmallButton.xaml"/>
     		</ResourceDictionary.MergedDictionaries>
             <SolidColorBrush x:Key="AppBorderBackground" Color="#FF2776C5"/>
 

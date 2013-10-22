@@ -255,7 +255,7 @@ namespace ErlangEditor.Pages
             App.Navigation.GoFroward(new NodeProp());
         }
 
-        private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void ItemBoot(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -278,7 +278,7 @@ namespace ErlangEditor.Pages
             }
         }
 
-        private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void ItemShutdown(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -352,7 +352,7 @@ namespace ErlangEditor.Pages
             }
         }
 
-        private void ItemSetting(object sender, MouseButtonEventArgs e)
+        private void ItemSetting(object sender, RoutedEventArgs e)
         {
             var vm = (sender as FrameworkElement).Tag as PrjTreeItemVM;
             if (vm.Entity is ErlangEditor.Core.Entity.ApplicationEntity)
@@ -361,7 +361,7 @@ namespace ErlangEditor.Pages
             }
         }
 
-        private void ItemAdd(object sender, MouseButtonEventArgs e)
+        private void ItemAdd(object sender, RoutedEventArgs e)
         {
             var vm = (sender as FrameworkElement).Tag as PrjTreeItemVM;
             if (vm.Entity is ErlangEditor.Core.Entity.SolutionEntity)
@@ -374,7 +374,7 @@ namespace ErlangEditor.Pages
             }
         }
 
-        private void ItemSep(object sender, MouseButtonEventArgs e)
+        private void ItemSep(object sender, RoutedEventArgs e)
         {
             var vm = (sender as FrameworkElement).Tag as PrjTreeItemVM;
             if (vm.Entity is ErlangEditor.Core.Entity.FileEntity)
@@ -423,7 +423,66 @@ namespace ErlangEditor.Pages
             }
         }
 
-        private void ItemRemove(object sender, MouseButtonEventArgs e)
+        private void ItemSave(object sender, RoutedEventArgs e)
+        {
+            SaveProject();
+        }
+
+        private void ItemCompile(object sender, RoutedEventArgs e)
+        {
+            var vm = (sender as FrameworkElement).Tag as PrjTreeItemVM;
+            SaveProject();
+            try
+            {
+                if (vm.Entity is ErlangEditor.Core.Entity.SolutionEntity)
+                {
+                    App.Compile.MakeSolution();
+                }
+                if (vm.Entity is ErlangEditor.Core.Entity.ApplicationEntity)
+                {
+                    App.Compile.MakeApp(vm);
+                }
+            }
+            catch (Exception ecp)
+            {
+                App.Navigation.ShowMessageBox(ecp.Message, "编译出错提示");
+            }
+        }
+
+        private void ItemDeleteNode(object sender, RoutedEventArgs e)
+        {
+            var vm = (sender as FrameworkElement).Tag as NodeVM;
+            App.Navigation.ShowYesNoBox(string.Format("确认要将{0}节点删除吗?", vm.Name), "删除节点");
+            if (YesNoFrame.Result)
+            {
+                try
+                {
+                    ErlangEditor.Core.NodeUtil.DeleteNode(vm.Name);
+                    ErlangEditor.Core.SolutionUtil.SaveSolution();
+                    App.MainViewModel.Nodes.Remove(vm);
+                }
+                catch (Exception ecp)
+                {
+                    App.Navigation.ShowMessageBox(ecp.Message, "出错");
+                }
+            }
+        }
+
+        private void ItemVisibilityChange(object sender, RoutedEventArgs e)
+        {
+            var vm = (sender as FrameworkElement).Tag as ViewModel.NodeVM;
+            vm.ShowShell = !vm.ShowShell;
+            try
+            {
+                ErlangEditor.Core.SolutionUtil.SaveSolution();
+            }
+            catch (Exception ecp)
+            {
+                App.Navigation.ShowMessageBox(ecp.Message, "出错");
+            }
+        }
+
+        private void ItemRemove(object sender, RoutedEventArgs e)
         {
             var vm = (sender as FrameworkElement).Tag as PrjTreeItemVM;
             if (vm.Entity is ErlangEditor.Core.Entity.ApplicationEntity)
@@ -435,7 +494,7 @@ namespace ErlangEditor.Pages
                     {
                         ErlangEditor.Core.ApplicationUtil.DeleteApplication(App.Entity.FindAppName(vm.Entity));
                         (rtvSolution.SelectedContainer.ParentItem.Item as ViewModel.PrjTreeItemVM).Children.Remove(vm);
-                        foreach(var i in App.MainViewModel.Nodes)
+                        foreach (var i in App.MainViewModel.Nodes)
                         {
                             if (i.AppNames.Contains(vm.DisplayText))
                             {
@@ -470,65 +529,6 @@ namespace ErlangEditor.Pages
                         App.Navigation.ShowMessageBox(ecp.Message, "出错");
                     }
                 }
-            }
-        }
-
-        private void ItemSave(object sender, MouseEventArgs e)
-        {
-            SaveProject();
-        }
-
-        private void ItemCompile(object sender, MouseButtonEventArgs e)
-        {
-            var vm = (sender as FrameworkElement).Tag as PrjTreeItemVM;
-            SaveProject();
-            try
-            {
-                if (vm.Entity is ErlangEditor.Core.Entity.SolutionEntity)
-                {
-                    App.Compile.MakeSolution();
-                }
-                if (vm.Entity is ErlangEditor.Core.Entity.ApplicationEntity)
-                {
-                    App.Compile.MakeApp(vm);
-                }
-            }
-            catch (Exception ecp)
-            {
-                App.Navigation.ShowMessageBox(ecp.Message, "编译出错提示");
-            }
-        }
-
-        private void DeleteNode(object sender, MouseButtonEventArgs e)
-        {
-            var vm = (sender as FrameworkElement).Tag as NodeVM;
-            App.Navigation.ShowYesNoBox(string.Format("确认要将{0}节点删除吗?", vm.Name), "删除节点");
-            if (YesNoFrame.Result)
-            {
-                try
-                {
-                    ErlangEditor.Core.NodeUtil.DeleteNode(vm.Name);
-                    ErlangEditor.Core.SolutionUtil.SaveSolution();
-                    App.MainViewModel.Nodes.Remove(vm);
-                }
-                catch (Exception ecp)
-                {
-                    App.Navigation.ShowMessageBox(ecp.Message, "出错");
-                }
-            }
-        }
-
-        private void NodeVisibilityChange(object sender, MouseButtonEventArgs e)
-        {
-            var vm = (sender as FrameworkElement).Tag as ViewModel.NodeVM;
-            vm.ShowShell = !vm.ShowShell;
-            try
-            {
-                ErlangEditor.Core.SolutionUtil.SaveSolution();
-            }
-            catch (Exception ecp)
-            {
-                App.Navigation.ShowMessageBox(ecp.Message, "出错");
             }
         }
     }
