@@ -15,7 +15,7 @@ namespace ErlangEditor.ValueConverter
         {
             var name = values[0] as string;
             var state = (bool)values[1];
-            var tb = new TextBlock{ Foreground = new SolidColorBrush(Colors.Black) , FontSize= 16 ,Margin = new System.Windows.Thickness(2,0,2,0)};
+            var tb = new TextBlock{ Foreground = new SolidColorBrush(Colors.Black) , FontSize= 12 ,Margin = new System.Windows.Thickness(1,0,1,0)};
             tb.Text = string.Format("{0}{1}", name, state ? "*" : string.Empty);
             return tb;
         }

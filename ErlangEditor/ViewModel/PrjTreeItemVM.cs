@@ -16,14 +16,31 @@ namespace ErlangEditor.ViewModel
 
         }
 
+        public void ContentChanged()
+        {
+            if (Entity is ErlangEditor.Core.Entity.FileEntity)
+            {
+                var name = (Entity as ErlangEditor.Core.Entity.FileEntity).Name;
+                var ext = System.IO.Path.GetExtension(name).ToLower();
+                if (ext == ".erl")
+                {
+                    //StateColor = notcompiled_;
+                }
+            }
+        }
+
         private static SolidColorBrush compiled_ = new SolidColorBrush(Colors.DeepSkyBlue);
         private static SolidColorBrush notcompiled_ = new SolidColorBrush(Colors.Gold);
         private static SolidColorBrush error_ = new SolidColorBrush(Colors.Crimson);
+        private static SolidColorBrush other_ = new SolidColorBrush(Colors.Transparent);
 
         private static SolidColorBrush sln_ = new SolidColorBrush(Colors.LawnGreen);
         private static SolidColorBrush app_ = new SolidColorBrush(Colors.DarkOrchid);
         private static SolidColorBrush fld_ = new SolidColorBrush(Colors.CadetBlue);
         private static SolidColorBrush fle_ = new SolidColorBrush(Colors.Lavender);
+        private static SolidColorBrush erlFile_ = new SolidColorBrush(Colors.Yellow);
+        private static SolidColorBrush hrlFile_ = new SolidColorBrush(Colors.CornflowerBlue);
+        private static SolidColorBrush appFile_ = new SolidColorBrush(Colors.DarkSeaGreen);
 
         public PrjTreeItemVM(object aNode)
         {
@@ -46,8 +63,25 @@ namespace ErlangEditor.ViewModel
             }
             if (aNode is ErlangEditor.Core.Entity.FileEntity)
             {
-                StateColor = notcompiled_;
-                TypeColor = fle_;
+                var name = (aNode as ErlangEditor.Core.Entity.FileEntity).Name;
+                var ext = System.IO.Path.GetExtension(name).ToLower();
+                if (ext == ".erl")
+                    TypeColor = erlFile_;
+                else if (ext == ".hrl")
+                    TypeColor = hrlFile_;
+                else if (ext == ".src")
+                    TypeColor = appFile_;
+                else
+                    TypeColor = fle_;
+                //if (ext == ".erl")
+                //{
+                //    StateColor = notcompiled_;
+                //}
+                //else
+                //{
+                //    StateColor = other_;
+                //}
+                StateColor = other_;
                 DisplayText = (aNode as ErlangEditor.Core.Entity.FileEntity).DisplayName;
             }
             Entity = aNode;

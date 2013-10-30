@@ -118,7 +118,14 @@ namespace ErlangEditor.Pages
                     }
                     var editor = new TextEditor();
                     var rp = new RadPane();
-                    var fileVM = new ViewModel.FileVM() { FileName = entity.Name, Pane = rp, Editor = editor, FileEntity = entity };
+                    var fileVM = new ViewModel.FileVM()
+                    {
+                        FileName = entity.Name,
+                        Pane = rp,
+                        Editor = editor,
+                        FileEntity = entity,
+                        ItemVM = vm
+                    };
                     editor.Text = ErlangEditor.Core.FileUtil.LoadFile(entity);
                     editor.TextChanged += (a, b) => { fileVM.Changed = true; };
                     editor.BorderBrush = new SolidColorBrush(Colors.White);
@@ -127,8 +134,10 @@ namespace ErlangEditor.Pages
                     editor.SyntaxHighlighting = ICSharpCode.AvalonEdit.Highlighting.HighlightingManager.Instance.GetDefinition("Erl");
                     editor.TextArea.TextEntering += textEditor_TextArea_TextEntering;
                     editor.TextArea.TextEntered += textEditor_TextArea_TextEntered;
+                    editor.FontSize = 12;
                     rp.Content = editor;
                     rp.Tag = fileVM;
+                    rp.CanFloat = false;
                     rp.Unloaded += (a, b) => { Debug.WriteLine(string.Format("unloaded,{0}", a)); var panel = a as RadPane; App.MainViewModel.OpenedFiles.Remove(panel.Tag as FileVM); };
                     rp.Loaded += (a, b) => 
                     { 
@@ -386,7 +395,8 @@ namespace ErlangEditor.Pages
                     {
                         ErlangEditor.Core.FileUtil.SeparateFile(vm.Entity as ErlangEditor.Core.Entity.FileEntity);
                         (rtvSolution.SelectedContainer.ParentItem.Item as ViewModel.PrjTreeItemVM).Children.Remove(vm);
-                        App.MainViewModel.AutoCompleteCache.DropModule((vm.Entity as ErlangEditor.Core.Entity.FileEntity).DisplayName);
+                        if (System.IO.Path.GetExtension((vm.Entity as ErlangEditor.Core.Entity.FileEntity).Name).ToLower() == ".erl")
+                            App.MainViewModel.AutoCompleteCache.DropModule((vm.Entity as ErlangEditor.Core.Entity.FileEntity).DisplayName);
                     }
                     catch (Exception ecp)
                     {
@@ -522,7 +532,8 @@ namespace ErlangEditor.Pages
                         ErlangEditor.Core.FileUtil.RemoveFile(vm.Entity as ErlangEditor.Core.Entity.FileEntity);
                         (rtvSolution.SelectedContainer.ParentItem.Item as ViewModel.PrjTreeItemVM).Children.Remove(vm);
                         ErlangEditor.Core.SolutionUtil.SaveSolution();
-                        App.MainViewModel.AutoCompleteCache.DropModule((vm.Entity as ErlangEditor.Core.Entity.FileEntity).DisplayName);
+                        if (System.IO.Path.GetExtension((vm.Entity as ErlangEditor.Core.Entity.FileEntity).Name).ToLower() == ".erl")
+                            App.MainViewModel.AutoCompleteCache.DropModule((vm.Entity as ErlangEditor.Core.Entity.FileEntity).DisplayName);
                     }
                     catch (Exception ecp)
                     {

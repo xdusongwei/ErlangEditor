@@ -17,7 +17,7 @@ namespace ErlangEditor.ViewModel
         public bool Changed
         {
             get { return (bool)GetValue(ChangedProperty); }
-            set { SetValue(ChangedProperty, value); }
+            set { SetValue(ChangedProperty, value); ItemVM.ContentChanged(); }
         }
 
         public Telerik.Windows.Controls.RadPane Pane
@@ -33,6 +33,12 @@ namespace ErlangEditor.ViewModel
         }
 
         public ICSharpCode.AvalonEdit.TextEditor Editor
+        {
+            get;
+            set;
+        }
+        
+        public ViewModel.PrjTreeItemVM ItemVM
         {
             get;
             set;

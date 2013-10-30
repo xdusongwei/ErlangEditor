@@ -168,6 +168,8 @@
       <DependentUpon>ToolBoxButton.xaml</DependentUpon>
     </Compile>
     <Compile Include="Tools\Sort.cs" />
+    <Compile Include="ValueConverter\CompileBarTextVC.cs" />
+    <Compile Include="ValueConverter\ErrorBarTextVC.cs" />
     <Compile Include="ValueConverter\FileTabTextVC.cs" />
     <Compile Include="ValueConverter\NodeAppsVC.cs" />
     <Compile Include="ValueConverter\NodeShowShellVC.cs" />
@@ -352,6 +354,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="Properties\app.manifest" />

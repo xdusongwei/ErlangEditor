@@ -142,6 +142,28 @@ namespace ErlangEditor.ViewModel
             get { return errorLog_; }
         }
 
+        public bool IsCompiling
+        {
+            get { return (bool)GetValue(IsCompilingProperty); }
+            set { SetValue(IsCompilingProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for IsCompiling.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsCompilingProperty =
+            DependencyProperty.Register("IsCompiling", typeof(bool), typeof(MainVM), new PropertyMetadata(false));
+
+        
+
+        public int ErrorCount
+        {
+            get { return (int)GetValue(ErrorCountProperty); }
+            set { SetValue(ErrorCountProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for ErrorCount.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ErrorCountProperty =
+            DependencyProperty.Register("ErrorCount", typeof(int), typeof(MainVM), new PropertyMetadata(0));
+
         public ObservableCollection<OutputVM> Output
         {
             get;

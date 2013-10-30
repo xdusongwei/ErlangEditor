@@ -4,18 +4,17 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Windows.Data;
-using System.Collections.ObjectModel;
 
 namespace ErlangEditor.ValueConverter
 {
-    public class NodeAppsVC : IValueConverter
+    public class ErrorBarTextVC : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var coll = value as ObservableCollection<string>;
-            if (coll.Count == 0)
-                return "没有应用的空节点，尝试拖动应用项到此处。";
-            return string.Format("{0}加入该节点。", string.Join(", ", coll));
+            var count = (int)value;
+            if (count == 0)
+                return "错误列表";
+            return string.Format("错误列表({0})", count);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

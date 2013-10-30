@@ -56,6 +56,10 @@ namespace ErlangEditor.Core
                     using (var ws = System.IO.File.CreateText(Helper.EntityTreeUtil.GetPath(aNewFile)))
                         ws.Write(aContent);
                 }
+                else if (string.IsNullOrWhiteSpace(aFolderName) && app.Files.Any(x => x.Name == aNewFile.Name))
+                {
+                    throw new Exception("文件已经存在");
+                }
                 else if (app.Folders.Any(x => x.Name == aFolderName))
                 {
                     var fld = app.Folders.First(x => x.Name == aFolderName);
@@ -72,6 +76,10 @@ namespace ErlangEditor.Core
                         }
                         using (var ws = System.IO.File.CreateText(Helper.EntityTreeUtil.GetPath(aNewFile)))
                             ws.Write(aContent);
+                    }
+                    else
+                    {
+                        throw new Exception("文件已经存在");
                     }
                 }
             }

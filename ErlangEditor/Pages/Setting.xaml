@@ -18,32 +18,33 @@
             <StackPanel.Resources>
                 <Style TargetType="{x:Type TextBlock}">
                     <Setter Property="Foreground" Value="White" />
-                    <Setter Property="FontSize" Value="36" />
+                    <Setter Property="FontSize" Value="28" />
                     <Setter Property="HorizontalAlignment" Value="Center" />
+                    <Setter Property="VerticalAlignment" Value="Center"/>
                 </Style>
             </StackPanel.Resources>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="编译器位置" Width="200"/>
-                <TextBox x:Name="tbCompiler" Width="386" Margin="16,0,0,0" IsReadOnly="True" ToolTip="{Binding Text,ElementName=tbFolder,Mode=OneWay}" FontSize="34"/>
+                <TextBox x:Name="tbCompiler" Width="386" Margin="16,0,0,0" IsReadOnly="True" ToolTip="{Binding Text,ElementName=tbFolder,Mode=OneWay}" FontSize="28"/>
                 <telerik:RadButton Background="Transparent" BorderBrush="White" BorderThickness="2" telerikControls:StyleManager.Theme="Summer" Margin="4,0,0,0" Click="SreachCompilerClick">
                     <Image Height="41" Width="41" Source="/ErlangEditor;component/Images/appbar.feature.search.rest.png" />
                 </telerik:RadButton>
             </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="0,48,0,0">
+            <StackPanel Orientation="Horizontal" Margin="0,32,0,0">
                 <TextBlock Text="Shell位置"  Width="200"/>
-                <TextBox x:Name="tbShell" Width="386" Margin="16,0,0,0" IsReadOnly="True" ToolTip="{Binding Text,ElementName=tbFolder,Mode=OneWay}"  FontSize="34"/>
+                <TextBox x:Name="tbShell" Width="386" Margin="16,0,0,0" IsReadOnly="True" ToolTip="{Binding Text,ElementName=tbFolder,Mode=OneWay}"  FontSize="28"/>
                 <telerik:RadButton Background="Transparent" BorderBrush="White" BorderThickness="2" telerikControls:StyleManager.Theme="Summer" Margin="4,0,0,0" Click="SearchShellClick">
                     <Image Height="41" Width="41" Source="/ErlangEditor;component/Images/appbar.feature.search.rest.png" />
                 </telerik:RadButton>
             </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="0,48,0,0">
+            <StackPanel Orientation="Horizontal" Margin="0,32,0,0">
                 <TextBlock Text="控制台位置"  Width="200"/>
-                <TextBox x:Name="tbConsole" Width="386" Margin="16,0,0,0" IsReadOnly="True" ToolTip="{Binding Text,ElementName=tbFolder,Mode=OneWay}"  FontSize="34"/>
+                <TextBox x:Name="tbConsole" Width="386" Margin="16,0,0,0" IsReadOnly="True" ToolTip="{Binding Text,ElementName=tbFolder,Mode=OneWay}"  FontSize="28"/>
                 <telerik:RadButton Background="Transparent" BorderBrush="White" BorderThickness="2" telerikControls:StyleManager.Theme="Summer" Margin="4,0,0,0" Click="SearchConsoleClick">
                     <Image Height="41" Width="41" Source="/ErlangEditor;component/Images/appbar.feature.search.rest.png" />
                 </telerik:RadButton>
             </StackPanel>
-            <StackPanel Margin="0,48,0,0">
+            <StackPanel Margin="0,32,0,0">
                 <telerik:RadButton Height="64" HorizontalAlignment="Center" Background="Transparent" BorderBrush="White" BorderThickness="3" telerikControls:StyleManager.Theme="Summer" Click="RefreshCache">
                     <StackPanel>
                         <TextBlock Text="刷新自动完成缓存" Foreground="White" HorizontalAlignment="Center" FontSize="32" Margin="4,4,4,0"/>

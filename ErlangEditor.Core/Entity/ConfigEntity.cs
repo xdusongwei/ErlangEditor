@@ -37,5 +37,17 @@ namespace ErlangEditor.Core.Entity
             get;
             set;
         }
+
+        public double FontSize
+        {
+            get;
+            set;
+        }
+
+        public string FontName
+        {
+            get;
+            set;
+        }
     }
 }
