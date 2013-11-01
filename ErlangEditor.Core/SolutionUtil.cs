@@ -12,7 +12,8 @@ namespace ErlangEditor.Core
         public static void CreateSolution(string aName , string aBasePath)
         {
             Solution = null;
-            if (File.Exists(Path.Combine(aBasePath, aName + "\\" + aName + ".sln")))
+            var filePath = Path.Combine(aBasePath, aName + "\\" + aName + ".sln");
+            if (File.Exists(filePath))
                 throw new Exception("文件已经存在");
             var sln = new Entity.SolutionEntity(aName);
             Helper.EntityTreeUtil.GetBasePath = Path.Combine(aBasePath, aName);
@@ -30,6 +31,7 @@ namespace ErlangEditor.Core
                 var strSln = sr.ReadToEnd();
                 var sln = JsonConvert.DeserializeObject<Entity.SolutionEntity>(strSln);
                 Helper.EntityTreeUtil.GetBasePath = aSlnPath.Substring(0, lastChar);
+                Helper.EntityTreeUtil.GetFilePath = aSlnPath;
                 Solution = sln;
                 Helper.EntityTreeUtil.UpdateDict();
             }
@@ -56,6 +58,7 @@ namespace ErlangEditor.Core
         {
             Solution = null;
             Helper.EntityTreeUtil.GetBasePath = string.Empty;
+            Helper.EntityTreeUtil.GetFilePath = string.Empty;
             Helper.EntityTreeUtil.UpdateDict();
         }
 

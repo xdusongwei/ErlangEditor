@@ -13,18 +13,65 @@
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0" Text="选择要执行的任务" Foreground="White" Style="{DynamicResource TitleStyle}" />
         <Grid local:EffectHelper.ScrollEffect="400" Grid.Row="1">
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-
-                <telerik:RadButton Width="260" Height="340"  Background="Transparent" BorderBrush="White" BorderThickness="3" telerikControls:StyleManager.Theme="Summer" Click="NewPrj">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="64" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <DockPanel Grid.Column="2">
+                <TextBlock DockPanel.Dock="Top" Text="最近项目" FontSize="32" Foreground="White"/>
+                <ListBox  Background="Transparent" BorderBrush="Transparent" Margin="0,18,0,0" Name="lstRecent" HorizontalContentAlignment="Stretch">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border Background="Transparent" Name="bdContent">
+                                <Button Click="RecentItemClick" Tag="{Binding}">
+                                    <Button.Template>
+                                        <ControlTemplate>
+                                            <TextBlock Foreground="White" FontSize="22" Text="{Binding Title}" 
+                                               Background="Transparent"
+                                               Margin="8,4,0,4" ToolTip="{Binding Path}"/>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
+                            </Border>
+                            <DataTemplate.Triggers>
+                                <EventTrigger RoutedEvent="MouseEnter">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="bdContent" Storyboard.TargetProperty="Background.Color"
+                                                                          Duration="0:0:0.1"   >
+                                                <LinearColorKeyFrame KeyTime="0:0:0.1" Value="Aqua"/>
+                                            </ColorAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                                <EventTrigger RoutedEvent="MouseLeave">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="bdContent" Storyboard.TargetProperty="Background.Color"
+                                                                          Duration="0:0:0.1"   >
+                                                <LinearColorKeyFrame KeyTime="0:0:0.1" Value="Transparent"/>
+                                            </ColorAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </DataTemplate.Triggers>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </DockPanel>
+            
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" Grid.Column="0">
+                <telerik:RadButton Width="220" Height="300"  Background="Transparent" BorderBrush="White" BorderThickness="3" telerikControls:StyleManager.Theme="Summer" Click="NewPrj">
                     <StackPanel>
-                        <Image Source="/ErlangEditor;component/Images/MB_0019_plus_H.png" Width="240" Height="240"/>
-                        <TextBlock Text="创建项目" Foreground="White" HorizontalAlignment="Center" FontSize="56" Margin="0,4,0,0"/>
+                        <Image Source="/ErlangEditor;component/Images/MB_0019_plus_H.png" Width="200" Height="180"/>
+                        <TextBlock Text="创建项目" Foreground="White" HorizontalAlignment="Center" FontSize="48" Margin="0,4,0,0"/>
                     </StackPanel>
                 </telerik:RadButton>
-                <telerik:RadButton Width="260" Height="340" Style="{x:Null}" Background="Transparent" Margin="180,0,0,0" BorderBrush="White" BorderThickness="3" telerikControls:StyleManager.Theme="Summer" Click="OpenPrj">
+                <telerik:RadButton Width="220" Height="300" Style="{x:Null}" Background="Transparent" Margin="64,0,0,0" BorderBrush="White" BorderThickness="3" telerikControls:StyleManager.Theme="Summer" Click="OpenPrj">
                     <StackPanel>
-                        <Image Source="/ErlangEditor;component/Images/MB_0017_folder.png"  Width="240" Height="240"/>
-                        <TextBlock Text="现有项目" Foreground="White" HorizontalAlignment="Center" FontSize="56" Margin="0,4,0,0"/>
+                        <Image Source="/ErlangEditor;component/Images/MB_0017_folder.png" Width="200" Height="180"/>
+                        <TextBlock Text="现有项目" Foreground="White" HorizontalAlignment="Center" FontSize="48" Margin="0,4,0,0"/>
                     </StackPanel>
                 </telerik:RadButton>
             </StackPanel>

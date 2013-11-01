@@ -119,6 +119,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Entity\CompleteData.cs" />
     <Compile Include="Helper\CompileHelper.cs" />
     <Compile Include="Helper\EntityHelper.cs" />
     <Compile Include="Helper\ListScroll.cs" />
@@ -181,6 +182,7 @@
     <Compile Include="ViewModel\NodeVM.cs" />
     <Compile Include="ViewModel\OutputVM.cs" />
     <Compile Include="ViewModel\PrjTreeItemVM.cs" />
+    <Compile Include="ViewModel\RecentProjectVM.cs" />
     <Compile Include="ViewModel\ToolBoxButtonVM.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="Helper\WpfTreeHelper.cs" />

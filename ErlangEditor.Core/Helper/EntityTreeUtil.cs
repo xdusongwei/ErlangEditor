@@ -33,6 +33,16 @@ namespace ErlangEditor.Core.Helper
             internal set { slnBasePath_ = value; }
         }
 
+        private static string slnFilePath_ = string.Empty;
+        public static string GetFilePath
+        {
+            get
+            {
+                return slnFilePath_;
+            }
+            internal set { slnFilePath_ = value; }
+        }
+
         private static Dictionary<object, object> dictTree_ = new Dictionary<object, object>();
 
         internal static void UpdateDict()

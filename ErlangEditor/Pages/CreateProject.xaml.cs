@@ -19,10 +19,13 @@ namespace ErlangEditor.Pages
     /// </summary>
     public partial class CreateProject : UserControl
     {
-        public CreateProject()
+        public CreateProject(Home aHome)
         {
             InitializeComponent();
+            home_ = aHome;
         }
+
+        private Home home_ = null;
 
         public string Title
         {
@@ -45,6 +48,11 @@ namespace ErlangEditor.Pages
                                 ErlangEditor.Core.SolutionUtil.CreateSolution(name, fld);
                                 App.Entity.UpdateProjectTree();
                                 App.MainViewModel.WorkingPage = new WorkingPage();
+                                home_.InsertRecentProject(new ViewModel.RecentProjectVM(new Core.Entity.RecentProjectEntity 
+                                { 
+                                    Path = ErlangEditor.Core.Helper.EntityTreeUtil.GetFilePath, 
+                                    Title = name 
+                                }));
                                 App.Navigation.JumpToWithFirstFrame(App.MainViewModel.WorkingPage);
                             }
                             catch(Exception e)

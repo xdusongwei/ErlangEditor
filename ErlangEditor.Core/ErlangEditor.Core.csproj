@@ -58,6 +58,7 @@
     <Compile Include="Entity\FileEntity.cs" />
     <Compile Include="Entity\FolderEntity.cs" />
     <Compile Include="Entity\NodeEntity.cs" />
+    <Compile Include="Entity\RecentProjectEntity.cs" />
     <Compile Include="Entity\SolutionEntity.cs" />
     <Compile Include="FileUtil.cs" />
     <Compile Include="Helper\EntityTreeUtil.cs" />

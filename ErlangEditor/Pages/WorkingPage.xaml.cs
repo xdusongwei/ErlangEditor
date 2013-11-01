@@ -1,4 +1,5 @@
-﻿using ErlangEditor.ViewModel;
+﻿using ErlangEditor.Entity;
+using ErlangEditor.ViewModel;
 using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.CodeCompletion;
 using ICSharpCode.AvalonEdit.Document;
@@ -193,68 +194,7 @@ namespace ErlangEditor.Pages
             {
                 if (!char.IsLetterOrDigit(e.Text[0]))
                 {
-                    // Whenever a non-letter is typed while the completion window is open,
-                    // insert the currently selected element.
                     completionWindow.CompletionList.RequestInsertion(e);
-                }
-            }
-            // Do not set e.Handled=true.
-            // We still want to insert the character that was typed.
-        }
-
-        public class CompletionData : ICompletionData
-        {
-            public CompletionData(bool aAcAgain)
-            {
-                //entity_ = aEntity;
-                autocompleteAgain_ = aAcAgain;
-            }
-
-            private bool autocompleteAgain_;
-
-            public System.Windows.Media.ImageSource Image
-            {
-                get { return null; }
-            }
-
-            public string Text { get; set; }
-
-            // Use this property if you want to show a fancy UIElement in the list.
-            public object Content
-            {
-                get;
-                set;
-            }
-
-            public double Priority { get { return 1.0; } }
-
-            public object Description
-            {
-                get;
-                set;
-            }
-
-           public void Complete(TextArea textArea, ISegment completionSegment,
-                EventArgs insertionRequestEventArgs)
-            {
-                textArea.Document.Replace(completionSegment, this.Text);
-                if (autocompleteAgain_)
-                {
-                    var completionWindow = new CompletionWindow(textArea);
-                    completionWindow.Width = 256;
-                    IList<ICompletionData> data = completionWindow.CompletionList.CompletionData;
-                    
-                    var functions = App.MainViewModel.AutoCompleteCache.GetFunctions(Content as string);
-                    (functions as List<ErlangEditor.AutoComplete.AcEntity>).Sort(new Tools.Reverser<ErlangEditor.AutoComplete.AcEntity>(new AutoComplete.AcEntity().GetType(), "FunctionName", Tools.ReverserInfo.Direction.ASC));
-                    foreach (var i in functions)
-                    {
-                        data.Add(new CompletionData(false) { Text = "\'" + i.FunctionName + "\'(", Content = i.FunctionName + "/" + i.Arity , Description = i.Desc });
-                    }
-                    completionWindow.Show();
-                    completionWindow.Closed += delegate
-                    {
-                        completionWindow = null;
-                    };
                 }
             }
         }

@@ -12,6 +12,7 @@ namespace ErlangEditor.Core.Entity
             CompilerPath = @"";
             ShellPath = @"";
             ConsolePath = @"";
+            RecentProject = new List<RecentProjectEntity>();
         }
 
         public string CompilerPath
@@ -45,6 +46,12 @@ namespace ErlangEditor.Core.Entity
         }
 
         public string FontName
+        {
+            get;
+            set;
+        }
+
+        public List<RecentProjectEntity> RecentProject
         {
             get;
             set;
