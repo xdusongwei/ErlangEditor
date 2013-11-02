@@ -138,7 +138,6 @@ namespace ErlangEditor.Pages
                     editor.FontSize = 12;
                     rp.Content = editor;
                     rp.Tag = fileVM;
-                    rp.CanFloat = false;
                     rp.Unloaded += (a, b) => { Debug.WriteLine(string.Format("unloaded,{0}", a)); var panel = a as RadPane; App.MainViewModel.OpenedFiles.Remove(panel.Tag as FileVM); };
                     rp.Loaded += (a, b) => 
                     { 
