@@ -31,12 +31,11 @@
                     <Run Text="这里获得此项目的源代码。"/>
                     <LineBreak/>
                     <Run Text="Email:" />
-                    <Hyperlink NavigateUri="mailto:songwei@xdu.mstechclub.cn" RequestNavigate="Hyperlink_RequestNavigate">
-                        songwei@xdu.mstechclub.cn
+                    <Hyperlink NavigateUri="mailto:songwei@songwei.io" RequestNavigate="Hyperlink_RequestNavigate">
+                        songwei@songwei.io
                     </Hyperlink>
                     <LineBreak/>
                     <LineBreak/>
-                    <Run Text="宋伟于西安电子科技大学 2013" />
                 </TextBlock>
             </StackPanel>
         </Grid>

@@ -20,8 +20,8 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     </Window.Resources>
     <Window.Background>
         <LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
-            <GradientStop Color="#FF0A837E" Offset="0"/>
-            <GradientStop Color="#FF40A2C7" Offset="0.991"/>
+            <GradientStop Color="#FF0A831A" Offset="0"/>
+            <GradientStop Color="#FF40AEC7" Offset="0.991"/>
         </LinearGradientBrush>
     </Window.Background>
     <Grid>
